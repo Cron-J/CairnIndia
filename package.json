@@ -1,0 +1,35 @@
+{
+  "name": "user-tenant",
+  "description": "Signup and Manage Users and Tenants with Node.js and MongoDB",
+  "version": "0.1.0",
+  "main": "server",
+  "engines": {
+    "node": ">=0.10.22"
+  },
+  "dependencies": {
+    "async": "^0.9.2",
+    "boom": "^2.6.1",
+    "country-list": "0.0.3",
+    "hapi": "^8.2.0",
+    "hapi-auth-jwt": "^2.1.0",
+    "joi": "^5.1.0",
+    "json2csv": "2.2.1",
+    "jsonwebtoken": "^3.2.2",
+    "moment": "^2.9.0",
+    "mongoose": "3.8",
+    "mongoose-validators": "^0.1.0",
+    "nodemailer": "^0.7.1",
+    "supertest": "^0.15.0"
+  },
+  "keywords": [
+    "node.js",
+    "hapi.js",
+    "JWT",
+    "angular"
+  ],
+  "author": {
+    "name": "gaurav gupta",
+    "email": "gaurav_bng@hotmail.com",
+    "website": "www.cronj.com"
+  }
+}

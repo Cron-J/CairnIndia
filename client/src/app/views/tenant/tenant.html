@@ -1,0 +1,50 @@
+<div>
+    <header>
+        <p ng-show="page.view == 'create'" class="ut-lead">Create Tenant</p>
+        <p ng-show="page.view == 'view'" class="ut-lead">Tenant Details</p>
+        <p ng-show="page.view == 'edit'" class="ut-lead">Edit Tenant Details</p>
+    </header>
+    <div class="col-lg-8 col-md-8 ut-container">
+        <form id="tenantForm" class="form-horizontal ut-form form-validation" role="form" name="tenantForm" novalidate>
+            <div class="row">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Tenant Name</label>
+                    <div class="col-sm-5">
+                        <input class="form-control" name="tname"
+                        placeholder="Siemens"
+                        ng-model="account.name" 
+                        ng-pattern="/^[a-zA-Z0-9]{2,30}$/" 
+                        ng-disabled="page.view == 'view'" 
+                        ng-click="isChanged = true" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Description</label>
+                    <div class="col-sm-5">
+                        <textarea type="text" class="form-control" 
+                        ng-model="account.description" name="tdesc"
+                        placeholder="Description about company"  
+                        ng-disabled="page.view == 'view'"
+                        ng-pattern="/^[a-zA-Z_ ]{2,30}$/" 
+                        ng-click="isChanged = true"
+                       ></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12">
+                        <button class="btn btn-primary" ng-show="page.view == 'create'" ng-disabled="!tenantForm.$valid" ng-click="createTenantAccount(account, tenantForm.$valid)">Create</button>
+                        <button class="btn btn-primary" ng-show="page.view == 'view'"  ng-click="page.view = 'edit';isChanged = false">Edit</button>
+                        <button class="btn btn-primary" ng-show="page.view == 'edit'" ng-disabled="!tenantForm.$valid" ng-click="isChanged = false;updateTenantAccount(account, tenantForm.$valid)">Update</button>
+                        <button class="btn btn-default" ng-show="!isChanged" ng-click="goBack()"><i class="fa fa-arrow-left"></i> Back</button>
+                        <button class="btn btn-default" ng-show="isChanged" ng-click="confirmationModal()">Cancel</button>
+                        <div ng-include="'app/views/common/confirmationDailogBox.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div> 
+</div>

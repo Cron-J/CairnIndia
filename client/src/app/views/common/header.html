@@ -1,0 +1,25 @@
+<nav class="navbar navbar-default" ng-show="user">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a ui-sref="home">
+        <!-- <img src="app/assets/img/jCatalog-header-logo.gif" style="margin-top: 0.50em;"> -->
+      </a>
+    </div>
+
+    <ul class="nav navbar-nav navbar-right" >
+        <li class="dropdown" ng-show="user.scope == 'User'"><span class="ut-nohover"><i class="fa fa-building"></i> {{current_usr.tenantName | uppercase}}</span></li>
+        <li class="dropdown" ng-controller="accountCtrl" >
+          <a class="dropdown-toggle ut-pointer" data-toggle="dropdown" >
+              <span>{{current_usr.firstName}} {{current_usr.lastName}} </span><b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a ui-sref="editProfile" class="ut-pointer"><i class="fa fa-fw fa-user"></i> Profile</a></li>
+            <li><a ng-click="logOut()" class="ut-pointer"><i class="fa fa-fw fa-sign-out"></i> Log Off</a></li>
+            <li ng-if="user.scope == 'Admin'"><a class="ut-pointer" ui-sref="users">Users</a></li>
+            <li><a class="ut-pointer" ui-sref="oilSpillContainment">Containment</a></li>
+          </ul>
+        </li>  
+      </ul>
+  </div><!-- container-fluid-->
+</nav>

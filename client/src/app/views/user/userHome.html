@@ -1,0 +1,4 @@
+<div class="container" >
+  <div ng-if="page.view == 'search'" ng-include="'app/views/user/userSearchPage.html'"></div>
+  <div ng-if="page.view != 'search'" ng-include="'app/views/user/user.html'"></div>
+</div>
