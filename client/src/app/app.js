@@ -62,49 +62,7 @@ var app = angular.module('app', [
                   authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantadmin, USER_ROLES.tenantuser]
               }
           })
-          // .state('createTenant', {
-          //   url: "/tenantCreation",
-          //     templateUrl: "app/views/tenant/self_register.html",
-          //     controller: 'tenantCtrl',
-          //     data: {
-          //         authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantadmin]
-          //     }
-          // }) 
-          // .state('createTenantUser', {
-          //   url: "/tenantUserCreation",
-          //     templateUrl: "app/views/user/user.html",
-          //     controller: 'tenantUserCtrl',
-          //     data: {
-          //         authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantadmin]
-          //     }
-          // }) 
-          // .state('tenants', {
-          //   url: "/tenants",
-          //     templateUrl: "app/views/tenant/tenantHome.html",
-          //     controller: "tenantCtrl",
-          //     data: {
-          //         authorizedRoles: [USER_ROLES.admin]
-          //     }
 
-          // })
-          // .state('tenant', {
-          //   url: "/tenant/:tenantId",
-          //     templateUrl: "app/views/tenant/tenant.html",
-          //     controller: "tenantCtrl",
-          //     data: {
-          //         authorizedRoles: [USER_ROLES.admin]
-          //     }
-
-          // })
-          // .state('tenantUsersOfTenant', {
-          //   url: "/tenantusersOfSelectedTenant/:selectedTenId",
-          //     templateUrl: "app/views/tenant/tenant_users_for_particular_tenant.html",
-          //     controller: "tenantCtrl",
-          //     data: {
-          //         authorizedRoles: [USER_ROLES.admin]
-          //     }
-
-          // })
           .state('users', {
             url: "/users",
               templateUrl: "app/views/user/userHome.html",
@@ -113,6 +71,16 @@ var app = angular.module('app', [
                   authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantadmin]
               }
           })
+
+          .state('oilSpillContainment', {
+            url: "/containment",
+            templateUrl: "app/views/containment/entryForm.html",
+            controller: "containmentCtrl",
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantuser]
+            }
+          })
+          
           // .state('usersOfTenant', {
           //   url: "/users/:selectedId",
           //     templateUrl: "app/views/user/userHome.html",
@@ -130,22 +98,7 @@ var app = angular.module('app', [
           //     }
 
           // })
-          // .state('inActiveUsers', {
-          //   url: "/addUser",
-          //     templateUrl: "app/views/tenant/tenant_users_list.html",
-          //     controller: "tenantCtrl",
-          //     data: {
-          //         authorizedRoles: [USER_ROLES.tenantadmin]
-          //     }
-          // })
-          // .state('tenantHome', {
-          //   url: "/tenantHome",
-          //     templateUrl: "app/views/tenant/tenant_users_list.html",
-          //     controller: "tenantCtrl",
-          //     data: {
-          //         authorizedRoles: [USER_ROLES.tenantadmin]
-          //     }
-          // })
+          
           // .state('tenantUser', {
           //   url: "/tenantUser/:tUserId",
           //     templateUrl: "app/views/user/User.html",

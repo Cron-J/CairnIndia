@@ -91,7 +91,7 @@ exports.endpoints = [
         SCOPE: Open for all
         Description: Email will be send to user email.
     */
-    // { method: 'POST', path: '/forgotPassword', config: User.forgotPassword},
+     { method: 'POST', path: '/forgotPassword', config: User.forgotPassword},
      { method: 'PUT', path: '/emailVerification', config: User.emailVerification},
     // { method: 'POST', path: '/resendVerificationMail', config: User.resendVerificationMail},
 

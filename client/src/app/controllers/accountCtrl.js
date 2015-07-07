@@ -184,33 +184,6 @@ app.controller('accountCtrl', ['$scope', '$rootScope', '$http', '$location',
         
         }
 
-        //TenantId Search Modal
-        // $scope.tenantSearchModal = function(isUser) {
-        //     var modalInstance = $modal.open({
-        //        templateUrl: 'tenantSearchModal.html',
-        //         controller: 'searchModalInstanceCtrl',
-        //         resolve: {
-        //             detail: function () {
-        //               return isUser;
-        //             }
-        //         }
-        //     });
-
-        //     modalInstance.result.then(function(tenant) {
-        //         if($scope.account == undefined)
-        //             $scope.account = {};
-        //         if(tenant.description) {
-        //             $scope.account.tenantName = tenant.name+", "+tenant.description;
-        //         }
-        //         else
-        //             $scope.account.tenantName = tenant.name;
-        //         $scope.tenantNameDup = angular.copy($scope.account.tenantName);
-        //         $scope.account.tenantId = tenant._id;
-        //     }, function() {
-        //         $log.info('Modal dismissed at: ' + new Date());
-        //     });
-        // }
-
         //Tenant-User Self Registration
         $scope.UserSelfRegistration = function (account_info) {
             delete account_info.passwordConfirm;

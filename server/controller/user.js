@@ -506,28 +506,28 @@ exports.login = {
 //     Description: Email will be send to user email.
 // */
 
-// exports.forgotPassword = {
-//     handler: function(request, reply) {
-//         User.findUser(request.payload.username, function(err, user) {
-//             if (!err) {
-//                 if (user === null) return reply(Boom.forbidden("username does not exist"));
-//                 var password = Crypto.encrypt(Math.random().toString(8).substring(2));
-//                 User.updateUser( user._id, { "password" : password }, function(err, result){
-//                     if(err){
-//                         return reply(Boom.badImplementation("Error in sending password"));
-//                     }
-//                     else{
-//                         EmailServices.sentMailForgotPassword(user);
-//                         reply("password is send to registered email id");
-//                     }
-//                 });
-//             } else {       
-//                 console.error(err);
-//                 return reply(Boom.badImplementation(err));
-//              }
-//         });
-//     }
-// };
+exports.forgotPassword = {
+    handler: function(request, reply) {
+        User.findUser(request.payload.username, function(err, user) {
+            if (!err) {
+                if (user === null) return reply(Boom.forbidden("username does not exist"));
+                var password = Crypto.encrypt(Math.random().toString(8).substring(2));
+                User.updateUser( user._id, { "password" : password }, function(err, result){
+                    if(err){
+                        return reply(Boom.badImplementation("Error in sending password"));
+                    }
+                    else{
+                        EmailServices.sentMailForgotPassword(user);
+                        reply("password is send to registered email id");
+                    }
+                });
+            } else {       
+                console.error(err);
+                return reply(Boom.badImplementation(err));
+             }
+        });
+    }
+};
 
 // /**
 //     GET: /user
