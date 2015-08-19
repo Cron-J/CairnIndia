@@ -103,11 +103,11 @@ var User = new Schema({
     },
     isActive: {
         type: Boolean,
-        default: false
+        default: true
     },
     isEmailVerified: {
         type: Boolean,
-        default: false
+        default: true
     },
 
     /** 

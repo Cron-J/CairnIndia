@@ -1,6 +1,12 @@
 /*
 *** Custom css
 */
+
+body{
+	background: #efefef;
+	direction: ltr;
+	font-family: 'Open Sans', sans-serif;
+}
 .ut-container{
 	margin-top: 20px;
 	margin-bottom: 150px;
@@ -118,3 +124,20 @@
 }
 
 
+.table-user-information > tbody > tr {
+    border-top: 1px solid rgb(221, 221, 221);
+}
+
+.table-user-information > tbody > tr:first-child {
+    border-top: 0;
+}
+
+
+.table-user-information > tbody > tr > td {
+    border-top: 0;
+}
+
+
+.table-user-information{
+	margin-bottom: 0px;
+}

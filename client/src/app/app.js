@@ -109,7 +109,7 @@ var app = angular.module('app', [
           // })
           .state('home', {
             url: "/home",
-              templateUrl: "app/views/common/home.html",
+              templateUrl: "app/views/containment/home.html",
               controller: 'accountCtrl',
               data: {
                   authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantadmin, USER_ROLES.tenantuser]
