@@ -1,47 +1,120 @@
- <div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-sm-7 col-sm-offset-3">
-            <form name="containmentForm" class="form-horizontal form-validation">
-                <div class="panel panel-default">
-                    <div class="panel-heading text-center font-bold">
-                        Containment
-                    </div>
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Param1</label>
-
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" ng-model="containment.param1" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Param2</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" ng-model="containment.param2" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Param3</label>
-
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" ng-model="containment.param3" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Param4</label>
-
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" ng-model="containment.param4" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-footer text-right bg-light lter">
-                        <button class="btn btn-primary" ng-click="changePassword(account)">Submit</button>
-                    	<button class="btn btn-default" ui-sref="home"><i class="fa fa-arrow-left"></i> Back</button>
-                    	<button class="btn btn-default" ng-click="confirmationModal()">Cancel</button>
+        <div class="col-md-6">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <select class="form-control">
+                            <option>============Select Pipeline============</option>
+                            <option> Crude Oil Main Pipeline from Barmer in Rajasthan to Salaya in Gujarat</option>
+                            <option>Crude Oil Spur line from AGI 13A to Radhanpur terminal</option>
+                            <option>Radhanpur terminal for sales of crude oil to IOCL</option>
+                            <option>Crude Oil Spur line from Viramgam terminal to IOCL terminal</option>
+                            <option>Intermediate mainline pumping station and facilities for sales of crude oil to IOCL at ramgam</option>
+                            <option>Crude Oil Spur line from AGI 32A to Reliance Refinery near Jamnagar</option>
+                            <option>Crude Oil Spur line from Salaya to ESSAR Refinery near Jamnagar</option>
+                            <option>Sale/ delivery facilities inside Reliance/ ESSAR refineries in Jamnagar</option>
+                        </select>
                     </div>
                 </div>
-            </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading  font-bold">
+                    <h4>Pipeline Data Info</h4>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-user-information">
+                        <tbody>
+                            <tr>
+                                <td>Length</td>
+                                <td>Administrator</td>
+                            </tr>
+                            <tr>
+                                <td>Fluid Viscosity</td>
+                                <td>11/12/2013</td>
+                            </tr>
+                            <tr>
+                                <td>Valve locations</td>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>Valve Type</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>Block Valves</td>
+                                <td>0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer text-right bg-light lter">
+                    <button class="btn btn-primary">Edit</button>
+                    <button class="btn btn-default">Cancel</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading  font-bold">
+                    <h4>Pipeline Information</h4>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-user-information">
+                        <tbody>
+                            <tr>
+                                <td>Pipeline Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Length</td>
+                                <td>(in KM)</td>
+                            </tr>
+                            <tr>
+                                <td>From City</td>
+                                <td>Jaisalmer</td>
+                            </tr>
+                            <tr>
+                                <td>To City</td>
+                                <td>Badhmer</td>
+                            </tr>
+                            <tr>
+                                <td>Pipeline Type</td>
+                                <td>Oil/Gas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading  font-bold">
+                    <h4>Oil Spill volume Calculation</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-12 control-label">Rupture Type</label>
+                            <div class="col-sm-2">
+                                <select class="form-control">
+                                    <option>Rectangular</option>
+                                    <option>Triangular</option>
+                                    <option>Square</option>
+                                    <option>Circular</option>
+                                    <option>Sector</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
