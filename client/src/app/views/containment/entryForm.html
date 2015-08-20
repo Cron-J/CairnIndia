@@ -4,6 +4,17 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-12">
+                        <a ng-if="user.scope == 'Admin'" ui-sref="createPipe" class="btn btn-primary">Create Pipeline</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-12">
                         <select class="form-control">
                             <option>============Select Pipeline============</option>
                             <option> Crude Oil Main Pipeline from Barmer in Rajasthan to Salaya in Gujarat</option>
@@ -31,30 +42,25 @@
                         <tbody>
                             <tr>
                                 <td>Length</td>
-                                <td>Administrator</td>
+                                <td>{{pipedata.length}}</td>
                             </tr>
                             <tr>
                                 <td>Fluid Viscosity</td>
-                                <td>11/12/2013</td>
+                                <td>{{pipedata.fluidViscosity}}</td>
                             </tr>
                             <tr>
                                 <td>Valve locations</td>
-                                <td>15</td>
+                                <td>pipedata.valvelocation</td>
                             </tr>
                             <tr>
                                 <td>Valve Type</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>Block Valves</td>
-                                <td>0</td>
+                                <td>pipedata.valvetype</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="panel-footer text-right bg-light lter">
-                    <button class="btn btn-primary">Edit</button>
-                    <button class="btn btn-default">Cancel</button>
+                <div ng-if="user.scope == 'Admin'" class="panel-footer text-right bg-light lter">
+                    <button class="btn btn-primary" ng-click="pipedataeditpage();">Edit</button>
                 </div>
             </div>
         </div>
@@ -82,12 +88,11 @@
                                 <td>To City</td>
                                 <td>Badhmer</td>
                             </tr>
-                            <tr>
-                                <td>Pipeline Type</td>
-                                <td>Oil/Gas</td>
-                            </tr>
                         </tbody>
                     </table>
+                </div>
+                <div ng-if="user.scope == 'Admin'" class="panel-footer text-right bg-light lter">
+                    <button class="btn btn-primary" ng-click="pipedataeditpage();">Edit</button>
                 </div>
             </div>
         </div>

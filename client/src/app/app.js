@@ -62,6 +62,30 @@ var app = angular.module('app', [
                   authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantadmin, USER_ROLES.tenantuser]
               }
           })
+          .state('editPipelineData', {
+            url: "/edit-pipeline-data",
+              templateUrl: "app/views/containment/edit-pipeline-data.html",
+              controller: "containmentCtrl",
+              data: {
+                  authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantadmin, USER_ROLES.tenantuser]
+              }
+          })
+          .state('oilSpillContainment', {
+            url: "/containment",
+            templateUrl: "app/views/containment/entryForm.html",
+            controller: "containmentCtrl",
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantuser]
+            }
+          })
+          .state('createPipe', {
+            url: "/create-pipeline",
+            templateUrl: "app/views/containment/create-pipeline.html",
+            controller: "containmentCtrl",
+            data: {
+                authorizedRoles: [USER_ROLES.admin]
+            }
+          })
 
           .state('users', {
             url: "/users",
@@ -72,14 +96,7 @@ var app = angular.module('app', [
               }
           })
 
-          .state('oilSpillContainment', {
-            url: "/containment",
-            templateUrl: "app/views/containment/entryForm.html",
-            controller: "containmentCtrl",
-            data: {
-                authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantuser]
-            }
-          })
+          
           
           // .state('usersOfTenant', {
           //   url: "/users/:selectedId",
