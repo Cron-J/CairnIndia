@@ -1,0 +1,26 @@
+{
+"pipeName" : "Gujrat to Badhmer Pipeline",
+"length" : 10,
+"fromCity" : "guj",
+"toCity" : "badh",
+"diameter" : 24,
+"valveLocation" : 24,
+"valveType" : "block valve",
+"temperature" : 65,
+"pressure" : 10,
+"valveClosingTime" : 2
+}
+
+
+{ 
+    "pipeName": "Gujrat to Badhmer Pipeline",
+    "length": 12,
+    "fromCity": "gujrat",
+    "toCity": "badhmer",
+    "diameter": 24,
+    "valveLocation": 24,
+    "valveType": "block valve",
+    "temperature": "65",
+    "pressure": 10,
+    "valveClosingTime": 2
+}

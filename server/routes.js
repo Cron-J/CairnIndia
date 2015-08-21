@@ -4,10 +4,20 @@
 
 var User      = require('./controller/user'),
     Static    = require('./static'),
-    Staticlist= require('./Utility/staticlist');
+    Staticlist= require('./Utility/staticlist'),
+    Pipeline  = require('./controller/pipeline');
 
 // API Server Endpoints
 exports.endpoints = [
+
+
+    // Pipeline Routes
+    { method: 'POST', path: '/createPipeline', config: Pipeline.createPipeLine},
+    { method: 'GET',  path: '/getPipeline', config: Pipeline.getPipeLine },
+    { method: 'GET',  path: '/getPipeLinebyId/{id}', config: Pipeline.getPipeLinebyId },
+    { method: 'PUT',  path: '/updatePipeline/{id}', config: Pipeline.updatePipeline },
+    { method: 'DELETE',  path: '/removePipeline/{id}', config: Pipeline.removePipeline },
+
 
     { method: 'GET',  path: '/{somethingss*}', config: Static.get },
     { method: 'GET',  path: '/countryList', config: Staticlist.getCountryList },

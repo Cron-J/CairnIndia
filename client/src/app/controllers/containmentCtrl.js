@@ -1,5 +1,5 @@
-app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl',
-    function($scope, $location, $http, AuthServ, growl) {
+app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl','$rootScope',
+    function($scope, $location, $http, AuthServ, growl,$rootScope) {
 
         $scope.editPipelineData = function(pipedata) {
 
@@ -12,9 +12,19 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         }
 
         $scope.newpipedata = function(newpipedata) {
-        	$scope.newpipeinfo = newpipedata;
-        	console.log($scope.newpipeinfo);
+            $http.post('/createPipeline', newpipedata)
+                .success(function (data, status) {
+                    if($rootScope.user.scope == "Admin") {
+                        growl.addSuccessMessage('Pipe created Successfully');
+                    }
+                        
+                })
+                .error(function (data, status) {
+                    growl.addErrorMessage(data.message);
+                });
+        
         }
 
     }
 ]);
+
