@@ -5,6 +5,7 @@
                 <div class="form-group">
                     <div class="col-sm-12">
                         <a ng-if="user.scope == 'Admin'" ui-sref="createPipe" class="btn btn-primary">Create Pipeline</a>
+                        <a ng-if="user.scope == 'Admin'" ui-sref="deletePipe" class="btn btn-primary">Delete Pipeline</a>
                     </div>
                 </div>
             </div>
@@ -14,8 +15,8 @@
         <div class="col-md-6">
             <div class="form-horizontal">
                 <div class="form-group">
-                    <div class="col-sm-12">
-                        <select class="form-control" ng-model="selectedItem" ng-options="item as item.pipeName for item in getpipedata" ng-change="getPipeDataEditPage(selectedItem._id)"></select>
+                    <div class="col-sm-12">{{selectedItem}}
+                        <select class="form-control" ng-model="selectedItem"  ng-options="item.pipeName for item in getpipedata track by item" ng-change="getPipeDataEditPage(selectedItem._id)"></select>
                         <!-- <select class="form-control">
                             
                             <option> Crude Oil Main Pipeline from Barmer in Rajasthan to Salaya in Gujarat</option>
@@ -45,7 +46,7 @@
                     <table class="table table-user-information">
                         <tbody>
                             <tr>
-                                <td>Length</td>
+                                <td>Length (in KM)</td>
                                 <td>{{pipe.length}}</td>
                             </tr>
                             <tr>
@@ -60,6 +61,15 @@
                                 <td>Valve Type</td>
                                 <td>{{pipe.valveType}}</td>
                             </tr>
+                            <tr>
+                                <td>Temperature</td>
+                                <td>{{pipe.temperature}}</td>
+                            </tr>
+                            <tr>
+                                <td>Pressure</td>
+                                <td>{{pipe.pressure}}</td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -81,8 +91,12 @@
                                 <td>{{pipe.pipeName}}</td>
                             </tr>
                             <tr>
-                                <td>Length</td>
-                                <td>(in KM)</td>
+                                <td>Pipeline Diameter</td>
+                                <td>{{pipe.diameter}}</td>
+                            </tr>
+                            <tr>
+                                <td>Valve Closing Time</td>
+                                <td>{{pipe.valveClosingTime}}</td>
                             </tr>
                             <tr>
                                 <td>From City</td>

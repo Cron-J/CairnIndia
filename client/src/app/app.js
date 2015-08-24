@@ -86,7 +86,14 @@ var app = angular.module('app', [
                 authorizedRoles: [USER_ROLES.admin]
             }
           })
-
+          .state('deletePipe', {
+            url: "/delete-pipeline",
+            templateUrl: "app/views/containment/delete-pipeline.html",
+            controller: "containmentCtrl",
+            data: {
+                authorizedRoles: [USER_ROLES.admin]
+            }
+          })
           .state('users', {
             url: "/users",
               templateUrl: "app/views/user/userHome.html",
