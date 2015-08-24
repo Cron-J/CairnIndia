@@ -93,6 +93,10 @@ var Pipeline = new Schema({
         type: Number
     },
 
+    viscosity: {
+        type: Number,
+        required: true
+    },
     /** 
       Scope. It can only contain string, is required field, and should have value from enum array.
     */

@@ -63,8 +63,8 @@ var app = angular.module('app', [
               }
           })
           .state('editPipelineData', {
-            url: "/edit-pipeline-data",
-              templateUrl: "app/views/containment/edit-pipeline-data.html",
+            url: "/edit-pipeline-data/:id",
+              templateUrl: "app/views/containment/create-pipeline.html",
               controller: "containmentCtrl",
               data: {
                   authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantadmin, USER_ROLES.tenantuser]

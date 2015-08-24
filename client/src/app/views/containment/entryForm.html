@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" >
     <div class="row">
         <div class="col-md-6">
             <div class="form-horizontal">
@@ -15,8 +15,9 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <select class="form-control">
-                            <option>============Select Pipeline============</option>
+                        <select class="form-control" ng-model="selectedItem" ng-options="item as item.pipeName for item in getpipedata" ng-change="getPipeDataEditPage(selectedItem._id)"></select>
+                        <!-- <select class="form-control">
+                            
                             <option> Crude Oil Main Pipeline from Barmer in Rajasthan to Salaya in Gujarat</option>
                             <option>Crude Oil Spur line from AGI 13A to Radhanpur terminal</option>
                             <option>Radhanpur terminal for sales of crude oil to IOCL</option>
@@ -25,12 +26,15 @@
                             <option>Crude Oil Spur line from AGI 32A to Reliance Refinery near Jamnagar</option>
                             <option>Crude Oil Spur line from Salaya to ESSAR Refinery near Jamnagar</option>
                             <option>Sale/ delivery facilities inside Reliance/ ESSAR refineries in Jamnagar</option>
-                        </select>
+                        </select> -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">
@@ -42,25 +46,25 @@
                         <tbody>
                             <tr>
                                 <td>Length</td>
-                                <td>{{pipedata.length}}</td>
+                                <td>{{pipe.length}}</td>
                             </tr>
                             <tr>
                                 <td>Fluid Viscosity</td>
-                                <td>{{pipedata.fluidViscosity}}</td>
+                                <td>{{pipe.viscosity}}</td>
                             </tr>
                             <tr>
                                 <td>Valve locations</td>
-                                <td>pipedata.valvelocation</td>
+                                <td>{{pipe.valveLocation}}</td>
                             </tr>
                             <tr>
                                 <td>Valve Type</td>
-                                <td>pipedata.valvetype</td>
+                                <td>{{pipe.valveType}}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div ng-if="user.scope == 'Admin'" class="panel-footer text-right bg-light lter">
-                    <button class="btn btn-primary" ng-click="pipedataeditpage();">Edit</button>
+                    <button class="btn btn-primary" ng-click="getEditData(pipe);">Edit</button>
                 </div>
             </div>
         </div>
@@ -74,7 +78,7 @@
                         <tbody>
                             <tr>
                                 <td>Pipeline Name</td>
-                                <td></td>
+                                <td>{{pipe.pipeName}}</td>
                             </tr>
                             <tr>
                                 <td>Length</td>
@@ -82,17 +86,17 @@
                             </tr>
                             <tr>
                                 <td>From City</td>
-                                <td>Jaisalmer</td>
+                                <td>{{pipe.fromCity}}</td>
                             </tr>
                             <tr>
                                 <td>To City</td>
-                                <td>Badhmer</td>
+                                <td>{{pipe.toCity}}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div ng-if="user.scope == 'Admin'" class="panel-footer text-right bg-light lter">
-                    <button class="btn btn-primary" ng-click="pipedataeditpage();">Edit</button>
+                    <button class="btn btn-primary" ng-click="getEditData(pipe);">Edit</button>
                 </div>
             </div>
         </div>
