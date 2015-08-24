@@ -75,7 +75,7 @@ var Pipeline = new Schema({
      * createdBy must be string who has created user.
      */
     temperature: {
-        type: String,
+        type: Number,
         required: true
     },
     /**
