@@ -1,6 +1,6 @@
 app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams',
     function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams) {
-        
+
         var getalldata = function() {
             $http.get('/getPipeline')
                 .success(function(data, status) {
@@ -13,7 +13,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         getalldata();
 
-        
+
         $scope.newpipedata = function(pipedata) {
             $http.post('/createPipeline', pipedata)
                 .success(function(data, status) {
@@ -50,13 +50,14 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         $scope.goBack = function(data) {
             $location.path('/containment');
+            $scope.yoyo = singlePipeData.set(data);
+            console.log('=========', data);
             singlePipeData.set(data);
         }
 
-
         $scope.savePipeData = function(savedpipedata) {
-            
-            $http.put('/updatePipeline/' + savedpipedata._id,savedpipedata)
+
+            $http.put('/updatePipeline/' + savedpipedata._id, savedpipedata)
                 .success(function(data, status) {
                     if ($rootScope.user.scope == "Admin") {
                         growl.addSuccessMessage('Pipe updated Successfully');
@@ -68,6 +69,17 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 });
 
         }
+
+        //Rupture shape and area 
+
+        $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular', 'Sector'];
+
+
+        $scope.calcVolume = function(area,shape){
+            if(shape=="Rectangular")
+            $scope.getArea = area.length * area.breadth;
+        }
+
 
 
     }
