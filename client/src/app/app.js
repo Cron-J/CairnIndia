@@ -64,10 +64,10 @@ var app = angular.module('app', [
           })
           .state('editPipelineData', {
             url: "/edit-pipeline-data/:id",
-              templateUrl: "app/views/containment/create-pipeline.html",
+              templateUrl: "app/views/containment/update-pipeline.html",
               controller: "containmentCtrl",
               data: {
-                  authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantadmin, USER_ROLES.tenantuser]
+                  authorizedRoles: [USER_ROLES.admin]
               }
           })
           .state('oilSpillContainment', {

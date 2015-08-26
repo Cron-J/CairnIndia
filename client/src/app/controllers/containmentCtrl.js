@@ -1,6 +1,10 @@
 app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams',
     function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams) {
 
+        $scope.createPipeline = function() {
+            $location.path('/create-pipeline');
+        }
+
         var getalldata = function() {
             $http.get('/getPipeline')
                 .success(function(data, status) {
@@ -8,7 +12,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                     console.log(data)
                 });
             $scope.pipe = singlePipeData.get();
-            $scope.selectedItem = $scope.pipe.pipeName;
+            // $scope.selectedItem = $scope.pipe.pipeName;
         }
 
         getalldata();
@@ -19,6 +23,8 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 .success(function(data, status) {
                     if ($rootScope.user.scope == "Admin") {
                         growl.addSuccessMessage('Pipe created Successfully');
+                        $scope.createpipe = {};
+                        $location.path('/containment');
                     }
                 })
                 .error(function(data, status) {
@@ -28,13 +34,14 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         }
 
         $scope.getPipeDataEditPage = function(id) {
+
             $http.get('/getPipeLinebyId/' + id)
                 .success(function(data, status) {
                     $scope.pipe = data;
                     // singlePipeData.set($scope.pipe);
                 })
                 .error(function(data, status) {
-                    growl.addErrorMessage(data.message);
+                    $scope.pipe = {};
                 });
 
         }
@@ -50,8 +57,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         $scope.goBack = function(data) {
             $location.path('/containment');
-            $scope.yoyo = singlePipeData.set(data);
-            console.log('=========', data);
             singlePipeData.set(data);
         }
 
@@ -75,9 +80,9 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular', 'Sector'];
 
 
-        $scope.calcVolume = function(area,shape){
-            if(shape=="Rectangular")
-            $scope.getArea = area.length * area.breadth;
+        $scope.calcVolume = function(area, shape) {
+            if (shape == "Rectangular")
+                $scope.getArea = area.length * area.breadth;
         }
 
 
