@@ -14,19 +14,18 @@ var privateKey = Config.key.privateKey;
 
 exports.createAdmin = {
     handler: function(request, reply) {
-        User.findAdmin(function(err, result){
-            if( result.length != 0 ){
+        User.findAdmin(function(err, result) {
+            if (result.length != 0) {
                 reply(Boom.forbidden("Admin already exist"));
-            }
-            else{
+            } else {
                 request.payload.password = Crypto.encrypt(request.payload.password);
                 request.payload.scope = "Admin";
                 request.payload.createdBy = "Admin";
                 request.payload.updatedBy = "Admin";
-                request.payload.isActive= true;
+                request.payload.isActive = true;
                 request.payload.isEmailVerified = true;
 
-                User.saveUser( request.payload, function(err, user) {
+                User.saveUser(request.payload, function(err, user) {
                     if (!err) {
                         var tokenData = {
                             userName: user.userName,
@@ -34,37 +33,36 @@ exports.createAdmin = {
                             id: user._id
                         };
                         EmailServices.sendVerificationEmail(user, Jwt.sign(tokenData, privateKey));
-                        reply( "Admin successfully created" );
+                        reply("Admin successfully created");
                     } else {
-                        if ( constants.kDuplicateKeyError === err.code || constants.kDuplicateKeyErrorForMongoDBv2_1_1 === err.code ) {
+                        if (constants.kDuplicateKeyError === err.code || constants.kDuplicateKeyErrorForMongoDBv2_1_1 === err.code) {
                             reply(Boom.forbidden("user name already registered"));
-                        } else reply( Boom.forbidden(err) ); // HTTP 403
+                        } else reply(Boom.forbidden(err)); // HTTP 403
                     }
                 });
             }
-         });
+        });
     }
 };
 //
 
 exports.emailVerification = {
     handler: function(request, reply) {
-            var username = Crypto.decrypt(request.payload.username);
-            User.findUser(username, function(err, user){
-                if (err) {
-                    return reply(Boom.badImplementation(err));
-                }
-                else if (user === null) return reply(Boom.forbidden("invalid verification link"));
-                else if (user.isEmailVerified === true) return reply(Boom.forbidden("account is already verified"));
-                else if (user.isEmailVerified === false) {
-                    user.isEmailVerified = true;
-                    user.save();
-                    delete user.password;
-                    return reply(user);
-                } else {
-                    reply(Boom.forbidden("invalid verification link"));
-                }
-            })
+        var username = Crypto.decrypt(request.payload.username);
+        User.findUser(username, function(err, user) {
+            if (err) {
+                return reply(Boom.badImplementation(err));
+            } else if (user === null) return reply(Boom.forbidden("invalid verification link"));
+            else if (user.isEmailVerified === true) return reply(Boom.forbidden("account is already verified"));
+            else if (user.isEmailVerified === false) {
+                user.isEmailVerified = true;
+                user.save();
+                delete user.password;
+                return reply(user);
+            } else {
+                reply(Boom.forbidden("invalid verification link"));
+            }
+        })
     }
 };
 // exports.resendVerificationMail = {
@@ -103,7 +101,7 @@ exports.createUser = {
         request.payload.scope = "User";
         request.payload.createdBy = "Self";
         request.payload.updatedBy = "Self";
-        User.saveUser( request.payload, function(err, user) {
+        User.saveUser(request.payload, function(err, user) {
             if (!err) {
                 var tokenData = {
                     userName: user.userName,
@@ -114,11 +112,11 @@ exports.createUser = {
                 // EmailServices.sentUserActivationMailToAdmins(getAdminEmailList(), user);
                 //Sending verification email
                 EmailServices.sendVerificationEmail(user, Jwt.sign(tokenData, privateKey));
-                return reply( "User created successfully" );
+                return reply("User created successfully");
             } else {
-                if ( constants.kDuplicateKeyError === err.code || constants.kDuplicateKeyErrorForMongoDBv2_1_1 === err.code ) {
+                if (constants.kDuplicateKeyError === err.code || constants.kDuplicateKeyErrorForMongoDBv2_1_1 === err.code) {
                     return reply(Boom.forbidden("user email already registered"));
-                } else return reply( Boom.forbidden(err) ); // HTTP 403
+                } else return reply(Boom.forbidden(err)); // HTTP 403
             }
         });
     }
@@ -137,7 +135,7 @@ exports.createUser = {
 //                         request.payload.updatedBy = "Admin";
 //                         request.payload.isActive = true;
 //                         request.payload.isEmailVerified = true;
-                        
+
 //                         User.saveUser( request.payload, function(err, user) {
 //                             if (!err) {
 //                                 var tokenData = {
@@ -175,7 +173,7 @@ exports.createUser = {
 //                     request.payload.updatedBy = "Tenant-Admin";
 //                     request.payload.isActive = true;
 //                     request.payload.isEmailVerified = true;
-                    
+
 //                     User.saveUser( request.payload, function(err, user) {
 //                         if (!err) {
 //                             var tokenData = {
@@ -217,38 +215,37 @@ exports.activateUser = {
         scope: ['Admin']
     },
     handler: function(request, reply) {
-       Jwt.verify(request.headers.authorization.split(' ')[1], Config.key.privateKey, function(err, decoded) { 
+        Jwt.verify(request.headers.authorization.split(' ')[1], Config.key.privateKey, function(err, decoded) {
             var tenantId;
-            if(decoded.scope === 'Admin'){
+            if (decoded.scope === 'Admin') {
                 tenantId = request.payload.tenantId;
-            }
-            else{
+            } else {
                 tenantId = decoded.tenantId;
             }
 
             User.findUserById(request.payload.id, function(err, user) {
-                if(tenantId === user.tenantId) {
-                    User.updateUser(request.payload.id, {"updatedBy": decoded.scope,"isActive" : true}, function(err) {
-                        if(!err){
-                            if(user){
-                                if(user.isActive == false) {
+                if (tenantId === user.tenantId) {
+                    User.updateUser(request.payload.id, {
+                        "updatedBy": decoded.scope,
+                        "isActive": true
+                    }, function(err) {
+                        if (!err) {
+                            if (user) {
+                                if (user.isActive == false) {
                                     EmailServices.sendUserActivationMail(user);
-                                    return reply('Activation email has sent');   
-                                }
-                                else 
+                                    return reply('Activation email has sent');
+                                } else
                                     return reply(Boom.forbidden("User is already activated"));
                             }
-                        }
-                        else{
+                        } else {
                             return reply(Boom.forbidden("Unable to activate user"));
                         }
                     });
-                }
-                else {
+                } else {
                     return reply(Boom.forbidden("Your have no permission to activate this user"));
                 }
             });
-       });
+        });
     }
 };
 
@@ -302,26 +299,26 @@ exports.changePasswordRequest = {
         scope: ['Admin', 'User']
     },
     handler: function(request, reply) {
-       Jwt.verify(request.headers.authorization.split(' ')[1], Config.key.privateKey, function(err, decoded) { 
+        Jwt.verify(request.headers.authorization.split(' ')[1], Config.key.privateKey, function(err, decoded) {
             User.findUserById(decoded.id, function(err, user) {
 
-                if(Crypto.decrypt(user.password) == request.payload.oldpass) {
-                    User.updateUser(decoded.id, {"password": Crypto.encrypt(request.payload.newpass)}, function(err) {
-                        if(err){
+                if (Crypto.decrypt(user.password) == request.payload.oldpass) {
+                    User.updateUser(decoded.id, {
+                        "password": Crypto.encrypt(request.payload.newpass)
+                    }, function(err) {
+                        if (err) {
                             return reply(Boom.badImplementation("unable to change password"));
-                        }
-                        else{
-                            if(user){
-                                return reply('password has changed successfully');    
+                        } else {
+                            if (user) {
+                                return reply('password has changed successfully');
                             }
                             return reply(Boom.forbidden("no user exist"));
                         }
                     });
-                }
-                else
+                } else
                     return reply(Boom.forbidden("incorrect password"));
             });
-       });
+        });
     }
 };
 
@@ -357,13 +354,15 @@ exports.searchUser = {
 
         User.searchUser(query, function(err, user) {
             if (!err) {
-                for (var i = 0; i< user.length; i++) {
-                   if( user[i].password ) { user[i].password = undefined; }
+                for (var i = 0; i < user.length; i++) {
+                    if (user[i].password) {
+                        user[i].password = undefined;
+                    }
                 }
                 return reply(user);
             } else reply(Boom.forbidden(err));
         });
-        
+
         // EmailServices.sentUserActivationMailToAdmins();
     }
 };
@@ -373,20 +372,20 @@ exports.searchUser = {
 //     Description: Get admins list.
 // */
 exports.sendActivationEmail = {
-    handler: function(request, reply) {
+        handler: function(request, reply) {
             // sendEmailToAdminEmailList(request.payload.user);
-            sendEmailToTenantAdminEmailList(request.payload.user);            
+            sendEmailToTenantAdminEmailList(request.payload.user);
             return reply('Emails have sent');
+        }
     }
-}
-// /**
-//     GET: /admins
-//     Description: Get admins list.
-// */
-// var sendEmailToAdminEmailList = function(user) {
-//         var emailList,
-//             query = {};
-//         query['scope'] = 'Admin';
+    // /**
+    //     GET: /admins
+    //     Description: Get admins list.
+    // */
+    // var sendEmailToAdminEmailList = function(user) {
+    //         var emailList,
+    //             query = {};
+    //         query['scope'] = 'Admin';
 
 //         User.searchUser(query, function(err, userList) {
 //             if (!err) {
@@ -404,19 +403,18 @@ exports.sendActivationEmail = {
 //     Description: Get admins list.
 // */
 var sendEmailToTenantAdminEmailList = function(user) {
-        var emailList,
-            query = {};
+    var emailList,
+        query = {};
 
-        User.searchUser(query, function(err, userList) {
-            if (!err) {
-                for(var j in userList)  
-                {
-                    if(emailList) emailList+=","+userList[j].email;
-                    else emailList = userList[j].email
-                }  
-                EmailServices.sentUserActivationMailToTenantAdmins(emailList, user);
+    User.searchUser(query, function(err, userList) {
+        if (!err) {
+            for (var j in userList) {
+                if (emailList) emailList += "," + userList[j].email;
+                else emailList = userList[j].email
             }
-        });
+            EmailServices.sentUserActivationMailToTenantAdmins(emailList, user);
+        }
+    });
 };
 
 // exports.exportUser = {
@@ -452,28 +450,25 @@ exports.login = {
             if (!err) {
                 if (user === null) return reply(Boom.forbidden("invalid username or password"));
                 if (request.payload.password === Crypto.decrypt(user.password)) {
-                    if (!user.isEmailVerified){
+                    if (!user.isEmailVerified) {
                         reply(Boom.forbidden("Email is not verified"));
-                    }
-                    else if(!user.isActive){
+                    } else if (!user.isActive) {
                         reply(Boom.forbidden("Account is not activated"));
-                    }
-                    else{
-                        var  loginSummary = {};
-                        if( user.firstLogin === undefined ) {
+                    } else {
+                        var loginSummary = {};
+                        if (user.firstLogin === undefined) {
                             loginSummary['firstLogin'] = Date();
                         }
                         loginSummary['lastLogin'] = Date();
 
-                            User.updateUser(user._id, loginSummary, function(err, result){
-                                if(err) {
-                                    reply(Boom.forbidden("Oops something went wrong!"));
-                                }
-                                else{
-                                    var tokenData = {
+                        User.updateUser(user._id, loginSummary, function(err, result) {
+                            if (err) {
+                                reply(Boom.forbidden("Oops something went wrong!"));
+                            } else {
+                                var tokenData = {
                                         username: user.username,
                                         scope: user.scope,
-                                        tenantId : user.tenantId,
+                                        tenantId: user.tenantId,
                                         id: user._id
                                     },
                                     res = {
@@ -482,19 +477,19 @@ exports.login = {
                                         tenantId: user.tenantId,
                                         token: Jwt.sign(tokenData, privateKey)
                                     };
-                                    reply(res);
-                                }
-                            });
+                                reply(res);
+                            }
+                        });
 
                     }
                 } else reply(Boom.forbidden("invalid username or password"));
             } else {
-                if ( constants.kDuplicateKeyError === err.code || constants.kDuplicateKeyErrorForMongoDBv2_1_1 === err.code ) {
+                if (constants.kDuplicateKeyError === err.code || constants.kDuplicateKeyErrorForMongoDBv2_1_1 === err.code) {
                     reply(Boom.forbidden("please provide another user name"));
                 } else {
-                        console.error(err);
-                        return reply(Boom.badImplementation(err));
-                } 
+                    console.error(err);
+                    return reply(Boom.badImplementation(err));
+                }
             }
         });
     }
@@ -512,19 +507,20 @@ exports.forgotPassword = {
             if (!err) {
                 if (user === null) return reply(Boom.forbidden("username does not exist"));
                 var password = Crypto.encrypt(Math.random().toString(8).substring(2));
-                User.updateUser( user._id, { "password" : password }, function(err, result){
-                    if(err){
+                User.updateUser(user._id, {
+                    "password": password
+                }, function(err, result) {
+                    if (err) {
                         return reply(Boom.badImplementation("Error in sending password"));
-                    }
-                    else{
+                    } else {
                         EmailServices.sentMailForgotPassword(user);
                         reply("password is send to registered email id");
                     }
                 });
-            } else {       
+            } else {
                 console.error(err);
                 return reply(Boom.badImplementation(err));
-             }
+            }
         });
     }
 };
@@ -539,22 +535,21 @@ exports.getUser = {
         scope: ['User', 'Admin']
     },
     handler: function(request, reply) {
-       Jwt.verify(request.headers.authorization.split(' ')[1], Config.key.privateKey, function(err, decoded) {
+        Jwt.verify(request.headers.authorization.split(' ')[1], Config.key.privateKey, function(err, decoded) {
             User.findUserById(decoded.id, function(err, user) {
-                if(err){
+                if (err) {
                     return reply(Boom.badImplementation("unable to get user detail"));
-                }
-                else{
-                    if(user){
+                } else {
+                    if (user) {
                         user.password = undefined;
                         user.scope = undefined;
-                        return reply(user);    
+                        return reply(user);
                     }
                     return reply(Boom.forbidden("no user exist"));
                 }
             });
 
-       });
+        });
     }
 };
 
@@ -570,19 +565,18 @@ exports.getUserByAdmin = {
         scope: ['Admin']
     },
     handler: function(request, reply) {
-            User.findUserById(request.params.id, function(err, user) {
-                if(err){
-                    return reply(Boom.badImplementation("unable to get user detail"));
+        User.findUserById(request.params.id, function(err, user) {
+            if (err) {
+                return reply(Boom.badImplementation("unable to get user detail"));
+            } else {
+                if (user) {
+                    user.password = undefined;
+                    // user.scope = undefined;
+                    return reply(user);
                 }
-                else{
-                    if(user){
-                        user.password = undefined;
-                        // user.scope = undefined;
-                        return reply(user);    
-                    }
-                    return reply(Boom.forbidden("no user exist"));
-                }
-            });
+                return reply(Boom.forbidden("no user exist"));
+            }
+        });
     }
 };
 
@@ -693,27 +687,26 @@ exports.updateUser = {
         scope: ['Admin', 'User']
     },
     handler: function(request, reply) {
-       Jwt.verify(request.headers.authorization.split(' ')[1], Config.key.privateKey, function(err, decoded) {
+        Jwt.verify(request.headers.authorization.split(' ')[1], Config.key.privateKey, function(err, decoded) {
             /* filterening unwanted attributes which may have in request.payload and can enter bad data */
-            if(request.payload.firstLogin) delete request.payload.firstLogin;
-            if(request.payload.lastLogin) delete request.payload.lastLogin;
-            if(request.payload.createdBy) delete request.payload.createdBy;
-            if(request.payload.scope) delete request.payload.scope;
-            if(request.payload.password) request.payload.password = Crypto.encrypt(request.payload.password);
+            if (request.payload.firstLogin) delete request.payload.firstLogin;
+            if (request.payload.lastLogin) delete request.payload.lastLogin;
+            if (request.payload.createdBy) delete request.payload.createdBy;
+            if (request.payload.scope) delete request.payload.scope;
+            if (request.payload.password) request.payload.password = Crypto.encrypt(request.payload.password);
             request.payload.updatedBy = "Self";
 
             User.updateUser(decoded.id, request.payload, function(err, user) {
-                if(err){
-                    if ( constants.kDuplicateKeyError === err.code || constants.kDuplicateKeyErrorForMongoDBv2_1_1 === err.code ) {
+                if (err) {
+                    if (constants.kDuplicateKeyError === err.code || constants.kDuplicateKeyErrorForMongoDBv2_1_1 === err.code) {
                         reply(Boom.forbidden("user email already registered"));
-                    } else return reply( Boom.badImplementation(err) ); // HTTP 403
-                }
-                else{
+                    } else return reply(Boom.badImplementation(err)); // HTTP 403
+                } else {
                     return reply("user updated successfully");
                 }
             });
 
-       });
+        });
     }
 };
 
@@ -732,30 +725,29 @@ exports.updateUser = {
         scope: ['Admin']
     },
     handler: function(request, reply) {
-       Jwt.verify(request.headers.authorization.split(' ')[1], Config.key.privateKey, function(err, decoded) {
- 
-        
+        Jwt.verify(request.headers.authorization.split(' ')[1], Config.key.privateKey, function(err, decoded) {
+
+
             /* filterening unwanted attributes which may have in request.payload and can enter bad data */
 
-            if(request.payload.createdBy) delete request.payload.createdBy;
+            if (request.payload.createdBy) delete request.payload.createdBy;
             // if(request.payload.scope) delete request.payload.scope;
-            if(request.payload.password) request.payload.password = Crypto.encrypt(request.payload.password);
+            if (request.payload.password) request.payload.password = Crypto.encrypt(request.payload.password);
 
             request.payload.updatedBy = decoded.scope;
             var tenantId;
 
-            
+
             User.updateUserById(request.params.id, request.payload, function(err, user) {
-                if(err){
-                    if ( constants.kDuplicateKeyError === err.code || constants.kDuplicateKeyErrorForMongoDBv2_1_1 === err.code ) {
+                if (err) {
+                    if (constants.kDuplicateKeyError === err.code || constants.kDuplicateKeyErrorForMongoDBv2_1_1 === err.code) {
                         reply(Boom.forbidden("user email already registered"));
-                    } else return reply( Boom.badImplementation(err) ); // HTTP 403
-                }
-                else{
+                    } else return reply(Boom.badImplementation(err)); // HTTP 403
+                } else {
                     return reply("user updated successfully");
                 }
             });
 
-       });
+        });
     }
 };

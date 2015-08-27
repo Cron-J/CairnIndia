@@ -141,7 +141,9 @@ User.statics.updateUser = function(id, user, callback) {
 User.statics.activateUser = function(id, tenantId, callback) {
     this.update({
         '_id': id
-    }, {'isActive': true}, callback);
+    }, {
+        'isActive': true
+    }, callback);
 };
 
 User.statics.deActivateUser = function(id, tenantId, callback) {
@@ -149,7 +151,9 @@ User.statics.deActivateUser = function(id, tenantId, callback) {
         '_id': id,
         'scope': 'User',
         'tenantId': tenantId
-    }, {'isActive': false}, callback);
+    }, {
+        'isActive': false
+    }, callback);
 };
 
 User.statics.updateUserById = function(id, user, callback) {
