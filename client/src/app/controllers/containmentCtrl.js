@@ -9,7 +9,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $http.get('/getPipeline')
                 .success(function(data, status) {
                     $scope.getpipedata = data;
-                    console.log(data)
                 });
             $scope.pipe = singlePipeData.get();
             // $scope.selectedItem = $scope.pipe.pipeName;
@@ -67,6 +66,21 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                     if ($rootScope.user.scope == "Admin") {
                         growl.addSuccessMessage('Pipe updated Successfully');
                         $location.path('/containment');
+                    }
+                })
+                .error(function(data, status) {
+                    growl.addErrorMessage(data.message);
+                });
+
+        }
+
+        $scope.deletePipeData = function(removePipeData,index) {
+            $http.delete('/removePipeline/' + removePipeData._id)
+                .success(function(data, status) {
+                    if ($rootScope.user.scope == "Admin") {
+                        $scope.getpipedata.splice(index, 1);
+                        growl.addSuccessMessage('Pipe deleted Successfully');
+                         
                     }
                 })
                 .error(function(data, status) {
