@@ -74,13 +74,13 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         }
 
-        $scope.deletePipeData = function(removePipeData,index) {
+        $scope.deletePipeData = function(removePipeData, index) {
             $http.delete('/removePipeline/' + removePipeData._id)
                 .success(function(data, status) {
                     if ($rootScope.user.scope == "Admin") {
                         $scope.getpipedata.splice(index, 1);
                         growl.addSuccessMessage('Pipe deleted Successfully');
-                         
+
                     }
                 })
                 .error(function(data, status) {
@@ -93,10 +93,23 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular', 'Sector'];
 
-
+        $scope.result=false;
         $scope.calcVolume = function(area, shape) {
+            $scope.result=true;
             if (shape == "Rectangular")
                 $scope.getArea = area.length * area.breadth;
+            else
+            if (shape == "Triangular")
+                $scope.getArea = 0.5 * area.length * area.breadth;
+            else
+            if (shape == "Square")
+                $scope.getArea = area.length * area.length;
+            else
+            if (shape == "Circular")
+                $scope.getArea = Math.PI * area.radius * area.radius;
+            else
+            if (shape == "Sector")
+                $scope.getArea = (area.radius * area.angle * Math.PI) / 360;
         }
 
 
