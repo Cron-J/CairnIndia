@@ -114,10 +114,8 @@ Pipeline.statics.savePipeline = function(requestData, callback) {
 };
 
 
-Pipeline.statics.updatePipeline = function(id, data, callback) {
-    this.update({
-        '_id': id
-    }, data, callback);
+Pipeline.statics.updatePipeline = function(pipelinedata, callback) {
+    pipelinedata.save(callback);
 };
 
 

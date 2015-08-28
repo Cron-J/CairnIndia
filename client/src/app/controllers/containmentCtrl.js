@@ -4,14 +4,14 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         $scope.createPipeline = function() {
             $location.path('/create-pipeline');
         }
-
+        $scope.selectedItem ={};
         var getalldata = function() {
             $http.get('/getPipeline')
                 .success(function(data, status) {
                     $scope.getpipedata = data;
                 });
             $scope.pipe = singlePipeData.get();
-            // $scope.selectedItem = $scope.pipe.pipeName;
+            $scope.selectedItem.pipeName = $scope.pipe._id;
         }
 
         getalldata();
@@ -32,8 +32,8 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         }
 
-        $scope.getPipeDataEditPage = function(id) {
-
+        $scope.getPipeDataEditPage = function(pipe) {
+            var id = pipe.pipeName ? pipe.pipeName : pipe;
             $http.get('/getPipeLinebyId/' + id)
                 .success(function(data, status) {
                     $scope.pipe = data;
@@ -64,8 +64,9 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $http.put('/updatePipeline/' + savedpipedata._id, savedpipedata)
                 .success(function(data, status) {
                     if ($rootScope.user.scope == "Admin") {
-                        growl.addSuccessMessage('Pipe updated Successfully');
                         $location.path('/containment');
+                        growl.addSuccessMessage('Pipe updated Successfully'); 
+                        singlePipeData.set(data);                       
                     }
                 })
                 .error(function(data, status) {

@@ -55,20 +55,27 @@ exports.getPipeLinebyId = {
 
 exports.updatePipeline = {
     handler: function(request, reply) {
-            
-            Pipeline.updatePipeline(request.params.id, request.payload, function(err, result) {
-                if(err){
-                    if ( constants.kDuplicateKeyError === err.code || constants.kDuplicateKeyErrorForMongoDBv2_1_1 === err.code ) {
-                        reply(Boom.forbidden("Update Failed"));
-                    } else return reply( Boom.badImplementation(err) ); // HTTP 403
-                }
-                else{
-                    return reply(result);
-                }
-            });
+        Pipeline.findPipeLineById(request.params.id, function(err, result) {
+            if (!err) {
+                updateHelper(request.payload, result);
+                 Pipeline.updatePipeline(result,function(err, result) {
+                      if (!err) {
+                          reply(result);
+                      } else {
+                           if (11000 === err.code || 11001 === err.code) {
+                                  reply(Boom.forbidden("please provide another user id, it already exist"));
+                          }
+                          else reply(Boom.forbidden(err)); // HTTP 403
+                      }
+                  });
 
+            } else {
+                reply(Boom.badImplementation(err)); // 500 error
+            }
+        });
     }
 };
+
 
 exports.removePipeline = {
     handler: function(request, reply) {
@@ -84,5 +91,15 @@ exports.removePipeline = {
                 }
             });
 
+    }
+};
+
+var updateHelper = function(requestData, originalData) {
+    for (var req in requestData) {
+        if (requestData[req] === ' ') {
+            originalData[req] = ' ';
+        } else {
+            originalData[req] = requestData[req];
+        }
     }
 };

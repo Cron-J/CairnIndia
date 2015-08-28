@@ -20,7 +20,7 @@
                         <br/> onselect : {{selectedItem}} -->
                     <label class="col-sm-3 control-label">Select Pipeline</label>
                     <div class="col-md-9">
-                        <select class="form-control" ng-model="selectedItem" ng-options="item.pipeName for item in getpipedata " ng-change="getPipeDataEditPage(selectedItem._id)">
+                        <select class="form-control" ng-model="selectedItem.pipeName" ng-options="choice._id as choice.pipeName for choice in getpipedata" ng-change="getPipeDataEditPage(selectedItem)">
                             <option value="">--Select Pipeline--</option>
                         </select>
                     </div>
@@ -131,102 +131,109 @@
                 </div>
                 <div class="panel-body">
                     <div class="col-md-6">
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Rupture Type</label>
-                                <div class="col-sm-4">
-                                    <select class="form-control" ng-model="shape" ng-options="o as o for o in shapes">
-                                    </select>
-                                </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Rupture Type</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" ng-model="shape" ng-options="o as o for o in shapes">
+                                </select>
                             </div>
-                            <span ng-if="shape=='Rectangular'">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" >Length</label>
-                                <div class="col-sm-4">
-                                    <input ng-model="area.length" type="number" class="form-control ">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Breadth</label>
-                                <div class="col-sm-4">
-                                    <input ng-model="area.breadth" type="number" class="form-control ">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-6 col-md-offset-3">
-                                    <button class="btn btn-success" ng-click="calcVolume(area,shape);">Calculate</button>
-                                </div>
-                                
-                            </div>
-                        </span>
-                            <span ng-if="shape=='Triangular'">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" >Base</label>
-                                <div class="col-sm-4">
-                                    <input ng-model="area.length" type="number" class="form-control ">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Height</label>
-                                <div class="col-sm-4">
-                                    <input ng-model="area.breadth" type="number" class="form-control ">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-6 col-md-offset-3">
-                                    <button class="btn btn-success" ng-click="calcVolume(area,shape);">Calculate</button>
-                                </div>
-                                
-                            </div>
-                        </span>
-                            <span ng-if="shape=='Square'">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" >Side</label>
-                                <div class="col-sm-4">
-                                    <input ng-model="area.length" type="number" class="form-control ">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-6 col-md-offset-3">
-                                    <button class="btn btn-success" ng-click="calcVolume(area,shape);">Calculate</button>
-                                </div>
-                            </div>
-                        </span>
-                            <span ng-if="shape=='Circular'">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" >Radius</label>
-                                <div class="col-sm-4">
-                                    <input ng-model="area.radius" type="number" class="form-control ">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-6 col-md-offset-3">
-                                    <button class="btn btn-success" ng-click="calcVolume(area,shape);">Calculate</button>
-                                </div>
-                               
-                            </div>
-                        </span>
-                            <span ng-if="shape=='Sector'">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" >Radius</label>
-                                <div class="col-sm-4">
-                                    <input ng-model="area.radius" type="number" class="form-control ">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" >Angle</label>
-                                <div class="col-sm-4">
-                                    <input ng-model="area.angle" type="number" class="form-control ">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-6 col-md-offset-3">
-                                    <button class="btn btn-success" ng-click="calcVolume(area,shape);">Calculate</button>
-                                </div>
-                                
-                            </div>
-                        </span>
                         </div>
+                        <span ng-if="shape=='Rectangular'">
+                            <form name="calcForm" class="form-horizontal form-validation">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" >Length</label>
+                                    <div class="col-sm-4">
+                                        <input ng-model="area.length" type="text" class="form-control " ng-pattern="/[0-9]/" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Breadth</label>
+                                    <div class="col-sm-4">
+                                        <input ng-model="area.breadth" type="text" class="form-control " ng-pattern="/[0-9]/" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6 col-md-offset-3">
+                                        <button class="btn btn-success" ng-click="calcVolume(area,shape);">Calculate</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </span>
+                        <span ng-if="shape=='Triangular'">
+                            <form name="calcForm" class="form-horizontal form-validation">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" >Base</label>
+                                    <div class="col-sm-4">
+                                        <input ng-model="area.length" type="number" class="form-control " required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Height</label>
+                                    <div class="col-sm-4">
+                                        <input ng-model="area.breadth" type="number" class="form-control " required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6 col-md-offset-3">
+                                        <button class="btn btn-success" ng-click="calcVolume(area,shape);">Calculate</button>
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                        </span>
+                        <span ng-if="shape=='Square'">
+                            <form name="calcForm" class="form-horizontal form-validation">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" >Side</label>
+                                    <div class="col-sm-4">
+                                        <input ng-model="area.length" type="number" class="form-control " required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6 col-md-offset-3">
+                                        <button class="btn btn-success" ng-click="calcVolume(area,shape);">Calculate</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </span>
+                        <span ng-if="shape=='Circular'">
+                            <form name="calcForm" class="form-horizontal form-validation">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" >Radius</label>
+                                    <div class="col-sm-4">
+                                        <input ng-model="area.radius" type="number" class="form-control " required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6 col-md-offset-3">
+                                        <button class="btn btn-success" ng-click="calcVolume(area,shape);">Calculate</button>
+                                    </div>
+                                   
+                                </div>
+                            </form>
+                        </span>
+                        <span ng-if="shape=='Sector'">
+                            <form name="calcForm" class="form-horizontal form-validation">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" >Radius</label>
+                                    <div class="col-sm-4">
+                                        <input ng-model="area.radius" type="number" class="form-control " required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" >Angle</label>
+                                    <div class="col-sm-4">
+                                        <input ng-model="area.angle" type="number" class="form-control " required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6 col-md-offset-3">
+                                        <button class="btn btn-success" ng-click="calcVolume(area,shape);">Calculate</button>
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                        </span>
                     </div>
                     <div class="col-md-6">
                         <h3>{{getArea}} <span ng-show="result">m³/hour</span></h3>
