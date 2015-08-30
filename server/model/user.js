@@ -67,44 +67,45 @@ var User = new Schema({
     /**
      * User creation timestamp.
      */
-    createdAt: {
-        type: Date
-    },
+    // createdAt: {
+    //     type: Date
+    // },
 
-    /**
-     * User updation timestamp.
-     */
-    updatedAt: {
-        type: Date
-    },
-    /**
-     * createdBy must be string who has created user.
-     */
-    createdBy: {
-        type: String
-    },
-    /**
-     * updatedBy must be string who has updated user recently.
-     */
-    updatedBy: {
-        type: String
-    },
-    /**
-     * User last login timestamp.
-     */
-    lastLogin: {
-        type: Date
-    },
-    /**
-     * User first login timestamp.
-     */
-    firstLogin: {
-        type: Date
-    },
+    // /**
+    //  * User updation timestamp.
+    //  */
+    // updatedAt: {
+    //     type: Date
+    // },
+    // /**
+    //  * createdBy must be string who has created user.
+    //  */
+    // createdBy: {
+    //     type: String
+    // },
+    // *
+    //  * updatedBy must be string who has updated user recently.
+     
+    // updatedBy: {
+    //     type: String
+    // },
+    // /**
+    //  * User last login timestamp.
+    //  */
+    // lastLogin: {
+    //     type: Date
+    // },
+    // /**
+    //  * User first login timestamp.
+    //  */
+    // firstLogin: {
+    //     type: Date
+    // },
     isActive: {
         type: Boolean,
-        default: false
+        default: true
     },
+    
     isEmailVerified: {
         type: Boolean,
         default: false
@@ -138,23 +139,23 @@ User.statics.updateUser = function(id, user, callback) {
     }, user, callback);
 };
 
-User.statics.activateUser = function(id, tenantId, callback) {
-    this.update({
-        '_id': id
-    }, {
-        'isActive': true
-    }, callback);
-};
+// User.statics.activateUser = function(id, tenantId, callback) {
+//     this.update({
+//         '_id': id
+//     }, {
+//         'isActive': true
+//     }, callback);
+// };
 
-User.statics.deActivateUser = function(id, tenantId, callback) {
-    this.update({
-        '_id': id,
-        'scope': 'User',
-        'tenantId': tenantId
-    }, {
-        'isActive': false
-    }, callback);
-};
+// User.statics.deActivateUser = function(id, tenantId, callback) {
+//     this.update({
+//         '_id': id,
+//         'scope': 'User',
+//         'tenantId': tenantId
+//     }, {
+//         'isActive': true
+//     }, callback);
+// };
 
 User.statics.updateUserById = function(id, user, callback) {
     if (user.createdAt) {
