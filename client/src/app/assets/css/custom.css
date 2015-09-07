@@ -141,3 +141,7 @@ body{
 .table-user-information{
 	margin-bottom: 0px;
 }
+
+.carousel-inner > .item > img {
+    width: 100%;
+}

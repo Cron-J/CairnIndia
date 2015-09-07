@@ -56,21 +56,8 @@ var Pipeline = new Schema({
         type: Number,
         required: true,
     },
-    /**
-     * Location of valve from rupture point
-     */
-    valveLocation: {
-        type: Number,
-        required: true
-    },
 
-    /**
-     * Type of valve
-     */
-    valveType: {
-        type: String,
-        required: true
-    },
+    
     /**
      * createdBy must be string who has created user.
      */
@@ -86,12 +73,6 @@ var Pipeline = new Schema({
         required: true
     },
    
-    /**
-     * User first login timestamp.
-     */
-    valveClosingTime: {
-        type: Number
-    },
 
     viscosity: {
         type: Number,
