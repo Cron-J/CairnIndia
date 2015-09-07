@@ -4,7 +4,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         $scope.createPipeline = function() {
             $location.path('/create-pipeline');
         }
-        $scope.selectedItem ={};
+        $scope.selectedItem = {};
         var getalldata = function() {
             $http.get('/getPipeline')
                 .success(function(data, status) {
@@ -65,8 +65,8 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 .success(function(data, status) {
                     if ($rootScope.user.scope == "Admin") {
                         $location.path('/containment');
-                        growl.addSuccessMessage('Pipe updated Successfully'); 
-                        singlePipeData.set(data);                       
+                        growl.addSuccessMessage('Pipe updated Successfully');
+                        singlePipeData.set(data);
                     }
                 })
                 .error(function(data, status) {
@@ -94,26 +94,44 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular', 'Sector'];
 
-        $scope.result=false;
+        $scope.result = false;
         $scope.calcVolume = function(area, shape) {
-            $scope.result=true;
-            if (shape == "Rectangular")
-                $scope.getArea = area.length * area.breadth;
-            else
-            if (shape == "Triangular")
-                $scope.getArea = 0.5 * area.length * area.breadth;
-            else
+            $scope.result = true;
+            if (shape == "Rectangular") {
+                var inchtoMeter = 0.0254;
+                res = area.length * inchtoMeter * inchtoMeter * area.breadth;
+                console.log(res);
+                $scope.spillVol = spillVolume(res);
+                $scope.spillLitres = $scope.spillVol/0.0010000;
+
+
+
+            } else
+            if (shape == "Triangular") {
+                s = (area.sidea + area.sideb + area.sidec) / 2;
+                result = Math.sqrt(s * (s - area.sidea) * (s - area.sideb) * (s - area.sidec));
+                $scope.getArea = $scope.getArea = parseFloat(Math.round(result * 100) / 100).toFixed(2);
+            } else
             if (shape == "Square")
                 $scope.getArea = area.length * area.length;
             else
-            if (shape == "Circular")
-                $scope.getArea = Math.PI * area.radius * area.radius;
-            else
+            if (shape == "Circular") {
+                result = Math.PI * area.radius * area.radius;
+                $scope.getArea = parseFloat(Math.round(result * 100) / 100).toFixed(2);
+            } else
             if (shape == "Sector")
                 $scope.getArea = (area.radius * area.angle * Math.PI) / 360;
         }
 
-
+        var spillVolume = function(area) {
+            var pipeHeight = 10,
+                velocity, pressure = 20;
+            var GRAVITY = 9.8; //In meter/second square
+            velocity = Math.sqrt(2 * GRAVITY * pipeHeight);
+            result = area * velocity;
+            console.log(result);
+            return result;
+        }
 
     }
 ]);

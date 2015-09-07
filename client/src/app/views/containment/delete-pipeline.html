@@ -1,22 +1,25 @@
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading  font-bold">
-                <h4>Oil Spill volume Calculation</h4>
-            </div>
-            <div class="panel-body">
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">Rupture Type</label>
-                        <div class="col-sm-2">
-                            <select class="form-control" ng-model="item" ng-options="item.pipeName for item in getpipedata" size=10>
-                            <option value="" ng-if="false"></option>
-                            </select>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading  font-bold">
+                    <h4>Oil Spill volume Calculation</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Rupture Type</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="item" ng-options="item.pipeName for item in getpipedata" size=10>
+                                    <option value="" ng-if="false"></option>
+                                </select>
+                            </div>
+                            <button class="btn btn-danger" ng-click="deletePipeData(item,$index);">Delete</button>
+                            <button class="btn btn-defualt" ui-sref="oilSpillContainment">Back</button>
                         </div>
-                        <button class="btn btn-danger" ng-click = "deletePipeData(item,$index);">Delete</button>
-                        <button class="btn btn-defualt"  ui-sref = "oilSpillContainment">Back</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>

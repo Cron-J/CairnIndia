@@ -85,7 +85,7 @@ var User = new Schema({
     // },
     // *
     //  * updatedBy must be string who has updated user recently.
-     
+
     // updatedBy: {
     //     type: String
     // },
@@ -95,7 +95,7 @@ var User = new Schema({
     // lastLogin: {
     //     type: Date
     // },
-    // /**
+    /**
     //  * User first login timestamp.
     //  */
     // firstLogin: {
@@ -103,9 +103,9 @@ var User = new Schema({
     // },
     isActive: {
         type: Boolean,
-        default: true
+        default: false
     },
-    
+
     isEmailVerified: {
         type: Boolean,
         default: false
@@ -124,8 +124,7 @@ var User = new Schema({
 
 
 User.statics.saveUser = function(requestData, callback) {
-    requestData.createdAt = new Date();
-    requestData.updatedAt = new Date();
+    scope: 'Admin',
     this.create(requestData, callback);
 };
 
@@ -139,23 +138,23 @@ User.statics.updateUser = function(id, user, callback) {
     }, user, callback);
 };
 
-// User.statics.activateUser = function(id, tenantId, callback) {
-//     this.update({
-//         '_id': id
-//     }, {
-//         'isActive': true
-//     }, callback);
-// };
+User.statics.activateUser = function(id, tenantId, callback) {
+    this.update({
+        '_id': id
+    }, {
+        'isActive': true
+    }, callback);
+};
 
-// User.statics.deActivateUser = function(id, tenantId, callback) {
-//     this.update({
-//         '_id': id,
-//         'scope': 'User',
-//         'tenantId': tenantId
-//     }, {
-//         'isActive': true
-//     }, callback);
-// };
+User.statics.deActivateUser = function(id, tenantId, callback) {
+    this.update({
+        '_id': id,
+        'scope': 'User',
+        'tenantId': tenantId
+    }, {
+        'isActive': true
+    }, callback);
+};
 
 User.statics.updateUserById = function(id, user, callback) {
     if (user.createdAt) {

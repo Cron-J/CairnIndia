@@ -2,127 +2,158 @@
 *** Custom css
 */
 
-body{
-	background: #efefef;
-	direction: ltr;
-	font-family: 'Open Sans', sans-serif;
+body {
+    background: #efefef;
+    direction: ltr;
+    font-family: 'Open Sans', sans-serif;
 }
-.ut-container{
-	margin-top: 20px;
-	margin-bottom: 150px;
+
+.ut-container {
+    margin-top: 20px;
+    margin-bottom: 150px;
 }
+
 .ut-title {
-	font-size: 20px;
+    font-size: 20px;
 }
+
 .ut-link {
-	color: blue;
-	cursor: pointer;
+    color: blue;
+    cursor: pointer;
 }
-.error{
-	color: red;
+
+.error {
+    color: red;
 }
+
 .ut-pointer {
-	 cursor: pointer;
+    cursor: pointer;
 }
+
 .ut-lead {
-	font-size: 25px;
+    font-size: 25px;
 }
+
 .ut-button-set {
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
 .ut-search-btnset {
-	margin-top: 15px;
-  margin-bottom: 25px;
+    margin-top: 15px;
+    margin-bottom: 25px;
 }
+
 .ut-search-result {
-	margin-top: 15px;
+    margin-top: 15px;
 }
+
 .ut-sub-heading {
-	 font-size: 1.5em;
-	 margin-bottom: 25px;
+    font-size: 1.5em;
+    margin-bottom: 25px;
 }
+
 .ut-pageheader {
-	margin-top: 20px; 
-	margin-bottom: 50px; 
+    margin-top: 20px;
+    margin-bottom: 50px;
 }
+
 .ut-control-label {
-	color: black;
+    color: black;
 }
+
 .ut-userId-control {
-	width: 214px;
+    width: 214px;
 }
+
 .panel-row-space {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
-.ut-acc-row { 
-	margin-top: 30px;
+
+.ut-acc-row {
+    margin-top: 30px;
 }
+
 .ut-acc-form-group {
-	margin-left: -15px;
+    margin-left: -15px;
 }
-.ut-fp, .ut-fp:hover{
-	color: black;
-	text-decoration: none;
+
+.ut-fp,
+.ut-fp:hover {
+    color: black;
+    text-decoration: none;
 }
+
 .ut-nohover {
-  color: #333;
-  background-color: transparent;
-  padding-top: 15px;
-  display: block;
+    color: #333;
+    background-color: transparent;
+    padding-top: 15px;
+    display: block;
 }
+
 .ut-login-block {
-	padding-top: 20px;
+    padding-top: 20px;
 }
+
 .ut-status-btn {
-	width: 115px;
-  text-align: left;
+    width: 115px;
+    text-align: left;
 }
+
 .ut-footer {
-	margin-top: 60px;
+    margin-top: 60px;
 }
+
 
 /*welcome page*/
+
 .ut-wp-number {
-  font-weight: bold;
-  display: block;
-  font-size: 4.75em;
-  color: #666;
-  padding: 10px 0;
-  line-height: 1.1em;
- }
-.ut-content-center {
-	text-align: center;
-}
-.ut-wp-circle {
-	border-radius: 50%;
-	width: 200px;
-	height: 200px; 
-	background: green;
-}
-.ut-wp-th {
-	background:rgb(245, 244, 244);
-}
-.ut-wp-circle-p {
-	padding: 85px;
-	color: white;
-}
-.ut-wp-circle-label {
-	margin-top: 10px;
-	height: 10px;
-	width: 10px;
-	background: green;
-}
-.ut-wp-status {
-	margin-top: -15px;
-	margin-left: 15px;
-}
-/*modified css*/
-.form-horizontal .control-label {
-  text-align: left;
-  color: #888;
+    font-weight: bold;
+    display: block;
+    font-size: 4.75em;
+    color: #666;
+    padding: 10px 0;
+    line-height: 1.1em;
 }
 
+.ut-content-center {
+    text-align: center;
+}
+
+.ut-wp-circle {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    background: green;
+}
+
+.ut-wp-th {
+    background: rgb(245, 244, 244);
+}
+
+.ut-wp-circle-p {
+    padding: 85px;
+    color: white;
+}
+
+.ut-wp-circle-label {
+    margin-top: 10px;
+    height: 10px;
+    width: 10px;
+    background: green;
+}
+
+.ut-wp-status {
+    margin-top: -15px;
+    margin-left: 15px;
+}
+
+
+/*modified css*/
+
+.form-horizontal .control-label {
+    text-align: left;
+    color: #888;
+}
 
 .table-user-information > tbody > tr {
     border-top: 1px solid rgb(221, 221, 221);
@@ -132,16 +163,112 @@ body{
     border-top: 0;
 }
 
-
 .table-user-information > tbody > tr > td {
     border-top: 0;
 }
 
-
-.table-user-information{
-	margin-bottom: 0px;
+.table-user-information {
+    margin-bottom: 0px;
 }
 
 .carousel-inner > .item > img {
     width: 100%;
+}
+
+.pipe-msg {
+    display: block;
+    text-align: center;
+    margin-top: 250px;
+    font-weight: lighter;
+    font-size: 65px;
+}
+
+.form-height {
+    height: 40px!important;
+}
+
+.select-color {
+    color: #FF8300;
+}
+
+
+/*custom bouncing arrow*/
+
+@-moz-keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        -moz-transform: translateX(0);
+        transform: translateX(0);
+    }
+    40% {
+        -moz-transform: translateX(-30px);
+        transform: translateX(-30px);
+    }
+    60% {
+        -moz-transform: translateX(-15px);
+        transform: translateX(-15px);
+    }
+}
+
+@-webkit-keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+    40% {
+        -webkit-transform: translateX(-30px);
+        transform: translateX(-30px);
+    }
+    60% {
+        -webkit-transform: translateX(-15px);
+        transform: translateX(-15px);
+    }
+}
+
+@keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+    40% {
+        -moz-transform: translateX(-30px);
+        -ms-transform: translateX(-30px);
+        -webkit-transform: translateX(-30px);
+        transform: translateX(-30px);
+    }
+    60% {
+        -moz-transform: translateX(-15px);
+        -ms-transform: translateX(-15px);
+        -webkit-transform: translateX(-15px);
+        transform: translateX(-15px);
+    }
+}
+
+.bounce {
+    -moz-animation: bounce 2s infinite;
+    -webkit-animation: bounce 2s infinite;
+    animation: bounce 2s infinite;
+}
+
+.arrow {
+    position: fixed;
+    left: 50%;
+    width: 55px;
+    height: 55px;
+    background-image: url(../img/leftarrow.png);
+    background-size: contain;
+    bottom: 83%;
 }
