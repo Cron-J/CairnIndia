@@ -88,7 +88,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                     .success(function(data, status) {
                         if ($rootScope.user.scope == "Admin") {
                             // var indexVal = $scope.getpipedata.indexOf($scope.getpipedata);
-                            $scope.getpipedata.splice($scope.getpipedata, index);
+                            $scope.getpipedata.splice(index,1);
                             growl.addSuccessMessage('Pipe deleted Successfully');
 
                         }

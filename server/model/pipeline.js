@@ -73,6 +73,10 @@ var Pipeline = new Schema({
         required: true
     },
    
+   diameterSizeIn: {
+        type: String,
+        required: true
+    },
 
     viscosity: {
         type: Number,
