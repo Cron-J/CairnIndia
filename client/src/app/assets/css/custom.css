@@ -277,42 +277,31 @@ body {
 /*Shapes*/
 
 .rectangle {
-    width: 35px;
-    height: 20px;
-    background: #FF8500;
-    margin-top: 10px;
+    background-image: url(../img/rectangle.png);
+    width: 100px;
+    height: 100px;
 }
 
 .triangle {
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 40px solid #FF8500;
+    background-image: url(../img/triangle.png);
+    width: 100px;
+    height: 100px;
 }
 
 .square {
-    width: 35px;
-    height: 35px;
-    background: #FF8500;
+    background-image: url(../img/square.png);
+    width: 100px;
+    height: 100px;
 }
 
 .circle {
-    width: 35px;
-    height: 35px;
-    background: #FF8500;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-    border-radius: 50px;
+    background-image: url(../img/circle.png);
+    width: 100px;
+    height: 100px;
 }
 
 .sector {
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-top: 30px solid #FF8500;
-    -moz-border-radius: 70%;
-    -webkit-border-radius: 70%;
-    border-radius: 70%;
+    background-image: url(../img/sector.png);
+    width: 100px;
+    height: 100px;
 }

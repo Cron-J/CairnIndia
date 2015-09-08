@@ -13,9 +13,10 @@
                                 <select class="form-control" ng-model="item" ng-options="item.pipeName for item in getpipedata" size=10>
                                     <option value="" ng-if="false"></option>
                                 </select>
+                                
+                                <button class="btn btn-danger" ng-click="deletePipeData(item,getpipedata.indexOf(item));" ng-disabled="!item.pipeName">Delete</button>
+                                <button class="btn btn-defualt" ui-sref="oilSpillContainment">Back</button>
                             </div>
-                            <button class="btn btn-danger" ng-click="deletePipeData(item,$index);" ng-disabled="!item.pipeName">Delete</button>
-                            <button class="btn btn-defualt" ui-sref="oilSpillContainment">Back</button>
                         </div>
                     </div>
                 </div>

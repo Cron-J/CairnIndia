@@ -79,15 +79,16 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 });
 
         }
-        
-        $scope.selectedItem = 0;
 
-        $scope.deletePipeData = function(removePipeData, index) {
+
+        $scope.deletePipeData = function(removePipeData,index) {
+            console.log('======',$scope.getpipedata.indexOf($scope.getpipedata));
             if (removePipeData !== null) {
                 $http.delete('/removePipeline/' + removePipeData._id)
                     .success(function(data, status) {
                         if ($rootScope.user.scope == "Admin") {
-                            $scope.getpipedata.splice(index, 1);
+                            // var indexVal = $scope.getpipedata.indexOf($scope.getpipedata);
+                            $scope.getpipedata.splice($scope.getpipedata, index);
                             growl.addSuccessMessage('Pipe deleted Successfully');
 
                         }
