@@ -4,18 +4,6 @@
             <form name="createPipeForm" class="form-horizontal ut-form form-validation">
                 <h3>Pipeline Information</h3>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Pipeline Name</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" ng-model="pipe.pipeName"  ng-click="isChanged = true" ng-minlength="5" ng-maxlength="50" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Length</label>
-                    <div class="col-sm-9">
-                        <input type="number" class="form-control" ng-model="pipe.length" ng-minlength="1" ng-maxlength="5" ng-click="isChanged = true" required>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="col-sm-3 control-label">From City</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" ng-model="pipe.fromCity" ng-minlength="4" maxlength="20" ng-click="isChanged = true" required>
@@ -28,24 +16,21 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-3 control-label">Pipeline Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" ng-model="pipe.pipeName" ng-click="isChanged = true" ng-minlength="5" ng-maxlength="50" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Length</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" ng-model="pipe.length" ng-minlength="1" ng-maxlength="5" ng-click="isChanged = true" required>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-3 control-label"> Diameter</label>
                     <div class="col-sm-9">
-                        <select class="form-control" ng-model="pipe.diameter" ng-click="isChanged = true"required>
-                            <option>24</option>
-                            <option>10</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Valve Location</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" ng-model="pipe.valveLocation" ng-minlength="1" maxlength="5" ng-click="isChanged = true" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Valve Type</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" ng-model="pipe.valveType" ng-minlength="1" ng-click="isChanged = true" maxlength="5" required>
+                        <input type="text" class="form-control" ng-model="pipe.diameter" ng-minlength="1" maxlength="5" ng-click="isChanged = true" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -67,14 +52,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Valve Closing Time</label>
-                    <div class="col-sm-9">
-                        <input type="number" class="form-control" ng-model="pipe.valveClosingTime" ng-click="isChanged = true" ng-minlength="1" maxlength="5" required>
-                    </div>
-                </div>
-                <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
-                        <button type="submit" class="btn btn-default" ng-click="savePipeData(pipe);" >Save</button>
+                        <button type="submit" class="btn btn-default" ng-click="savePipeData(pipe);">Save</button>
                         <button type="submit" class="btn btn-default" ng-click="goBack(pipe)" ui-sref="oilSpillContainment">Cancel</button>
                     </div>
                 </div>

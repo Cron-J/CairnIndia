@@ -14,7 +14,7 @@
                                     <option value="" ng-if="false"></option>
                                 </select>
                             </div>
-                            <button class="btn btn-danger" ng-click="deletePipeData(item,$index);">Delete</button>
+                            <button class="btn btn-danger" ng-click="deletePipeData(item,$index);" ng-disabled="!item.pipeName">Delete</button>
                             <button class="btn btn-defualt" ui-sref="oilSpillContainment">Back</button>
                         </div>
                     </div>
