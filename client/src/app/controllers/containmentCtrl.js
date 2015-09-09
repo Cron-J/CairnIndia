@@ -15,6 +15,23 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         }
 
         getalldata();
+        $scope.pipe={};
+        $scope.pipe.diameterSizeIn="inch";
+
+        $scope.update = function(){
+            if($scope.pipe.toCity == 'undefined'|| $scope.pipe.toCity == '' )
+            $scope.pipe.pipeName = '';
+        else
+            $scope.pipe.pipeName = $scope.pipe.fromCity + ' to ' + $scope.pipe.toCity;
+        }
+
+        $scope.changeSize = function(size){
+            if(size == 'inch')
+                $scope.pipe.diameter = $scope.pipe.diameter / 2.54;
+            else{
+                $scope.pipe.diameter = $scope.pipe.diameter * 2.54;
+            }
+        }
 
 
         $scope.newpipedata = function(pipedata) {
@@ -22,7 +39,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 .success(function(data, status) {
                     if ($rootScope.user.scope == "Admin") {
                         growl.addSuccessMessage('Pipe created Successfully');
-                        $scope.createpipe = {};
+                        $scope.pipe = {};
                         $location.path('/containment');
                     }
                 })
@@ -46,7 +63,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             } else {
                 $scope.pipe = {};
             }
-
 
         }
 
@@ -77,18 +93,16 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 .error(function(data, status) {
                     growl.addErrorMessage(data.message);
                 });
-
         }
 
-
-        $scope.deletePipeData = function(removePipeData,index) {
-            console.log('======',$scope.getpipedata.indexOf($scope.getpipedata));
+        $scope.deletePipeData = function(removePipeData, index) {
+            console.log('======', $scope.getpipedata.indexOf($scope.getpipedata));
             if (removePipeData !== null) {
                 $http.delete('/removePipeline/' + removePipeData._id)
                     .success(function(data, status) {
                         if ($rootScope.user.scope == "Admin") {
                             // var indexVal = $scope.getpipedata.indexOf($scope.getpipedata);
-                            $scope.getpipedata.splice(index,1);
+                            $scope.getpipedata.splice(index, 1);
                             growl.addSuccessMessage('Pipe deleted Successfully');
 
                         }
@@ -133,17 +147,15 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 spillVolume(res);
             }
 
-
         }
 
         var spillVolume = function(area) {
-            var pipeHeight = 10,
-                velocity, pressure = 20;
+            var velocity, pressure = $scope.pipe.pressure;
             var GRAVITY = 9.8; //In meter/second square
-            velocity = Math.sqrt(2 * GRAVITY * pipeHeight);
-            $scope.spillVol = parseFloat(Math.round(area * velocity * 0.00838641436 * 3600 * 100) / 100).toFixed(2);
-            $scope.spillLitres = $scope.spillVol * 1000 * 3600;
-            $scope.barrels = parseFloat(Math.round($scope.spillLitres * 0.00838641436 * 3600 * 100) / 100).toFixed(2);
+            velocity = Math.sqrt(2 * GRAVITY * $scope.pipe.pipeHeight);
+            $scope.barrels = parseFloat(Math.round(area * velocity * 1000 * 0.0062898 * 3600 * 100) / 100).toFixed(2);
+            // $scope.spillLitres = $scope.spillVol * 1000 * 3600;
+            // $scope.barrels = parseFloat(Math.round($scope.spillLitres * 0.00838641436 * 100) / 100).toFixed(2);
         }
 
     }

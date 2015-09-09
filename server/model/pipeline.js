@@ -57,7 +57,7 @@ var Pipeline = new Schema({
         required: true,
     },
 
-    
+
     /**
      * createdBy must be string who has created user.
      */
@@ -72,13 +72,18 @@ var Pipeline = new Schema({
         type: Number,
         required: true
     },
-   
-   diameterSizeIn: {
+
+    diameterSizeIn: {
         type: String,
         required: true
     },
 
     viscosity: {
+        type: Number,
+        required: true
+    },
+
+    pipeHeight: {
         type: Number,
         required: true
     },

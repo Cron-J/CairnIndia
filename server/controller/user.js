@@ -709,9 +709,7 @@ exports.updateUser = {
     handler: function(request, reply) {
         Jwt.verify(request.headers.authorization.split(' ')[1], Config.key.privateKey, function(err, decoded) {
             /* filterening unwanted attributes which may have in request.payload and can enter bad data */
-            if (request.payload.firstLogin) delete request.payload.firstLogin;
-            if (request.payload.lastLogin) delete request.payload.lastLogin;
-            if (request.payload.createdBy) delete request.payload.createdBy;
+            
             if (request.payload.scope) delete request.payload.scope;
             if (request.payload.password) request.payload.password = Crypto.encrypt(request.payload.password);
             request.payload.updatedBy = "Self";
@@ -739,35 +737,35 @@ exports.updateUser = {
 //     Description: Update Tenant User info by System Admin.
 //  */
 
-exports.updateUser = {
-    auth: {
-        strategy: 'token',
-        scope: ['Admin']
-    },
-    handler: function(request, reply) {
-        Jwt.verify(request.headers.authorization.split(' ')[1], Config.key.privateKey, function(err, decoded) {
+// exports.updateUser = {
+//     auth: {
+//         strategy: 'token',
+//         scope: ['Admin']
+//     },
+//     handler: function(request, reply) {
+//         Jwt.verify(request.headers.authorization.split(' ')[1], Config.key.privateKey, function(err, decoded) {
 
 
-            /* filterening unwanted attributes which may have in request.payload and can enter bad data */
+//             /* filterening unwanted attributes which may have in request.payload and can enter bad data */
 
-            if (request.payload.createdBy) delete request.payload.createdBy;
-            // if(request.payload.scope) delete request.payload.scope;
-            if (request.payload.password) request.payload.password = Crypto.encrypt(request.payload.password);
+//             if (request.payload.createdBy) delete request.payload.createdBy;
+//             // if(request.payload.scope) delete request.payload.scope;
+//             if (request.payload.password) request.payload.password = Crypto.encrypt(request.payload.password);
 
-            request.payload.updatedBy = decoded.scope;
-            var tenantId;
+//             request.payload.updatedBy = decoded.scope;
+//             var tenantId;
 
 
-            User.updateUserById(request.params.id, request.payload, function(err, user) {
-                if (err) {
-                    if (constants.kDuplicateKeyError === err.code || constants.kDuplicateKeyErrorForMongoDBv2_1_1 === err.code) {
-                        reply(Boom.forbidden("user email already registered"));
-                    } else return reply(Boom.badImplementation(err)); // HTTP 403
-                } else {
-                    return reply("user updated successfully");
-                }
-            });
+//             User.updateUserById(request.params.id, request.payload, function(err, user) {
+//                 if (err) {
+//                     if (constants.kDuplicateKeyError === err.code || constants.kDuplicateKeyErrorForMongoDBv2_1_1 === err.code) {
+//                         reply(Boom.forbidden("user email already registered"));
+//                     } else return reply(Boom.badImplementation(err)); // HTTP 403
+//                 } else {
+//                     return reply("user updated successfully");
+//                 }
+//             });
 
-        });
-    }
-};
+//         });
+//     }
+// };

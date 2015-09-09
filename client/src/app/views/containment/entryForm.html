@@ -156,7 +156,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-5 control-label">Breadth Length <span class="select-color">(in inches)</span></label>
+                        <label class="col-sm-5 control-label">Breadth <span class="select-color">(in inches)</span></label>
                         <div class="col-sm-5">
                             <input ng-model="area.breadth" type="text" class="form-control " ng-pattern="/[0-9]/" required>
                         </div>
@@ -171,19 +171,19 @@
                     <span ng-if="shape=='Triangular'">
                             <form name="calcForm" class="form-horizontal form-validation">
                                 <div class="form-group">
-                                    <label class="col-sm-5 control-label" >Side A <span class="select-color">(in inches)</span></label>
+                                    <label class="col-sm-5 control-label" >Side 1 <span class="select-color">(in inches)</span></label>
                     <div class="col-sm-5">
                         <input ng-model="area.sidea" ng-pattern="/[0-9]/" type="text" class="form-control " required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-5 control-label">Side B <span class="select-color">(in inches)</span></label>
+                    <label class="col-sm-5 control-label">Side 2 <span class="select-color">(in inches)</span></label>
                     <div class="col-sm-5">
                         <input ng-model="area.sideb" ng-pattern="/[0-9]/" type="text" class="form-control " required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-5 control-label">Side C <span class="select-color">(in inches)</span></label>
+                    <label class="col-sm-5 control-label">Side 3 <span class="select-color">(in inches)</span></label>
                     <div class="col-sm-5">
                         <input ng-model="area.sidec" ng-pattern="/[0-9]/" type="text" class="form-control " required>
                     </div>
@@ -234,7 +234,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-5 control-label">Angle <span class="select-color">(in degrees)</span></label>
+        <label class="col-sm-5 control-label">θ <span class="select-color">(in degrees)</span></label>
         <div class="col-sm-5">
             <input ng-model="area.angle" type="text" ng-pattern="/[0-9]/" class="form-control " required>
         </div>
@@ -263,9 +263,9 @@
     <div class="sector"></div>
 </div>
 <div class="col-md-5">
-    <h3>{{spillVol}}<span ng-show="result">m³/second</span></h3>
-    <h3>{{spillLitres}}<span ng-show="result">Litre/Hour</span></h3>
-    <h3>{{barrels}}<span ng-show="result">Barrels/Hour</span></h3>
+    <!-- <h3>{{spillVol}}<span ng-show="result"> m³/second</span></h3>
+    <h3>{{spillLitres}}<span ng-show="result"> Litre/hour</span></h3> -->
+    <h3><span ng-show="result">Oil will flow @ {{barrels}} Barrels/hour</span></h3>
 </div>
 </div>
 </div>
