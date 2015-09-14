@@ -1,7 +1,7 @@
 app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams',
     function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams) {
-
-        $scope.createPipeline = function() {
+        $scope.pipe = {};
+        $scope.createPipeline = function(data) {
             $location.path('/create-pipeline');
         }
         $scope.selectedItem = {};
@@ -12,27 +12,30 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 });
             $scope.pipe = singlePipeData.get();
             $scope.selectedItem.pipeName = $scope.pipe._id;
-        }
-
-        getalldata();
-        $scope.pipe={};
-        $scope.pipe.diameterSizeIn="inch";
-
-        $scope.update = function(){
-            if($scope.pipe.toCity == 'undefined'|| $scope.pipe.toCity == '' )
-            $scope.pipe.pipeName = '';
-        else
-            $scope.pipe.pipeName = $scope.pipe.fromCity + ' to ' + $scope.pipe.toCity;
-        }
-
-        $scope.changeSize = function(size){
-            if(size == 'inch')
-                $scope.pipe.diameter = $scope.pipe.diameter / 2.54;
-            else{
-                $scope.pipe.diameter = $scope.pipe.diameter * 2.54;
+            if ($location.$$path == '/create-pipeline') {
+                $scope.pipe = {};
             }
         }
 
+        getalldata();
+
+        $scope.pipe.diameterSizeIn = "inch";
+
+        $scope.update = function() {
+            if ($scope.pipe.toCity == 'undefined' || $scope.pipe.toCity == '')
+                $scope.pipe.pipeName = '';
+            else
+                $scope.pipe.pipeName = $scope.pipe.fromCity + ' to ' + $scope.pipe.toCity;
+        }
+
+        $scope.changeSize = function(size) {
+            if (size == 'inch') {
+                $scope.pipe.pipeHeight = $scope.pipe.pipeHeight / 2.54;
+
+            } else {
+                $scope.pipe.pipeHeight = $scope.pipe.pipeHeight * 2.54;
+            }
+        }
 
         $scope.newpipedata = function(pipedata) {
             $http.post('/createPipeline', pipedata)
@@ -120,42 +123,45 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         $scope.result = false;
         $scope.calcVolume = function(area, shape) {
-            inchtoMeter = 0.0254;
+             inchtometer = 0.0254;
             $scope.result = true;
             if (shape == "Rectangular") {
-                res = area.length * inchtoMeter * inchtoMeter * area.breadth;
-                spillVolume(res);
+
+                res = area.length * area.breadth;
+                spillVolume(res * inchtometer * inchtometer, area.height);
 
             } else
             if (shape == "Triangular") {
                 s = (area.sidea + area.sideb + area.sidec) / 2;
                 res = Math.sqrt(s * (s - area.sidea) * (s - area.sideb) * (s - area.sidec));
-                spillVolume(res);
+                spillVolume(res * inchtometer * inchtometer);
 
             } else
             if (shape == "Square") {
-                res = area.length * inchtoMeter * inchtoMeter * area.length;
+                res = area.length * inchtometer * inchtometer * area.length;
                 spillVolume(res);
             } else
             if (shape == "Circular") {
-                res = Math.PI * area.radius * inchtoMeter * inchtoMeter * area.radius;
-                spillVolume(res);
+                res = Math.PI * area.radius * area.radius;
+                spillVolume(res * inchtometer * inchtometer);
 
             } else
             if (shape == "Sector") {
-                res = (area.radius * inchtoMeter * area.angle * Math.PI) / 360;
-                spillVolume(res);
+                res = (area.radius * Math.PI) / 360;
+                spillVolume(res * inchtometer * inchtometer);
             }
 
         }
 
-        var spillVolume = function(area) {
+        var spillVolume = function(area, height) {
             var velocity, pressure = $scope.pipe.pressure;
             var GRAVITY = 9.8; //In meter/second square
-            velocity = Math.sqrt(2 * GRAVITY * $scope.pipe.pipeHeight);
-            $scope.barrels = parseFloat(Math.round(area * velocity * 1000 * 0.0062898 * 3600 * 100) / 100).toFixed(2);
-            // $scope.spillLitres = $scope.spillVol * 1000 * 3600;
-            // $scope.barrels = parseFloat(Math.round($scope.spillLitres * 0.00838641436 * 100) / 100).toFixed(2);
+            if (height >= $scope.pipe.diameter) {
+                $scope.barrels = 0;
+            } else {
+                velocity = Math.sqrt(2 * GRAVITY * height*inchtometer);
+                $scope.barrels = parseFloat(Math.round(area * velocity * 1000 * 0.0062898 * 3600 * 100) / 100).toFixed(2);
+            }           
         }
 
     }

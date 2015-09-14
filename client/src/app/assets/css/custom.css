@@ -311,3 +311,20 @@ input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+.bg-image {
+    background-image: url(../img/bg.jpg);
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-size: cover;
+    right: 0;
+}
+
+
+.navbar-brand-1 img {
+    max-height: 100px!important;
+    margin: 20px!important;
+}

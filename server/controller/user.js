@@ -469,6 +469,7 @@ exports.login = {
         User.findUser(request.payload.username, function(err, user) {
             if (!err) {
                 if (user === null) return reply(Boom.forbidden("invalid username or password"));
+                console.log(user);
                 if (request.payload.password === Crypto.decrypt(user.password)) {
                     if (!user.isEmailVerified) {
                         reply(Boom.forbidden("Email is not verified"));

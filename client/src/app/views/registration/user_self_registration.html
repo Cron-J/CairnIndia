@@ -1,89 +1,73 @@
- <div class="container">
-    <div class="row">
-        <div class="col-sm-7 col-sm-offset-3">
-            <a class="navbar-brand-1 block m-t" href="javascript:void(0)">
-                <img src="app/assets/img/Cairn_logo.png">
-            </a>
-            <form name="signUpForm" class="form-horizontal form-validation">
-                <div class="panel panel-default">
-                    <div class="panel-heading text-center font-bold">
-                        User Registration
-                    </div>
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">User Name</label>
-
-                            <div class="col-sm-9">
-                                <input placeholder="jhon" class="form-control" ng-model="account.username"
-                                       ng-pattern="/^[a-zA-Z0-9]{3,20}$/" required>
+<div class="bg-image">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-7 col-sm-offset-3">
+                <a class="navbar-brand-1 block m-t" href="javascript:void(0)">
+                    <img src="app/assets/img/Cairn_logo.png">
+                </a>
+                <form name="signUpForm" class="form-horizontal form-validation">
+                    <div class="panel panel-default">
+                        <div class="panel-heading text-center font-bold">
+                            User Registration
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">User Name</label>
+                                <div class="col-sm-9">
+                                    <input placeholder="jhon" class="form-control" ng-model="account.username" ng-pattern="/^[a-zA-Z0-9]{3,20}$/" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">First Name</label>
+                                <div class="col-sm-9">
+                                    <input placeholder="Jhon" type="text" class="form-control" ng-model="account.firstName" ng-pattern="/^[a-zA-Z]{3,20}$/" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Last Name</label>
+                                <div class="col-sm-9">
+                                    <input placeholder="Michael" type="text" class="form-control" ng-model="account.lastName" ng-pattern="/^[a-zA-Z]{3,20}$/" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Email</label>
+                                <div class="col-sm-9">
+                                    <input type="email" placeholder="jhon@example.com" class="form-control" ng-model="account.email" ng-minlength="5" maxlength="50" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Password</label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" ng-model="account.password" ng-minlength="5" maxlength="50" placeholder="******" required data-ng-class="{'ng-invalid':signUpForm.confirmPassword.$error.match}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Confirm Password</label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" name="confirmPassword" ng-model="account.passwordConfirm" placeholder="******" data-password-verify="account.password" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-6 col-sm-offset-3 checkbox m-b-md m-t-none">
+                                    <label class="i-checks">
+                                        <input type="checkbox" ng-model="agree" required><i></i> Agree the terms and policy
+                                        </a>
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">First Name</label>
-
-                            <div class="col-sm-9">
-                                <input placeholder="Jhon" type="text" class="form-control"
-                                       ng-model="account.firstName"
-                                       ng-pattern="/^[a-zA-Z]{3,20}$/" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Last Name</label>
-
-                            <div class="col-sm-9">
-                                <input placeholder="Michael" type="text" class="form-control" ng-model="account.lastName"
-                                       ng-pattern="/^[a-zA-Z]{3,20}$/" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Email</label>
-
-                            <div class="col-sm-9">
-                                <input type="email" placeholder="jhon@example.com" class="form-control" ng-model="account.email"
-                                    ng-minlength="5" maxlength="50" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Password</label>
-
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control"
-                                       ng-model="account.password" ng-minlength="5" maxlength="50" placeholder="******" required
-                                       data-ng-class="{'ng-invalid':signUpForm.confirmPassword.$error.match}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Confirm Password</label>
-
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control" name="confirmPassword"
-                                       ng-model="account.passwordConfirm" 
-                                       placeholder="******" 
-                                       data-password-verify="account.password"
-                                       required >
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-6 col-sm-offset-3 checkbox m-b-md m-t-none">
-                                <label class="i-checks">
-                                    <input type="checkbox" ng-model="agree" required><i></i> Agree the terms and
-                                    policy</a>
-                                </label>
-                            </div>
+                        <div class="panel-footer text-right bg-light lter">
+                            <button type="submit" class="btn btn-primary btn-block ut-btn" ng-click="UserSelfRegistration(account)" ng-disabled='signUpForm.$invalid'>Sign up
+                            </button>
+                            <div class="line line-dashed"></div>
+                            <p class="text-center">
+                                <small>Already have an account?</small>
+                            </p>
+                            <a ui-sref="login" class="btn btn-default btn-block ut-btn">Sign in</a>
                         </div>
                     </div>
-                    <div class="panel-footer text-right bg-light lter">
-                        <button type="submit" class="btn btn-primary btn-block ut-btn" ng-click="UserSelfRegistration(account)"
-                                ng-disabled='signUpForm.$invalid'>Sign up
-                        </button>
-                        <div class="line line-dashed"></div>
-                        <p class="text-center">
-                            <small>Already have an account?</small>
-                        </p>
-                        <a ui-sref="login" class="btn btn-default btn-block ut-btn">Sign in</a>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
