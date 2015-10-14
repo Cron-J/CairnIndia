@@ -18,36 +18,28 @@ var Pipeline = new Schema({
     */
     pipeName: {
         type: String,
-        required: true,
-        min: 3,
-        max: 50
+        required: true
     },
     /** 
       user first Name; must be a string, unique, required, should have minimum length 3 and maximum 20.
     */
     length: {
         type: Number,
-        required: true,
-        min: 3,
-        max: 500
+        required: true
     },
     /** 
       user last Name; must be a string, unique, required, should have minimum length 3 and maximum 20.
     */
     fromCity: {
         type: String,
-        required: true,
-        min: 3,
-        max: 20
+        required: true
     },
     /** 
       user email; must be a valid email, lowercase, required, should have minimum length 5 and maximum 50.
     */
     toCity: {
         type: String,
-        required: true,
-        min: 3,
-        max: 20
+        required: true
     },
     /** 
        Diameter of the pipe
@@ -70,11 +62,6 @@ var Pipeline = new Schema({
      */
     pressure: {
         type: Number,
-        required: true
-    },
-
-    diameterSizeIn: {
-        type: String,
         required: true
     },
 
