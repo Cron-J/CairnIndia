@@ -127,28 +127,28 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $scope.result = true;
             if (shape == "Rectangular") {
 
-                res = area.length * area.breadth;
+                res = parseFloat(area.length) * parseFloat(area.breadth);
                 spillVolume(res * inchtometer * inchtometer, area.height);
 
             } else
             if (shape == "Triangular") {
-                s = (area.sidea + area.sideb + area.sidec) / 2;
-                res = Math.sqrt(s * (s - area.sidea) * (s - area.sideb) * (s - area.sidec));
-                spillVolume(res * inchtometer * inchtometer);
+                s = (parseFloat(area.sidea) + parseFloat(area.sideb) + parseFloat(area.sidec)) / 2;
+                res = Math.sqrt(s * (s - parseFloat(area.sidea)) * (s - parseFloat(area.sideb)) * (s - parseFloat(area.sidec)));
+                spillVolume(res * inchtometer * inchtometer,parseFloat(area.height));
 
             } else
             if (shape == "Square") {
-                res = area.length * inchtometer * inchtometer * area.length;
-                spillVolume(res);
+                res = parseFloat(area.length) * inchtometer * inchtometer * parseFloat(area.length);
+                spillVolume(res,parseFloat(area.height));
             } else
             if (shape == "Circular") {
-                res = Math.PI * area.radius * area.radius;
-                spillVolume(res * inchtometer * inchtometer);
+                res = Math.PI * parseFloat(area.radius) * parseFloat(area.radius);
+                spillVolume(res * inchtometer * inchtometer,parseFloat(area.height));
 
             } else
             if (shape == "Sector") {
-                res = (area.radius * Math.PI) / 360;
-                spillVolume(res * inchtometer * inchtometer);
+                res = (parseFloat(area.radius) * Math.PI) / 360;
+                spillVolume(res * inchtometer * inchtometer,parseFloat(area.height));
             }
 
         }

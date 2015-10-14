@@ -82,11 +82,6 @@ var Pipeline = new Schema({
         type: Number,
         required: true
     },
-
-    pipeHeight: {
-        type: Number,
-        required: true
-    },
     /** 
       Scope. It can only contain string, is required field, and should have value from enum array.
     */
