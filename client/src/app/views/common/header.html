@@ -6,12 +6,14 @@
                 <img src="app/assets/img/Cairn_logo.png" style="margin-top: 0.50em;height:40px;width:50px;">
             </a>
         </div>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav" style="margin-left: 20px;">
             <li class="dropdown" ng-show="user.scope == 'User'"><span class="ut-nohover"><i class="fa fa-building"></i> {{current_usr.tenantName | uppercase}}</span></li>
             <li>
                 <a ui-sref="oilSpillContainment">Containment</a>
             </li>
             <li ng-if="user.scope == 'Admin'"><a class="ut-pointer" ui-sref="users">Users</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
             <li class="dropdown" ng-controller="accountCtrl">
                 <a class="dropdown-toggle ut-pointer" data-toggle="dropdown">
                     <span>{{current_usr.firstName}} {{current_usr.lastName}} </span><b class="caret"></b>

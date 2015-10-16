@@ -128,40 +128,41 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             if (shape == "Rectangular") {
 
                 res = parseFloat(area.length) * parseFloat(area.breadth);
-                spillVolume(res * inchtometer * inchtometer, area.height);
+                spillVolume(res * inchtometer * inchtometer);
 
             } else
             if (shape == "Triangular") {
                 s = (parseFloat(area.sidea) + parseFloat(area.sideb) + parseFloat(area.sidec)) / 2;
                 res = Math.sqrt(s * (s - parseFloat(area.sidea)) * (s - parseFloat(area.sideb)) * (s - parseFloat(area.sidec)));
-                spillVolume(res * inchtometer * inchtometer,parseFloat(area.height));
+                spillVolume(res * inchtometer * inchtometer);
 
             } else
             if (shape == "Square") {
                 res = parseFloat(area.length) * inchtometer * inchtometer * parseFloat(area.length);
-                spillVolume(res,parseFloat(area.height));
+                spillVolume(res);
             } else
             if (shape == "Circular") {
                 res = Math.PI * parseFloat(area.radius) * parseFloat(area.radius);
-                spillVolume(res * inchtometer * inchtometer,parseFloat(area.height));
+                spillVolume(res * inchtometer * inchtometer);
 
             } else
             if (shape == "Sector") {
                 res = (parseFloat(area.radius) * Math.PI) / 360;
-                spillVolume(res * inchtometer * inchtometer,parseFloat(area.height));
+                spillVolume(res * inchtometer * inchtometer);
             }
 
         }
 
-        var spillVolume = function(area, height) {
-            var velocity, pressure = $scope.pipe.pressure;
-            var GRAVITY = 9.8; //In meter/second square
-            if (height >= $scope.pipe.diameter) {
-                $scope.barrels = 0;
-            } else {
-                velocity = Math.sqrt(2 * GRAVITY * height*inchtometer);
+        var spillVolume = function(area) {
+            var velocity, rho=2.5, pressure = $scope.pipe.pressure;
+            // var GRAVITY = 9.8; //In meter/second square
+            // if (height >= $scope.pipe.diameter) {
+            //     $scope.barrels = 0;
+            // } else {
+                // velocity = Math.sqrt(2 * GRAVITY * height*inchtometer);
+                velocity= Math.sqrt((2*pressure)/rho);
                 $scope.barrels = parseFloat(Math.round(area * velocity * 1000 * 0.0062898 * 3600 * 100) / 100).toFixed(2);
-            }           
+            // }           
         }
 
     }
