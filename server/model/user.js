@@ -110,7 +110,6 @@ var User = new Schema({
         type: Boolean,
         default: false
     },
-
     /** 
       Scope. It can only contain string, is required field, and should have value from enum array.
     */
