@@ -103,12 +103,12 @@ var User = new Schema({
     // },
     isActive: {
         type: Boolean,
-        default: false
+        default: true
     },
 
     isEmailVerified: {
         type: Boolean,
-        default: false
+        default: true
     },
     /** 
       Scope. It can only contain string, is required field, and should have value from enum array.

@@ -123,46 +123,56 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         $scope.result = false;
         $scope.calcVolume = function(area, shape) {
-             inchtometer = 0.0254;
+            console.log('area',area);
+            inchtometer = 0.0254;
             $scope.result = true;
+
             if (shape == "Rectangular") {
 
                 res = parseFloat(area.length) * parseFloat(area.breadth);
-                spillVolume(res * inchtometer * inchtometer);
+                eqvDim = (2*area.length*area.breadth)/(area.length+area.breadth);
+                spillVolume(res * inchtometer * inchtometer ,eqvDim*inchtometer,area.inclination);
 
             } else
             if (shape == "Triangular") {
                 s = (parseFloat(area.sidea) + parseFloat(area.sideb) + parseFloat(area.sidec)) / 2;
                 res = Math.sqrt(s * (s - parseFloat(area.sidea)) * (s - parseFloat(area.sideb)) * (s - parseFloat(area.sidec)));
-                spillVolume(res * inchtometer * inchtometer);
+                eqvDim = (4*res)/(area.sidea+area.sideb+area.sidec);
+                spillVolume(res * inchtometer * inchtometer,eqvDim*inchtometer,area.inclination);
 
             } else
             if (shape == "Square") {
                 res = parseFloat(area.length) * inchtometer * inchtometer * parseFloat(area.length);
-                spillVolume(res);
+                eqvDim = area.length;
+                spillVolume(res,eqvDim*inchtometer,area.inclination);
             } else
             if (shape == "Circular") {
                 res = Math.PI * parseFloat(area.radius) * parseFloat(area.radius);
-                spillVolume(res * inchtometer * inchtometer);
+                eqvDim = 2*area.radius;
+                spillVolume(res * inchtometer * inchtometer,eqvDim*inchtometer,area.inclination);
 
             } else
             if (shape == "Sector") {
                 res = (parseFloat(area.radius) * Math.PI) / 360;
-                spillVolume(res * inchtometer * inchtometer);
+                spillVolume(res * inchtometer * inchtometer,eqvDim*inchtometer,area.inclination);
             }
 
         }
 
-        var spillVolume = function(area) {
-            var velocity, rho=2.5, pressure = $scope.pipe.pressure;
-            // var GRAVITY = 9.8; //In meter/second square
-            // if (height >= $scope.pipe.diameter) {
-            //     $scope.barrels = 0;
-            // } else {
-                // velocity = Math.sqrt(2 * GRAVITY * height*inchtometer);
-                velocity= Math.sqrt((2*pressure)/rho);
-                $scope.barrels = parseFloat(Math.round(area * velocity * 1000 * 0.0062898 * 3600 * 100) / 100).toFixed(2);
-            // }           
+        var spillVolume = function(area,eqvDim,degree) {
+            var velocity, rho = $scope.pipe.density, pressure = $scope.pipe.pressure*1000, length = $scope.pipe.length,mu = $scope.pipe.density;
+            var GRAVITY = 9.8;
+            var theta = (Math.sin(degree * Math.PI / 180.0));
+            var difference = pressure-(rho*GRAVITY*length*theta);
+            var diameterarea = eqvDim*eqvDim*area;
+            var dividedifference = difference*diameterarea;
+            var finaldivide = 32*mu*length;
+            var finalvelocity = (dividedifference/finaldivide);
+            console.log('finalvelocity',finalvelocity);
+            $scope.barrels = (finalvelocity*3600*6.2898).toFixed(3);
+            // velocity = (((pressure-rho*GRAVITY*length*theta*1000;)*eqvDim*eqvDim*area)/(32*mu*length*1000));
+
+
         }
 
     }
