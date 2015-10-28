@@ -119,57 +119,65 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         //Rupture shape and area 
 
-        $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular', 'Sector'];
+        $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular'];
 
         $scope.result = false;
         $scope.calcVolume = function(area, shape) {
-            console.log('area',area);
+            console.log('area', area);
             inchtometer = 0.0254;
             $scope.result = true;
 
             if (shape == "Rectangular") {
 
                 res = parseFloat(area.length) * parseFloat(area.breadth);
-                eqvDim = (2*area.length*area.breadth)/(area.length+area.breadth);
-                spillVolume(res * inchtometer * inchtometer ,eqvDim*inchtometer,area.inclination);
+                eqvDim = (2 * area.length * area.breadth) / (area.length + area.breadth);
+                spillVolume(res * inchtometer * inchtometer, eqvDim * inchtometer, area.inclination);
 
             } else
             if (shape == "Triangular") {
                 s = (parseFloat(area.sidea) + parseFloat(area.sideb) + parseFloat(area.sidec)) / 2;
                 res = Math.sqrt(s * (s - parseFloat(area.sidea)) * (s - parseFloat(area.sideb)) * (s - parseFloat(area.sidec)));
-                eqvDim = (4*res)/(area.sidea+area.sideb+area.sidec);
-                spillVolume(res * inchtometer * inchtometer,eqvDim*inchtometer,area.inclination);
+                eqvDim = (4 * res) / (area.sidea + area.sideb + area.sidec);
+                spillVolume(res * inchtometer * inchtometer, eqvDim * inchtometer, area.inclination);
 
             } else
             if (shape == "Square") {
                 res = parseFloat(area.length) * inchtometer * inchtometer * parseFloat(area.length);
                 eqvDim = area.length;
-                spillVolume(res,eqvDim*inchtometer,area.inclination);
+                spillVolume(res, eqvDim * inchtometer, area.inclination);
             } else
             if (shape == "Circular") {
                 res = Math.PI * parseFloat(area.radius) * parseFloat(area.radius);
-                eqvDim = 2*area.radius;
-                spillVolume(res * inchtometer * inchtometer,eqvDim*inchtometer,area.inclination);
+                eqvDim = 2 * area.radius;
+                spillVolume(res * inchtometer * inchtometer, eqvDim * inchtometer, area.inclination);
 
             } else
             if (shape == "Sector") {
                 res = (parseFloat(area.radius) * Math.PI) / 360;
-                spillVolume(res * inchtometer * inchtometer,eqvDim*inchtometer,area.inclination);
+                spillVolume(res * inchtometer * inchtometer, eqvDim * inchtometer, area.inclination);
             }
 
         }
 
-        var spillVolume = function(area,eqvDim,degree) {
-            var velocity, rho = $scope.pipe.density, pressure = $scope.pipe.pressure*1000, length = $scope.pipe.length,mu = $scope.pipe.density;
+        var spillVolume = function(area, eqvDim, degree) {
+            var velocity, rho = $scope.pipe.density,
+                pressure = $scope.pipe.pressure * 100000,
+                length = 50,
+                mu, difference;
+            mu = $scope.pipe.viscosity * 0.000001 * $scope.pipe.density;
             var GRAVITY = 9.8;
             var theta = (Math.sin(degree * Math.PI / 180.0));
-            var difference = pressure-(rho*GRAVITY*length*theta);
-            var diameterarea = eqvDim*eqvDim*area;
-            var dividedifference = difference*diameterarea;
-            var finaldivide = 32*mu*length;
-            var finalvelocity = (dividedifference/finaldivide);
-            console.log('finalvelocity',finalvelocity);
-            $scope.barrels = (finalvelocity*3600*6.2898).toFixed(3);
+            if (degree === undefined) {
+                difference = pressure;
+            } else {
+                difference = pressure - (rho * GRAVITY * length * theta);
+            }
+
+            var diameterarea = eqvDim * eqvDim * area;
+            var dividedifference = difference * diameterarea;
+            var finallength = 32 * mu * length;
+            var finalvelocity = (dividedifference / finallength);
+            $scope.barrels = (finalvelocity * 3600 * 6.2898).toFixed(3);
             // velocity = (((pressure-rho*GRAVITY*length*theta*1000;)*eqvDim*eqvDim*area)/(32*mu*length*1000));
 
 

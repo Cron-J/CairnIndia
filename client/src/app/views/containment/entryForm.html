@@ -73,7 +73,7 @@
                                 <td>{{pipe.density}}</td>
                             </tr>
                             <tr>
-                                <td>Pressure (in psi)</td>
+                                <td>Pressure (in bar)</td>
                                 <td>{{pipe.pressure}}</td>
                             </tr>
                         </tbody>
@@ -150,9 +150,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label">Pipe Inclination(in degrees)</label>
-                                    <div class="col-sm-5">
-                                        <input ng-model="area.inclination" type="text" ng-pattern="/^(?:\d*\.\d*|\d+)$/" class="form-control " required>
+                                    <label class="col-sm-4 control-label" ng-click="showform=true" style="color:#337ab7;cursor:pointer">Pipe Inclination(in degrees)</label>
+                                    <div class="col-sm-5" ng-show="showform==true">
+                                        <input ng-model="area.inclination" type="number" ng-pattern="/^-?[0-9]\d*(\.\d+)?$/" class="form-control"  min="-60" max="60">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -183,9 +183,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label">Pipe Inclination(in degrees)</label>
-                                    <div class="col-sm-5">
-                                        <input ng-model="area.inclination" type="text" ng-pattern="/^(?:\d*\.\d*|\d+)$/" class="form-control " required>
+                                    <label class="col-sm-4 control-label" ng-click="showform=true">Pipe Inclination(in degrees)</label>
+                                    <div class="col-sm-5" ng-show="showform==true">
+                                        <input ng-model="area.inclination" type="number"  min="-60" max="60" ng-pattern="/^-?[0-9]\d*(\.\d+)?$/" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -204,9 +204,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label">Pipe Inclination(in degrees)</label>
-                                    <div class="col-sm-5">
-                                        <input ng-model="area.inclination" type="text" ng-pattern="/^(?:\d*\.\d*|\d+)$/" class="form-control " required>
+                                    <label class="col-sm-4 control-label" ng-click="showform=true">Pipe Inclination(in degrees)</label>
+                                    <div class="col-sm-5" ng-show="showform==true">
+                                        <input ng-model="area.inclination" type="number" ng-pattern="/^-?[0-9]\d*(\.\d+)?$/" class="form-control "  min="-60" max="60">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -225,9 +225,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label">Pipe Inclination(in degrees)</label>
-                                    <div class="col-sm-5">
-                                        <input ng-model="area.inclination" type="text" ng-pattern="/^(?:\d*\.\d*|\d+)$/" class="form-control " required>
+                                    <label class="col-sm-4 control-label" ng-click="showform=true">Pipe Inclination(in degrees)</label>
+                                    <div class="col-sm-5" ng-show="showform==true">
+                                        <input ng-model="area.inclination" type="number" ng-pattern="/^-?[0-9]\d*(\.\d+)?$/" class="form-control "  min="-60" max="60">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -237,7 +237,7 @@
                                 </div>
                             </form>
                         </span>
-                        <span ng-if="shape=='Sector'">
+                        <!-- <span ng-if="shape=='Sector'">
                             <form name="calcForm" class="form-horizontal form-validation">
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label" >Radius Length (in inches)</label>
@@ -263,7 +263,7 @@
                                     </div>
                                 </div>
                             </form>
-                        </span>
+                        </span> -->
                     </div>
                     <div ng-if="shape=='Rectangular'" class="col-md-2">
                         <div class="rectangle"></div>
@@ -276,10 +276,10 @@
                     </div>
                     <div ng-if="shape=='Circular'" class="col-md-2">
                         <div class="circle"></div>
-                    </div>
+                    </div><!-- 
                     <div ng-if="shape=='Sector'" class="col-md-2">
                         <div class="sector"></div>
-                    </div>
+                    </div> -->
                     <div class="col-md-4">
                         <!-- <h3>{{spillVol}}<span ng-show="result"> m³/second</span></h3>
                              <h3>{{spillLitres}}<span ng-show="result"> Litre/hour</span></h3> -->
