@@ -122,6 +122,8 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular'];
 
         $scope.result = false;
+        $scope.area = {};
+        $scope.area.inclination = 0;
         $scope.calcVolume = function(area, shape) {
             console.log('area', area);
             inchtometer = 0.0254;
@@ -167,17 +169,15 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             var mu = $scope.pipe.viscosity * 0.000001 * $scope.pipe.density;
             var GRAVITY = 9.8;
             var theta = (Math.sin(degree * Math.PI / 180.0));
-            if (degree === undefined) {
-                difference = pressure;
-            } else {
-                difference = pressure - (rho * GRAVITY * length * theta);
-            }
+            difference = pressure - (rho * GRAVITY * length * theta);
+
 
             var diameterarea = eqvDim * eqvDim * area;
             var dividedifference = difference * diameterarea;
             var finallength = 32 * mu * length;
             var finalvelocity = (dividedifference / finallength);
             $scope.barrels = (finalvelocity * 3600 * 6.2898).toFixed(3);
+            $scope.area.inclination = 0;
             // velocity = (((pressure-rho*GRAVITY*length*theta*1000;)*eqvDim*eqvDim*area)/(32*mu*length*1000));
 
 
