@@ -163,8 +163,8 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             var velocity, rho = $scope.pipe.density,
                 pressure = $scope.pipe.pressure * 100000,
                 length = 50,
-                mu, difference;
-            mu = $scope.pipe.viscosity * 0.000001 * $scope.pipe.density;
+                difference;
+            var mu = $scope.pipe.viscosity * 0.000001 * $scope.pipe.density;
             var GRAVITY = 9.8;
             var theta = (Math.sin(degree * Math.PI / 180.0));
             if (degree === undefined) {
