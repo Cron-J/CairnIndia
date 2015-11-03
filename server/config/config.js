@@ -19,7 +19,3 @@ module.exports = {
     },
     url: "http://localhost:8001/#/"
 };
-
-// // {username : "test1234",firstName : "Sushant",lastName : "Kumar",email : "sushant@cronj.com",password : "56426fbf73b3af63",scope : "Admin",isEmailVerified : true,isActive : true}
-
-// "username" : "test1234", "firstName" : "Sushant", "lastName" : "Kumar", "email" : "sushant@cronj.com", "password" : "56426fbf73b3af63", "scope" : "Admin", "isEmailVerified" : true, "isActive" : true 

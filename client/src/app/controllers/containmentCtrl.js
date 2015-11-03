@@ -178,6 +178,43 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
 
         }
+        $scope.oldcalcVolume = function(area, shape) {
+             inchtometer = 0.0254;
+            $scope.result = true;
+            if (shape == "Rectangular") {
+
+                res = parseFloat(area.length) * parseFloat(area.breadth);
+                oldspillVolume(res * inchtometer * inchtometer);
+
+            } else
+            if (shape == "Triangular") {
+                s = (parseFloat(area.sidea) + parseFloat(area.sideb) + parseFloat(area.sidec)) / 2;
+                res = Math.sqrt(s * (s - parseFloat(area.sidea)) * (s - parseFloat(area.sideb)) * (s - parseFloat(area.sidec)));
+                oldspillVolume(res * inchtometer * inchtometer);
+
+            } else
+            if (shape == "Square") {
+                res = parseFloat(area.length) * inchtometer * inchtometer * parseFloat(area.length);
+                oldspillVolume(res);
+            } else
+            if (shape == "Circular") {
+                res = Math.PI * parseFloat(area.radius) * parseFloat(area.radius);
+                oldspillVolume(res * inchtometer * inchtometer);
+
+            } else
+            if (shape == "Sector") {
+                res = (parseFloat(area.radius) * Math.PI) / 360;
+                oldspillVolume(res * inchtometer * inchtometer);
+            }
+
+        }
+
+        var oldspillVolume = function(area) {
+            var velocity, rho=2.5, pressure = $scope.pipe.pressure;
+                velocity= Math.sqrt((2*pressure)/rho);
+                $scope.barrels = parseFloat(Math.round(area * velocity * 1000 * 0.0062898 * 3600 * 100) / 100).toFixed(2);
+            // }           
+        }
 
     }
 ]);

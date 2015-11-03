@@ -78,6 +78,14 @@ var app = angular.module('app', [
                 authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantuser]
             }
           })
+          .state('oilSpillContainmentold', {
+            url: "/containmentold",
+            templateUrl: "app/views/containment/oldentryForm.html",
+            controller: "containmentCtrl",
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantuser]
+            }
+          })
           .state('createPipe', {
             url: "/create-pipeline",
             templateUrl: "app/views/containment/create-pipeline.html",
