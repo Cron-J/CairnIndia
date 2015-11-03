@@ -60,9 +60,6 @@ app.controller('accountCtrl', ['$scope', '$rootScope', '$http', '$location',
                         $rootScope.user.scope == 'User') {
                         userInfo.async().then(function(response) {
                             $scope.current_usr = response.data;
-                            if($scope.current_usr.firstLogin === $scope.current_usr.lastLogin) 
-                                $location.path('/changePassword');
-                            else
                                 $location.path('/home');
                         });
                     }

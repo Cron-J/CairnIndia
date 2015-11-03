@@ -153,10 +153,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 eqvDim = 2 * area.radius;
                 spillVolume(res * inchtometer * inchtometer, eqvDim * inchtometer, area.inclination);
 
-            } else
-            if (shape == "Sector") {
-                res = (parseFloat(area.radius) * Math.PI) / 360;
-                spillVolume(res * inchtometer * inchtometer, eqvDim * inchtometer, area.inclination);
             }
 
         }
