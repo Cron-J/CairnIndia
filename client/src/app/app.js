@@ -70,16 +70,16 @@ var app = angular.module('app', [
                   authorizedRoles: [USER_ROLES.admin]
               }
           })
-          .state('oilSpillContainment', {
-            url: "/containment",
+          .state('oilSpillContainmentold', {
+            url: "/containmentold",
             templateUrl: "app/views/containment/entryForm.html",
             controller: "containmentCtrl",
             data: {
                 authorizedRoles: [USER_ROLES.admin, USER_ROLES.tenantuser]
             }
           })
-          .state('oilSpillContainmentold', {
-            url: "/containmentold",
+          .state('oilSpillContainment', {
+            url: "/containment",
             templateUrl: "app/views/containment/oldentryForm.html",
             controller: "containmentCtrl",
             data: {

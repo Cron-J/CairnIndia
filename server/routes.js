@@ -23,7 +23,12 @@ exports.endpoints = [
         method: 'GET',
         path: '/getPipeLinebyId/{id}',
         config: Pipeline.getPipeLinebyId
-    }, {
+    }, 
+    {
+        method: 'POST',
+        path: '/calculatePipelinedata',
+        config: Pipeline.calculateBarrel
+    },{
         method: 'PUT',
         path: '/updatePipeline/{id}',
         config: Pipeline.updatePipeline
