@@ -180,7 +180,7 @@ var spillVolume = function(area, eqvDim, degree, density, pressure, viscosity) {
 var oldspillVolume = function(area,height) {
     var GRAVITY =9.8,velocity;
     var coefficientOfDishcharge = 0.62;
-    velocity = Math.sqrt(2 * GRAVITY*height);
+    velocity = Math.sqrt(2 * GRAVITY*height*0.0254);
      var barrels = parseFloat(Math.round(0.62*area*velocity *6.28981* 3600 * 100) / 100).toFixed(2);
     return barrels;
     // }           
