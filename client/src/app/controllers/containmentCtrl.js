@@ -133,6 +133,8 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         $scope.result = false;
         $scope.area = {};
         $scope.area.inclination = 0;
+
+        
         $scope.calcVolume = function(area, shape,olddata) {
             $scope.loading= true;
             var areaprops = {
