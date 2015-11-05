@@ -140,7 +140,7 @@ var calcVolume = function(areaprops) {
 
     } else
     if (areaprops.shape == "Circular") {
-        res = Math.PI * parseFloat(areaprops.area.radius) * parseFloat(areaprops.area.radius,areaprops.area.height);
+        res = Math.PI * parseFloat(areaprops.area.radius) * parseFloat(areaprops.area.radius);
         if (areaprops.olddata === 'true') {
             eqvDim = 2 * areaprops.area.radius;
             output = spillVolume(res * inchtometer * inchtometer, eqvDim * inchtometer, areaprops.area.inclination, areaprops.density, areaprops.pressure, areaprops.viscosity);
