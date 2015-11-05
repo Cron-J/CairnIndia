@@ -110,7 +110,7 @@ var calcVolume = function(areaprops) {
             eqvDim = (2 * areaprops.area.length * areaprops.area.breadth) / (areaprops.area.length + areaprops.area.breadth);
             output = spillVolume(res * inchtometer * inchtometer, eqvDim * inchtometer, areaprops.area.inclination, areaprops.density, areaprops.pressure, areaprops.viscosity);
         } else {
-            output = oldspillVolume(res * inchtometer * inchtometer,areaprops.area.height);
+            output = oldspillVolume(res * inchtometer * inchtometer,areaprops.area.rectheight);
         }
 
 
@@ -124,18 +124,18 @@ var calcVolume = function(areaprops) {
             eqvDim = (4 * res) / (areaprops.area.sidea + areaprops.area.sideb + areaprops.area.sidec);
             output = spillVolume(res * inchtometer * inchtometer, eqvDim * inchtometer, areaprops.area.inclination, areaprops.density, areaprops.pressure, areaprops.viscosity);
         } else {
-            output = oldspillVolume(res * inchtometer * inchtometer,areaprops.area.height);
+            output = oldspillVolume(res * inchtometer * inchtometer,areaprops.area.triheight);
         }
 
 
     } else
     if (areaprops.shape == "Square") {
-        res = parseFloat(areaprops.area.length) * inchtometer * inchtometer * parseFloat(areaprops.area.length);
+        res = parseFloat(areaprops.area.sidelength) * inchtometer * inchtometer * parseFloat(areaprops.area.sidelength);
         if (areaprops.olddata === 'true') {
-            eqvDim = areaprops.area.length;
+            eqvDim = areaprops.area.sidelength;
             output = spillVolume(res, eqvDim * inchtometer, areaprops.area.inclination, areaprops.density, areaprops.pressure, areaprops.viscosity);
         } else {
-            output = oldspillVolume(res,areaprops.area.height);
+            output = oldspillVolume(res,areaprops.area.squareheight);
         }
 
     } else
@@ -145,7 +145,7 @@ var calcVolume = function(areaprops) {
             eqvDim = 2 * areaprops.area.radius;
             output = spillVolume(res * inchtometer * inchtometer, eqvDim * inchtometer, areaprops.area.inclination, areaprops.density, areaprops.pressure, areaprops.viscosity);
         } else {
-            output = oldspillVolume(res * inchtometer * inchtometer,areaprops.area.height );
+            output = oldspillVolume(res * inchtometer * inchtometer,areaprops.area.circleheight );
         }
 
 

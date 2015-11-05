@@ -134,43 +134,31 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Rupture Shape</label>
                                 <div class="col-sm-5">
-                                    <select class="form-control form-height" ng-model="shape" ng-options="o as o for o in shapes">
+                                    <select class="form-control form-height" ng-model="shape" ng-options="o as o for o in shapes" ng-change="clearform()">
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <span ng-if="shape=='Rectangular'">
-                            <form name="calcForm" class="form-horizontal novalidate ">
+                            <form name="calcForm" class="form-horizontal novalidate form-validation">
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label" >Length (in inches) </label>
                                     <div class="col-sm-5">
-                                        <input ng-model="area.length" type="text" class="form-control " ng-pattern="/^(?:\d*\.\d*|\d+)$/" required>
+                                        <input ng-model="area.length" type="number" step="0.1" min="0.1" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                     </div>
-                                    <!-- <div class="col-sm-3">
-                                        <select class="form-control">
-                                            <option value="cm">cm</option>
-                                            <option value="inch" selected>inch</option>
-                                        </select>
-                                    </div> -->
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">Breadth (in inches)</label>
                                     <div class="col-sm-5">
-                                        <input ng-model="area.breadth" type="text" class="form-control " ng-pattern="/^(?:\d*\.\d*|\d+)$/" required>
+                                        <input ng-model="area.breadth" type="number" step="0.1" min="0.1" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">Height</label>
                                     <div class="col-sm-5">
-                                        <input ng-model="area.height" type="text" class="form-control " ng-pattern="/^(?:\d*\.\d*|\d+)$/" required>
+                                        <input ng-model="area.rectheight" type="number" step="0.1" min="0.1" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group">
-                                    <label class="col-sm-4 control-label">Rupture Height (in inches)</label>
-                                    <div class="col-sm-5">
-                                        <input ng-model="area.height" type="text" class="form-control " ng-pattern="/^(?:\d*\.\d*|\d+)$/" required>
-                                    </div>
-                                </div> -->
                                 <div class="form-group">
                                     <div class="col-sm-5 col-md-offset-4">
                                         <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(area,shape);">Calculate</button>
@@ -184,7 +172,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label" >Side 1 (in inches)</label>
                                     <div class="col-sm-5">
-                                        <input ng-model="area.sidea" ng-pattern="/^(?:\d*\.\d*|\d+)$/" type="text" class="form-control " required>
+                                        <input ng-model="area.sidea" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" class="form-control " required>
                                     </div>
                                     <!-- <div class="col-sm-3">
                                         <select class="form-control">
@@ -196,7 +184,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">Side 2 (in inches)</label>
                                     <div class="col-sm-5">
-                                        <input ng-model="area.sideb" ng-pattern="/^(?:\d*\.\d*|\d+)$/" type="text" class="form-control " required>
+                                        <input ng-model="area.sideb" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" class="form-control " required>
                                     </div>
                                     <!-- <div class="col-sm-3">
                                         <select class="form-control">
@@ -208,27 +196,15 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">Side 3 (in inches)</label>
                                     <div class="col-sm-5">
-                                        <input ng-model="area.sidec" ng-pattern="/^(?:\d*\.\d*|\d+)$/" type="text" class="form-control " required>
+                                        <input ng-model="area.sidec" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" class="form-control " required>
                                     </div>
-                                    <!-- <div class="col-sm-3">
-                                        <select class="form-control">
-                                            <option value="cm">cm</option>
-                                            <option value="inch" selected>inch</option>
-                                        </select>
-                                    </div> -->
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">Height</label>
                                     <div class="col-sm-5">
-                                        <input ng-model="area.height" type="text" class="form-control " ng-pattern="/^(?:\d*\.\d*|\d+)$/" required>
+                                        <input ng-model="area.triheight" type="number" step="0.1" min="0.1" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group">
-                                    <label class="col-sm-4 control-label">Rupture Height (in inches)</label>
-                                    <div class="col-sm-5">
-                                        <input ng-model="area.height" type="text" class="form-control " ng-pattern="/^(?:\d*\.\d*|\d+)$/" required>
-                                    </div>
-                                </div> -->
                                 <div class="form-group">
                                     <div class="col-sm-6 col-md-offset-4">
                                         <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(area,shape);">Calculate</button>
@@ -243,27 +219,15 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label" >Side Length (in inches)</label>
                                     <div class="col-sm-5">
-                                        <input ng-model="area.length" ng-pattern="/^(?:\d*\.\d*|\d+)$/" type="text" class="form-control " required>
+                                        <input ng-model="area.sidelength" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" class="form-control " required>
                                     </div>
-                                    <!-- <div class="col-sm-3">
-                                            <select class="form-control">
-                                                <option value="cm">cm</option>
-                                                <option value="inch" selected>inch</option>
-                                            </select>
-                                        </div> -->
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">Height</label>
                                     <div class="col-sm-5">
-                                        <input ng-model="area.height" type="text" class="form-control " ng-pattern="/^(?:\d*\.\d*|\d+)$/" required>
+                                        <input ng-model="area.squareheight" type="number" step="0.1" min="0.1" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group">
-                                    <label class="col-sm-4 control-label">Rupture Height (in inches)</label>
-                                    <div class="col-sm-5">
-                                        <input ng-model="area.height" type="text" class="form-control " ng-pattern="/^(?:\d*\.\d*|\d+)$/" required>
-                                    </div>
-                                </div> -->
                                 <div class="form-group">
                                     <div class="col-sm-6 col-md-offset-4">
                                         <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(area,shape);">Calculate</button>
@@ -277,28 +241,15 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label" >Radius Length (in inches)</label>
                                     <div class="col-sm-5">
-                                        <input ng-model="area.radius" ng-pattern="/^(?:\d*\.\d*|\d+)$/" type="text" class="form-control " required>
+                                        <input ng-model="area.radius" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" class="form-control " required>
                                     </div>
-
-                                    <!-- <div class="col-sm-3">
-                                        <select class="form-control">
-                                            <option value="cm">cm</option>
-                                            <option value="inch" selected>inch</option>
-                                        </select>
-                                    </div> -->
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">Height</label>
                                     <div class="col-sm-5">
-                                        <input ng-model="area.height" type="text" class="form-control " ng-pattern="/^(?:\d*\.\d*|\d+)$/" required>
+                                        <input ng-model="area.circleheight" type="number" step="0.1" min="0.1" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group">
-                                    <label class="col-sm-4 control-label">Rupture Height (in inches)</label>
-                                    <div class="col-sm-5">
-                                        <input ng-model="area.height" type="text" class="form-control " ng-pattern="/^(?:\d*\.\d*|\d+)$/" required>
-                                    </div>
-                                </div> -->
                                 <div class="form-group">
                                     <div class="col-sm-6 col-md-offset-4">
                                         <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(area,shape);">Calculate</button>

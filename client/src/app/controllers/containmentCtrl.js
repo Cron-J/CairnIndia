@@ -117,6 +117,16 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             }
         }
 
+
+        $scope.clearform = function(){
+            $scope.area = {};
+        }
+
+         $scope.clearforminclination = function(){
+            $scope.area = {};
+            $scope.area.inclination=0;
+        }
+        
         //Rupture shape and area 
 
         $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular'];
@@ -138,7 +148,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 .success(function(data, status) {
                     $scope.barrels = data;
                     $scope.loading= false;
-                    $scope.area ={};
+                    // $scope.area ={};
                 })
                 .error(function(data, status) {
                     growl.addErrorMessage(data.message);
