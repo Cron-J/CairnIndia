@@ -31,23 +31,23 @@ exports.defaultPipelines = {
             }
             else{
                 var data1 = {};
-                data1.fromCity = "gujrat",
-                data1.toCity = "barmer",
-                data1.pipeName = "gujrat to barmer",
-                data1.length = 34,
-                data1.diameter= 10,
-                data1.density = 870,
-                data1.pressure= 45,
+                data1.fromCity = "Gujrat",
+                data1.toCity = "Barmer",
+                data1.pipeName = "Gujrat to Barmer",
+                data1.length = 700,
+                data1.diameter= 24,
+                data1.density = 877.4,
+                data1.pressure= 31,
                 data1.viscosity = 28.28;
 
                 var data2 = {};
                 data2.fromCity = "Barmer",
                 data2.toCity = "Salaya",
                 data2.pipeName = "Barmer to Salaya",
-                data2.length = 34,
+                data2.length = 400,
                 data2.diameter= 10,
                 data2.density = 870,
-                data2.pressure= 45,
+                data2.pressure= 21,
                 data2.viscosity = 28.28;
 
                 Pipeline.insertPipeline([data1,data2], function(err, user) {
