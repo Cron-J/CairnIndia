@@ -41,9 +41,9 @@ exports.defaultPipelines = {
                 data1.viscosity = 28.28;
 
                 var data2 = {};
-                data2.fromCity = "gujrat",
-                data2.toCity = "barmer",
-                data2.pipeName = "gujrat to barmer",
+                data2.fromCity = "Barmer",
+                data2.toCity = "Salaya",
+                data2.pipeName = "Barmer to Salaya",
                 data2.length = 34,
                 data2.diameter= 10,
                 data2.density = 870,
