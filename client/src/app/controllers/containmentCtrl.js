@@ -138,6 +138,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 .success(function(data, status) {
                     $scope.barrels = data;
                     $scope.loading= false;
+                    $scope.area ={};
                 })
                 .error(function(data, status) {
                     growl.addErrorMessage(data.message);
