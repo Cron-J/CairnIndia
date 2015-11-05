@@ -108,6 +108,9 @@ Pipeline.statics.findPipeLineById = function(id, callback) {
     }, callback);
 };
 
+Pipeline.statics.insertPipeline = function(requestDataArray, callback) {
+    this.collection.insert(requestDataArray, callback);
+};
 
 var pipeline = mongoose.model('Pipeline', Pipeline);
 

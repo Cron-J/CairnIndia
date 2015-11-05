@@ -30,16 +30,27 @@ exports.defaultPipelines = {
                 reply("Pipeline already exists");
             }
             else{
-                var data = {};
-                data.fromCity = "gujrat",
-                data.toCity = "barmer",
-                data.pipeName = "gujrat to barmer",
-                data.length = 34,
-                data.diameter= 10,
-                data.density = 870,
-                data.pressure= 45,
-                data.viscosity = 28.28,
-                Pipeline.savePipeline( data, function(err, user) {
+                var data1 = {};
+                data1.fromCity = "gujrat",
+                data1.toCity = "barmer",
+                data1.pipeName = "gujrat to barmer",
+                data1.length = 34,
+                data1.diameter= 10,
+                data1.density = 870,
+                data1.pressure= 45,
+                data1.viscosity = 28.28;
+
+                var data2 = {};
+                data2.fromCity = "gujrat",
+                data2.toCity = "barmer",
+                data2.pipeName = "gujrat to barmer",
+                data2.length = 34,
+                data2.diameter= 10,
+                data2.density = 870,
+                data2.pressure= 45,
+                data2.viscosity = 28.28;
+
+                Pipeline.insertPipeline([data1,data2], function(err, user) {
                     if (!err) {
                         reply( "Pipe created successfully" );
                     } else {
@@ -52,6 +63,7 @@ exports.defaultPipelines = {
          });
     }
 };
+
 
 exports.getPipeLine = {
     handler: function(request, reply) {
