@@ -5,7 +5,6 @@ var Boom = require('boom'),
     Crypto = require('../Utility/cryptolib'),
     nodemailer = require("nodemailer"),
     Config = require('../config/config'),
-    json2csv = require('json2csv'),
     constants = require('../Utility/constants').constants,
     Jwt = require('jsonwebtoken'),
     User = require('../model/user').User;
