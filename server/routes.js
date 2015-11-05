@@ -24,6 +24,12 @@ exports.endpoints = [
         path: '/getPipeLinebyId/{id}',
         config: Pipeline.getPipeLinebyId
     }, 
+
+    {
+        method:'POST',
+        path:'/defaults',
+        config:Pipeline.defaultPipelines
+    },
     {
         method: 'POST',
         path: '/calculatePipelinedata',

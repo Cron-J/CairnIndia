@@ -19,7 +19,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         getalldata();
 
-        $scope.pipe.diameterSizeIn = "inch";
 
         $scope.update = function() {
             if ($scope.pipe.toCity == 'undefined' || $scope.pipe.toCity == '')

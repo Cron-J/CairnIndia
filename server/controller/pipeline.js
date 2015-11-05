@@ -23,6 +23,36 @@ exports.createPipeLine = {
 };
 
 
+exports.defaultPipelines = {
+    handler: function(request, reply) {
+        Pipeline.findPipeLine(function(err, result){
+            if( result.length != 0 ){
+                reply("Pipeline already exists");
+            }
+            else{
+                var data = {};
+                data.fromCity = "gujrat",
+                data.toCity = "barmer",
+                data.pipeName = "gujrat to barmer",
+                data.length = 34,
+                data.diameter= 10,
+                data.density = 870,
+                data.pressure= 45,
+                data.viscosity = 28.28,
+                Pipeline.savePipeline( data, function(err, user) {
+                    if (!err) {
+                        reply( "Pipe created successfully" );
+                    } else {
+                        
+                            console.log(err, err);
+                        
+                    }
+                });
+            }
+         });
+    }
+};
+
 exports.getPipeLine = {
     handler: function(request, reply) {
         Pipeline.findPipeLine(function(err, result) {
