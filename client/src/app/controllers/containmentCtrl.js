@@ -120,7 +120,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         //Rupture shape and area 
 
         $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular'];
-
         $scope.result = false;
         $scope.area = {};
         $scope.area.inclination = 0;
@@ -138,7 +137,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $http.post('/calculatePipelinedata', areaprops)
                 .success(function(data, status) {
                     $scope.barrels = data;
-                    $scope.area = {};
                     $scope.loading= false;
                 })
                 .error(function(data, status) {
