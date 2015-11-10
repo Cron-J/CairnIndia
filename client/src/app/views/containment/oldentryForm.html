@@ -130,7 +130,7 @@
                     <div class="bs-example">
                         <tabset>
                             <tab heading="Simple Rupture">
-                                 <div class="panel-body">
+                                <div class="panel-body">
                                     <div class="col-md-6">
                                         <div class="form-horizontal">
                                             <div class="form-group">
@@ -283,97 +283,96 @@
                                     </div>
                                 </div>
                             </tab>
-                            <tab  heading="Rupture with Pipeline(With Below Water)" active="tab.active">
-                            <div class="col-md-6">
-                              <div class="panel-body">
-                                    <form name="watercalcForm" class="form-horizontal novalidate form-validation">
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">Pipe Length (in Km) </label>
-                                            <div class="col-sm-5">
-                                                <input ng-model="area.pipelength" type="number" step="0.1" min="20" max="594" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                            <tab heading="Rupture of Pipeline(Below Water)" active="tab.active">
+                                <div class="panel-body">
+                                    <div class="col-md-6">
+                                        <form name="watercalcForm" class="form-horizontal novalidate form-validation">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Pipe Length (in Km) </label>
+                                                <div class="col-sm-5">
+                                                    <input ng-model="area.pipelength" type="number" step="0.1" min="20" max="594" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">Time (in Minutes)</label>
-                                            <div class="col-sm-5">
-                                                <input ng-model="area.time" type="number" min="60" max="2880" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Time (in Minutes)</label>
+                                                <div class="col-sm-5">
+                                                    <input ng-model="area.time" type="number" min="60" max="2880" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">Velocity</label>
-                                            <div class="col-sm-5">
-                                                <input ng-model="area.velocity" type="number" step="0.1" min="0.97" max="1.43" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Velocity</label>
+                                                <div class="col-sm-5">
+                                                    <input ng-model="area.velocity" type="number" step="0.1" min="0.97" max="1.43" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">Depth</label>
-                                            <div class="col-sm-5">
-                                                <input ng-model="area.depth" type="number" step="0.1" min="1" max="50" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Depth</label>
+                                                <div class="col-sm-5">
+                                                    <input ng-model="area.depth" type="number" step="0.1" min="1" max="50" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">GasOil Ratio</label>
-                                            <div class="col-sm-5">
-                                               <select class="form-control form-height" ng-model="area.gasoilratio" ng-options="choice.value as choice.range for choice in getGasOilRatio">
-                                                <option value="">--Select--</option>
-                                                </select>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">GasOil Ratio</label>
+                                                <div class="col-sm-5">
+                                                    <select class="form-control form-height" ng-model="area.gasoilratio" ng-options="choice.value as choice.range for choice in getGasOilRatio">
+                                                        <option value="">--Select--</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-5 col-md-offset-4">
-                                                <button class="btn btn-success" ng-disabled="!watercalcForm.$valid" ng-click="calcVolume(area,'water');">Calculate</button>
-                                                <img src="app/assets/img/loading.gif" ng-show="loading">
+                                            <div class="form-group">
+                                                <div class="col-sm-5 col-md-offset-4">
+                                                    <button class="btn btn-success" ng-disabled="!watercalcForm.$valid" ng-click="calcVolume(area,'water');">Calculate</button>
+                                                    <img src="app/assets/img/loading.gif" ng-show="loading">
+                                                </div>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
                                     </div>
-
                                 </div>
                                 <div class="col-md-4">
-                                        <h3><span ng-show="result">Oil will flow @ {{barrels}} Barrels/hour</span></h3>
+                                    <h3><span ng-show="result">Oil will flow @ {{barrels}} Barrels/hour</span></h3>
                                 </div>
                             </tab>
-                            <tab  heading="Rupture with Pipeline(With Below Ground)">
-                            <div class="col-md-6">
-                              <div class="panel-body">
-                                    <form name="calcForm" class="form-horizontal novalidate form-validation">
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">Pipe Length (in Km) </label>
-                                            <div class="col-sm-5">
-                                                <input ng-model="pipelinedata.pipelength" type="number" step="0.1" min="20" max="594" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                            <tab heading="Rupture of Pipeline(Below Ground)">
+                                <div class="panel-body">
+                                    <div class="col-md-6">
+                                        <form name="calcForm" class="form-horizontal novalidate form-validation">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Pipe Length (in Km) </label>
+                                                <div class="col-sm-5">
+                                                    <input ng-model="pipelinedata.pipelength" type="number" step="0.1" min="20" max="594" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">Time (in Minutes)</label>
-                                            <div class="col-sm-5">
-                                                <input ng-model="pipelinedata.time" type="number" step="0.1" min="60" max="2880" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Time (in Minutes)</label>
+                                                <div class="col-sm-5">
+                                                    <input ng-model="pipelinedata.time" type="number" step="0.1" min="60" max="2880" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">Velocity</label>
-                                            <div class="col-sm-5">
-                                                <input ng-model="pipelinedata.velocity" type="number" step="0.1" min="0.97" max="1.43" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Velocity</label>
+                                                <div class="col-sm-5">
+                                                    <input ng-model="pipelinedata.velocity" type="number" step="0.1" min="0.97" max="1.43" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">GasOil Ratio</label>
-                                            <div class="col-sm-5">
-                                               <select class="form-control form-height" ng-model="pipelinedata.gasoilratio" ng-options="choice.value as choice.range for choice in getGasOilRatio">
-                                                <option value="">--Select--</option>
-                                                </select>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">GasOil Ratio</label>
+                                                <div class="col-sm-5">
+                                                    <select class="form-control form-height" ng-model="pipelinedata.gasoilratio" ng-options="choice.value as choice.range for choice in getGasOilRatio">
+                                                        <option value="">--Select--</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-5 col-md-offset-4">
-                                                <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(pipelinedata,'ground');">Calculate</button>
-                                                <img src="app/assets/img/loading.gif" ng-show="loading">
+                                            <div class="form-group">
+                                                <div class="col-sm-5 col-md-offset-4">
+                                                    <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(pipelinedata,'ground');">Calculate</button>
+                                                    <img src="app/assets/img/loading.gif" ng-show="loading">
+                                                </div>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                        <h3><span ng-show="result">Oil will flow @ {{barrels}} Barrels/hour</span></h3>
+                                    <h3><span ng-show="result">Oil will flow @ {{barrels}} Barrels/hour</span></h3>
                                 </div>
                             </tab>
                         </tabset>
