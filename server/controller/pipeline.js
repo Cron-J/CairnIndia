@@ -192,6 +192,10 @@ var calcVolume = function(areaprops) {
 
 
     }
+    else
+    if (areaprops.shape == "ground") {
+        
+    }
     return output;
 
 }

@@ -1,5 +1,5 @@
-app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams',
-    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams) {
+app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams','$anchorScroll',
+    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams,$anchorScroll) {
         $scope.pipe = {};
         $scope.createPipeline = function(data) {
             $location.path('/create-pipeline');
@@ -18,7 +18,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         }
 
         getalldata();
-
 
         $scope.update = function() {
             if ($scope.pipe.toCity == 'undefined' || $scope.pipe.toCity == '')
@@ -117,15 +116,15 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         }
 
 
-        $scope.clearform = function(){
+        $scope.clearform = function() {
             $scope.area = {};
         }
 
-         $scope.clearforminclination = function(){
+        $scope.clearforminclination = function() {
             $scope.area = {};
-            $scope.area.inclination=0;
+            $scope.area.inclination = 0;
         }
-        
+
         //Rupture shape and area 
 
         $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular'];
@@ -133,22 +132,22 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         $scope.area = {};
         $scope.area.inclination = 0;
 
-        
-        $scope.calcVolume = function(area, shape,olddata) {
-            $scope.loading= true;
+
+        $scope.calcVolume = function(area, shape, olddata) {
+            $scope.loading = true;
             var areaprops = {
-                density:$scope.pipe.density,
-                pressure:$scope.pipe.pressure,
-                viscosity:$scope.pipe.viscosity,
-                area:area,
-                shape:shape,
-                olddata:olddata
+                density: $scope.pipe.density,
+                pressure: $scope.pipe.pressure,
+                viscosity: $scope.pipe.viscosity,
+                area: area,
+                shape: shape,
+                olddata: olddata
             };
             $scope.result = true;
             $http.post('/calculatePipelinedata', areaprops)
                 .success(function(data, status) {
                     $scope.barrels = data;
-                    $scope.loading= false;
+                    $scope.loading = false;
                     // $scope.area ={};
                 })
                 .error(function(data, status) {
