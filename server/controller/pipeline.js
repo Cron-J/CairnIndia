@@ -143,6 +143,7 @@ exports.calculateBarrel = {
 };
 
 var calcVolume = function(areaprops) {
+    console.log(areaprops);
     var inchtometer = 0.0254;
     var res,
         eqvDim, output;
@@ -194,7 +195,19 @@ var calcVolume = function(areaprops) {
     }
     else
     if (areaprops.shape == "ground") {
-        
+        var flowrate = flowRate(areaprops.area.velocity);
+        var pipevelocity = velocityOfPipe(areaprops.area.pipelength)
+        var preshutvolume = getPreshutVolume(flowrate,areaprops.area.time);
+        output = totalFlowRate(pipevelocity,preshutvolume,areaprops.area.gasoilratio);
+        console.log('output',output);
+    }
+    if (areaprops.shape == "water") {
+        var flowrate = flowRate(areaprops.area.velocity);
+        var pipevelocity = velocityOfPipe(areaprops.area.pipelength)
+        var preshutvolume = getPreshutVolume(flowrate,areaprops.area.time);
+        var releasevolumefraction  = getReleaseVolumeFraction(areaprops.pressure,areaprops.area.depth)
+        output = totalFlowRate(pipevelocity,preshutvolume,areaprops.area.gasoilratio,releasevolumefraction);
+        console.log('output',output);
     }
     return output;
 
@@ -230,6 +243,45 @@ var oldspillVolume = function(area,height) {
      var barrels = parseFloat(Math.round(0.62*area*velocity *6.28981* 3600 * 100) / 100).toFixed(2);
     return barrels;
     // }           
+}
+function flowRate(velocity){
+    var diameter = 24 * 0.0833;
+    var pi = Math.PI;
+    var flowrate = (pi/4) * diameter * diameter * velocity *3.28 ;
+    console.log('flowrate',flowrate);
+    return flowrate;
+}
+function getPreshutVolume(flowrate,time){
+    var preshutvolume = (flowrate*time)/1440;
+    console.log('preshutvolume',preshutvolume);
+    return preshutvolume;
+}
+function velocityOfPipe(pipelength){
+    var diameter = 24 * 0.0833;
+    var pi = Math.PI;
+    var pipevelocity = (diameter/24)*(diameter/24)*pipelength*pi * 3280.84;
+    console.log('pipevelocity',pipevelocity);
+    return pipevelocity;
+}
+function totalFlowRate(pipevelocity,preshutvolume,gasoilratio,releasevolumefraction){
+    var totalflowrate;
+    if(releasevolumefraction!==undefined){
+        totalflowrate = (0.1781 * pipevelocity * gasoilratio * releasevolumefraction) + preshutvolume;
+        console.log('totalflowrate1',totalflowrate);
+    }
+    else{
+        totalflowrate = (0.1781 * pipevelocity * gasoilratio) + preshutvolume;
+        console.log('totalflowrate2',totalflowrate);
+    }
+    return totalflowrate;
+
+}
+
+function getReleaseVolumeFraction(pressure,waterdepth){
+    var pamb = 0.44 * waterdepth * 0.0689476;
+    var releasevolumefraction  = pressure/pamb;
+    console.log('releasevolumefraction',releasevolumefraction);
+    return releasevolumefraction;
 }
 
 var updateHelper = function(requestData, originalData) {

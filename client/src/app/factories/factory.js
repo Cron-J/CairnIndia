@@ -127,5 +127,54 @@ angular.module('app.factory', [])
   get: get
  }
 
+})
+
+.factory('getGasOilRatio', function() {
+  var gasoilratio;
+  gasoilratio =  [
+  {
+    range: "0-225",
+    value: "1"
+  },
+  {
+    range: "225-280",
+    value: "0.98"
+  },
+  {
+    range: "280-340",
+    value: "0.97"
+  },
+  {
+    range: "340-420",
+    value: "0.95"
+  },
+  {
+    range: "420-560",
+    value: "0.9"
+  },
+  {
+    range: "560-1100",
+    value: "0.85"
+  },
+  {
+    range: "1110-1700",
+    value: "0.82"
+  },
+   {
+    range: "1700-2800",
+    value: "0.63"
+  },
+   {
+    range: "2800-5600",
+    value: "0.43"
+  },
+   {
+    range: "5600-11300",
+    value: "0.26"
+  }
+]
+
+return gasoilratio;
+
 });
 

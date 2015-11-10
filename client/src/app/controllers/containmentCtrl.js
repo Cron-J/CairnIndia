@@ -1,5 +1,5 @@
-app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams','$anchorScroll',
-    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams,$anchorScroll) {
+app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams','getGasOilRatio',
+    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams,getGasOilRatio) {
         $scope.pipe = {};
         $scope.createPipeline = function(data) {
             $location.path('/create-pipeline');
@@ -16,7 +16,8 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 $scope.pipe = {};
             }
         }
-
+        console.log('getGasOilRatio',getGasOilRatio);
+        $scope.getGasOilRatio = getGasOilRatio;
         getalldata();
 
         $scope.update = function() {
