@@ -16,7 +16,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 $scope.pipe = {};
             }
         }
-        console.log('getGasOilRatio',getGasOilRatio);
         $scope.getGasOilRatio = getGasOilRatio;
         getalldata();
 
@@ -140,6 +139,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 density: $scope.pipe.density,
                 pressure: $scope.pipe.pressure,
                 viscosity: $scope.pipe.viscosity,
+                length:$scope.pipe.length,
                 area: area,
                 shape: shape,
                 olddata: olddata
@@ -152,6 +152,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                     // $scope.area ={};
                 })
                 .error(function(data, status) {
+                    console.log('data',data);
                     growl.addErrorMessage(data.message);
                 });
 
