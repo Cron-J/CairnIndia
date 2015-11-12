@@ -253,21 +253,23 @@ var oldspillVolume = function(area, height) {
 function flowRate(velocity) {
     var diameter = 24 * 0.0833;
     var pi = Math.PI;
-    var flowrate = (pi / 4) * diameter * diameter * velocity * 3.28; //multiplied 3.28 to convert into m/s to foot/sec
+    var flowrate = (pi / 4) * diameter * diameter * velocity * 3.28 * 28.3168; //multiplied 3.28 to convert into m/s to foot/sec and multiplied with 28.3168 to convert litres/sec
     console.log('flowrate', flowrate);
     return flowrate;
 }
 
 function getPreshutVolume(flowrate, time) {
-    var preshutvolume = (flowrate * time) / 1440;
+    var preshutvolume = (flowrate * 543.44 *time) / (1440*60); //multiplied flow rate with 543.44 to convert it into bbl/day
     console.log('preshutvolume', preshutvolume);
     return preshutvolume;
+    // var bbllitrevalue = preshutvolume * 159; //Convert bbl into litre
+    // return bbllitrevalue;
 }
 
 function velocityOfPipe(pipelength) {
     var diameter = 24 * 0.0833;
     var pi = Math.PI;
-    var pipevelocity = (diameter / 24) * (diameter / 24) * pipelength * pi * 3280.84; //multiplied 3280.84 for covert km into feet cube
+    var pipevelocity = (diameter / 24) * (diameter / 24) * pipelength * pi * 3280.84 * 0.028; //multiplied 3280.84 for covert km into feet cube and multiplied with 0.028 to convert cubic feet into cubic meter
     console.log('pipevelocity', pipevelocity);
     return pipevelocity;
 }
