@@ -303,7 +303,7 @@ function mapStaticData(staticdata, volumefraction) {
     for (var i = 0; i < staticdata.frelative.length; i++) {
         if (staticdata.frelative[i].range.from <= volumefraction && staticdata.frelative[i].range.to > volumefraction) {
             frelative = staticdata.frelative[i].value;
-            console.log("frelative");
+            console.log("frelative",frelative);
         }
     }
     return frelative;
