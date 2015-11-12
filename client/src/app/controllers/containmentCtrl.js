@@ -1,5 +1,5 @@
-app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams','getGasOilRatio',
-    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams,getGasOilRatio) {
+app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio',
+    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio) {
         $scope.pipe = {};
         $scope.createPipeline = function(data) {
             $location.path('/create-pipeline');
@@ -139,7 +139,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 density: $scope.pipe.density,
                 pressure: $scope.pipe.pressure,
                 viscosity: $scope.pipe.viscosity,
-                length:$scope.pipe.length,
+                length: $scope.pipe.length,
                 area: area,
                 shape: shape,
                 olddata: olddata
@@ -148,14 +148,86 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $http.post('/calculatePipelinedata', areaprops)
                 .success(function(data, status) {
                     $scope.barrels = data;
+                    $scope.data = $scope.getData;
                     $scope.loading = false;
                     // $scope.area ={};
                 })
                 .error(function(data, status) {
-                    console.log('data',data);
+                    console.log('data', data);
                     growl.addErrorMessage(data.message);
                 });
 
         }
+
+        $scope.options = {
+            chart: {
+                type: 'lineChart',
+                height: 450,
+                margin: {
+                    top: 20,
+                    right: 20,
+                    bottom: 60,
+                    left: 40
+                },
+                x: function(d) {
+                    return d['flowrate'];
+                },
+                y: function(d) {
+                    return d['pressure'];
+                },
+                useInteractiveGuideline: true,
+                xAxis: {
+                    showMaxMin: false,
+                    tickFormat: function(d) {
+                        return d3.format('.02f')(d);
+                    }
+                },
+                yAxis: {
+                    tickFormat: function(d) {
+                        return d3.format(',.2f')(d);
+                    }
+                }
+            }
+        };
+
+        $scope.getData = [{
+            values: [{
+                "flowrate": 179,
+                "pressure": 21
+            }, {
+                "flowrate": 255,
+                "pressure": 26
+            }, {
+                "flowrate": 284,
+                "pressure": 31
+            }, {
+                "flowrate": 378,
+                "pressure": 36
+            }, {
+                "flowrate": 454,
+                "pressure": 41
+            }, {
+                "flowrate": 587,
+                "pressure": 46
+            }, {
+                "flowrate": 686,
+                "pressure": 51
+            }, {
+                "flowrate": 784,
+                "pressure": 56
+            }, {
+                "flowrate": 888,
+                "pressure": 61
+            }, {
+                "flowrate": 976,
+                "pressure": 66
+            }, {
+                "flowrate": 1067,
+                "pressure": 71
+            }],
+
+            key: 'Pressure', //key  - the name of the series.
+            color: '#ff7f0e'
+        }]
     }
 ]);

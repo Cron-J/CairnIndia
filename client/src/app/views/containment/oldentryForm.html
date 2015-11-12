@@ -276,7 +276,7 @@
                                     <div ng-if="shape=='Sector'" class="col-md-2">
                                         <div class="sector"></div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <!-- <h3>{{spillVol}}<span ng-show="result"> m³/second</span></h3>
                              <h3>{{spillLitres}}<span ng-show="result"> Litre/hour</span></h3> -->
                                         <h3><span ng-show="result">Oil will flow @ {{barrels}} Barrels/hour</span></h3>
@@ -328,7 +328,7 @@
                                         </form>
                                     </div>
                                     <div class="col-md-4">
-                                        <h3><span ng-show="result">Oil will flow @ {{barrels}} Barrels/day</span></h3>
+                                        <h3><span ng-show="result">Oil spill maximum  {{barrels}} Barrels</span></h3>
                                     </div>
                                 </div>
                             </tab>
@@ -369,7 +369,7 @@
                                         </form>
                                     </div>
                                     <div class="col-md-4">
-                                        <h3><span ng-show="result">Oil will flow @ {{barrels}} Barrels/day</span></h3>
+                                        <h3><span ng-show="result">Oil spill maximum  {{barrels}} Barrels</span></h3>
                                     </div>
                                 </div>
                             </tab>
@@ -531,6 +531,7 @@
                                 </div>
                             </tab>
                         </tabset>
+                        <nvd3 options="options" data="data"></nvd3>
                     </div>
                 </div>
             </div>

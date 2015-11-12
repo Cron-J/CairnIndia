@@ -281,7 +281,7 @@ function totalFlowRate(pipevelocity, preshutvolume, gasoilratio, releasevolumefr
     console.log(releasevolumefraction);
     var totalflowrate;
     if (releasevolumefraction !== undefined) {
-        totalflowrate = (0.1781 * pipevelocity * gasoilratio * releasevolumefraction) + preshutvolume;
+        totalflowrate = ((0.1781 * pipevelocity * gasoilratio * releasevolumefraction) + preshutvolume);
         console.log('totalflowrate1', totalflowrate);
     } else {
         totalflowrate = (0.1781 * pipevelocity * gasoilratio) + preshutvolume;

@@ -13,7 +13,8 @@ var app = angular.module('app', [
     'app.factory',
     'app.directives',
     'ngSanitize',
-    'cons'
+    'cons',
+    'nvd3'
 ])
 
 .config(
