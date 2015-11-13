@@ -147,54 +147,35 @@ exports.calculateBarrel = {
     }
 };
 
+exports.getAGIData = {
+    handler: function(request, reply) {
+        reply(staticData.agivalue);
+    }
+};
+
 var calcVolume = function(areaprops) {
-    console.log(areaprops);
+    console.log('areaprops', areaprops);
     var inchtometer = 0.0254;
     var res,
-        eqvDim, output;
+        eqvDim,
+        output;
     if (areaprops.shape == "Rectangular") {
         res = parseFloat(areaprops.area.length) * parseFloat(areaprops.area.breadth);
-        if (areaprops.olddata === 'true') {
-            eqvDim = (2 * areaprops.area.length * areaprops.area.breadth) / (areaprops.area.length + areaprops.area.breadth);
-            output = spillVolume(res * inchtometer * inchtometer, eqvDim * inchtometer, areaprops.area.inclination, areaprops.density, areaprops.pressure, areaprops.viscosity);
-        } else {
-            output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.rectheight);
-        }
-
-
-
-
+        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.rectheight);
     } else
     if (areaprops.shape == "Triangular") {
         var s = (parseFloat(areaprops.area.sidea) + parseFloat(areaprops.area.sideb) + parseFloat(areaprops.area.sidec)) / 2;
         res = Math.sqrt(s * (s - parseFloat(areaprops.area.sidea)) * (s - parseFloat(areaprops.area.sideb)) * (s - parseFloat(areaprops.area.sidec)));
-        if (areaprops.olddata === 'true') {
-            eqvDim = (4 * res) / (areaprops.area.sidea + areaprops.area.sideb + areaprops.area.sidec);
-            output = spillVolume(res * inchtometer * inchtometer, eqvDim * inchtometer, areaprops.area.inclination, areaprops.density, areaprops.pressure, areaprops.viscosity);
-        } else {
-            output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.triheight);
-        }
-
-
+        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.triheight);
     } else
     if (areaprops.shape == "Square") {
         res = parseFloat(areaprops.area.sidelength) * inchtometer * inchtometer * parseFloat(areaprops.area.sidelength);
-        if (areaprops.olddata === 'true') {
-            eqvDim = areaprops.area.sidelength;
-            output = spillVolume(res, eqvDim * inchtometer, areaprops.area.inclination, areaprops.density, areaprops.pressure, areaprops.viscosity);
-        } else {
-            output = oldspillVolume(res, areaprops.area.squareheight);
-        }
+        output = oldspillVolume(res, areaprops.area.squareheight);
 
     } else
     if (areaprops.shape == "Circular") {
         res = Math.PI * parseFloat(areaprops.area.radius) * parseFloat(areaprops.area.radius);
-        if (areaprops.olddata === 'true') {
-            eqvDim = 2 * areaprops.area.radius;
-            output = spillVolume(res * inchtometer * inchtometer, eqvDim * inchtometer, areaprops.area.inclination, areaprops.density, areaprops.pressure, areaprops.viscosity);
-        } else {
-            output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.circleheight);
-        }
+        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.circleheight);
 
 
     } else
@@ -202,41 +183,20 @@ var calcVolume = function(areaprops) {
         var flowrate = flowRate(areaprops.area.velocity);
         var pipevelocity = velocityOfPipe(areaprops.length)
         var preshutvolume = getPreshutVolume(flowrate, areaprops.area.time);
-        output = totalFlowRate(pipevelocity, preshutvolume, areaprops.area.gasoilratio);
-        console.log('output', output);
-    }
+        output = groundlFlowRate(pipevelocity, preshutvolume, areaprops.area.gasoilratio, areaprops.shape);
+    } else
     if (areaprops.shape == "water") {
         var flowrate = flowRate(areaprops.area.velocity);
-        var pipevelocity = velocityOfPipe(areaprops.length)
+        var pipevelocity = velocityOfPipe(areaprops.length);
         var preshutvolume = getPreshutVolume(flowrate, areaprops.area.time);
         var releasevolumefraction = getReleaseVolumeFraction(areaprops.pressure, areaprops.area.depth)
-        output = totalFlowRate(pipevelocity, preshutvolume, areaprops.area.gasoilratio, releasevolumefraction);
-        console.log('output', output);
+        output = totalWaterFlowRate(pipevelocity, preshutvolume, areaprops.area.gasoilratio, releasevolumefraction);
+    } else
+    if (areaprops.shape == "inclination") {
+        var pressuredrop = getPressureOfSecondPoint(areaprops.pressure, areaprops.area.agidata.refpointelevation, areaprops.area.agidata.secondpointelevation, areaprops.density);
+        output = inclinationFlowRate(areaprops.pressure,pressuredrop, areaprops.viscosity, areaprops.area.agidata.length, areaprops.diameter);
     }
     return output;
-
-}
-
-var spillVolume = function(area, eqvDim, degree, density, pressure, viscosity) {
-    var velocity, rho = density,
-        pressure = pressure * 100000,
-        length = 50,
-        difference;
-    var mu = viscosity * 0.000001 * density;
-    var GRAVITY = 9.8;
-    var theta = (Math.sin(degree * Math.PI / 180.0));
-    difference = pressure - (rho * GRAVITY * length * theta);
-
-
-    var diameterarea = eqvDim * eqvDim * area;
-    var dividedifference = difference * diameterarea;
-    var finallength = 32 * mu * length;
-    var finalvelocity = (dividedifference / finallength);
-    var barrels = (finalvelocity * 3600 * 6.2898).toFixed(3);
-    console.log('barrels', barrels);
-    return barrels;
-    // velocity = (((pressure-rho*GRAVITY*length*theta*1000;)*eqvDim*eqvDim*area)/(32*mu*length*1000));
-
 
 }
 
@@ -254,13 +214,11 @@ function flowRate(velocity) {
     var diameter = 24 * 0.0833;
     var pi = Math.PI;
     var flowrate = (pi / 4) * diameter * diameter * velocity * 3.28 * 28.3168; //multiplied 3.28 to convert into m/s to foot/sec and multiplied with 28.3168 to convert litres/sec
-    console.log('flowrate', flowrate);
     return flowrate;
 }
 
 function getPreshutVolume(flowrate, time) {
-    var preshutvolume = (flowrate * 543.44 *time) / (1440*60); //multiplied flow rate with 543.44 to convert it into bbl/day
-    console.log('preshutvolume', preshutvolume);
+    var preshutvolume = (flowrate * 543.44 * time) / (1440 * 60); //multiplied flow rate with 543.44 to convert it into bbl/day
     return preshutvolume;
     // var bbllitrevalue = preshutvolume * 159; //Convert bbl into litre
     // return bbllitrevalue;
@@ -270,42 +228,56 @@ function velocityOfPipe(pipelength) {
     var diameter = 24 * 0.0833;
     var pi = Math.PI;
     var pipevelocity = (diameter / 24) * (diameter / 24) * pipelength * pi * 3280.84 * 0.028; //multiplied 3280.84 for covert km into feet cube and multiplied with 0.028 to convert cubic feet into cubic meter
-    console.log('pipevelocity', pipevelocity);
     return pipevelocity;
 }
 
-function totalFlowRate(pipevelocity, preshutvolume, gasoilratio, releasevolumefraction) {
-    console.log(pipevelocity);
-    console.log(preshutvolume);
-    console.log(gasoilratio);
-    console.log(releasevolumefraction);
-    var totalflowrate;
-    if (releasevolumefraction !== undefined) {
-        totalflowrate = ((0.1781 * pipevelocity * gasoilratio * releasevolumefraction) + preshutvolume);
-        console.log('totalflowrate1', totalflowrate);
-    } else {
-        totalflowrate = (0.1781 * pipevelocity * gasoilratio) + preshutvolume;
-        console.log('totalflowrate2', totalflowrate);
-    }
+
+
+function groundlFlowRate(pipevelocity, preshutvolume, gasoilratio) {
+    var totalflowrate = (0.1781 * pipevelocity * gasoilratio) + preshutvolume;
     return totalflowrate;
 
+}
+
+function totalWaterFlowRate(pipevelocity, preshutvolume, gasoilratio, releasevolumefraction) {
+    var belowwaterflowrate = ((0.1781 * pipevelocity * gasoilratio * releasevolumefraction) + preshutvolume);
+    return belowwaterflowrate;
+}
+
+function getPressureOfSecondPoint(refpressure, refelevation, secondelevation, density) {
+    var GRAVITY = 9.8;
+    var secondPressurevalue = (refpressure) - ((GRAVITY * (secondelevation - refelevation) * density) / 100000);
+    console.log('secondPressurevalue', secondPressurevalue);
+    return secondPressurevalue;
+}
+
+function inclinationFlowRate(initialpressure,pressuresecond, viscosity, length, diameter) {
+    var pressuredrop = initialpressure - pressuresecond;
+    var diameterinmeter = diameter * 0.0254;
+    var PI = Math.PI;
+    var powdiameter = Math.pow(diameterinmeter, 4);
+    console.log(pressuredrop);
+    console.log(viscosity);
+    console.log(length);
+    console.log(diameter);
+    var inclinationflowrate = (pressuredrop *100000 * PI * powdiameter) / (128 * 0.248 * length*1000);
+    var finalinclination  = inclinationflowrate *1000;
+    return finalinclination;
 }
 
 function getReleaseVolumeFraction(pressure, waterdepth) {
     var pamb = 0.44 * waterdepth * 0.0689476;
     var releasevolumefraction = pressure / pamb;
     var relativedata = mapStaticData(staticData, releasevolumefraction);
-    console.log('relativedata', relativedata);
     return relativedata;
 }
 
 function mapStaticData(staticdata, volumefraction) {
-    console.log('volumefraction', volumefraction);
     var frelative;
     for (var i = 0; i < staticdata.frelative.length; i++) {
         if (staticdata.frelative[i].range.from <= volumefraction && staticdata.frelative[i].range.to > volumefraction) {
             frelative = staticdata.frelative[i].value;
-            console.log("frelative",frelative);
+            console.log("frelative", frelative);
         }
     }
     return frelative;

@@ -118,20 +118,28 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         $scope.clearform = function() {
             $scope.area = {};
+            $scope.result = false;
         }
 
         $scope.clearforminclination = function() {
             $scope.area = {};
-            $scope.area.inclination = 0;
+            $scope.result = false;
         }
 
         //Rupture shape and area 
 
         $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular'];
+        $scope.diameter = [10,24];
         $scope.result = false;
         $scope.area = {};
-        $scope.area.inclination = 0;
+        var getAGIdata = function() {
+            $http.get('/getAGIData')
+                .success(function(data, status) {
+                    $scope.getagidata = data;
+                });
+        }
 
+        getAGIdata();
 
         $scope.calcVolume = function(area, shape, olddata) {
             $scope.loading = true;
@@ -139,10 +147,10 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 density: $scope.pipe.density,
                 pressure: $scope.pipe.pressure,
                 viscosity: $scope.pipe.viscosity,
+                diameter:$scope.pipe.diameter,
                 length: $scope.pipe.length,
                 area: area,
-                shape: shape,
-                olddata: olddata
+                shape: shape
             };
             $scope.result = true;
             $http.post('/calculatePipelinedata', areaprops)

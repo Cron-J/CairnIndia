@@ -129,7 +129,7 @@
                     <h4>Oil Spill Volume Calculation</h4>
                     <div class="bs-example">
                         <tabset>
-                            <tab heading="Simple Rupture">
+                            <tab heading="Simple Rupture" ng-click="clearforminclination()">
                                 <div class="panel-body">
                                     <div class="col-md-6">
                                         <div class="form-horizontal">
@@ -283,10 +283,10 @@
                                     </div>
                                 </div>
                             </tab>
-                            <tab heading="Rupture of Pipeline(Below Water)" active="tab.active">
+                            <tab heading="Rupture of Pipeline(Below Water)"  active="tab.active" ng-click="clearforminclination()">
                                 <div class="panel-body">
                                     <div class="col-md-6">
-                                        <form name="watercalcForm" class="form-horizontal novalidate form-validation">
+                                        <form name="watercalcForm" class="form-horizontal  form-validation">
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">Time (in Minutes)</label>
                                                 <div class="col-sm-5">
@@ -332,7 +332,7 @@
                                     </div>
                                 </div>
                             </tab>
-                            <tab heading="Rupture of Pipeline(Below Ground)">
+                            <tab heading="Rupture of Pipeline(Below Ground)" ng-click="clearforminclination()">
                                 <div class="panel-body">
                                     <div class="col-md-6">
                                         <form name="calcForm" class="form-horizontal novalidate form-validation">
@@ -373,151 +373,25 @@
                                     </div>
                                 </div>
                             </tab>
-                            <tab heading="Rupture with Inclation">
+                            <tab heading="Rupture with Inclination" ng-click="clearforminclination()">
                                 <div class="panel-body">
                                     <div class="col-md-6">
-                                        <div class="form-horizontal">
+                                        <form name="inclinationForm" class="form-horizontal  form-validation">
                                             <div class="form-group">
-                                                <label class="col-sm-4 control-label">Rupture Shape</label>
-                                                <div class="col-sm-5">
-                                                    <select class="form-control form-height" ng-model="shape" ng-options="o as o for o in shapes" ng-change="clearforminclination()">
+                                                <label class="col-sm-4 control-label">AGI</label>
+                                                <div class="col-sm-5">{{getagidata.agirange}}
+                                                    <select class="form-control form-height" ng-model="area.agidata" ng-options="agidata.getvalue as agidata.agirange for agidata in getagidata" required>
+                                                        <option value="">--Select--</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <span ng-if="shape=='Rectangular'">
-                                            <form name="calcForm" class="form-horizontal form-validation">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label" >Length(in inches) </label>
-                                                    <div class="col-sm-5">
-                                                        <input ng-model="area.length" type="number" step="0.1" min="0.1" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
-                                                    </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-5 col-md-offset-4">
+                                                    <button class="btn btn-success" ng-disabled="!inclinationForm.$valid" ng-click="calcVolume(area,'inclination');">Calculate</button>
+                                                    <img src="app/assets/img/loading.gif" ng-show="loading">
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">Breadth(in inches)</label>
-                                                    <div class="col-sm-5">
-                                                        <input ng-model="area.breadth" type="number" step="0.1" min="0.1" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label" ng-click="showform=true" style="color:#337ab7;cursor:pointer">Advanced</label>
-                                                </div>
-                                                <div class="form-group" ng-show="showform==true">
-                                                    <label class="col-sm-4 control-label">Pipe Inclination(in degrees)</label>
-                                                    <div class="col-sm-5">
-                                                        <input ng-model="area.inclination" type="number" ng-pattern="/^-?[0-9]\d*(\.\d+)?$/" class="form-control"  min="-60" max="60">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-sm-5 col-md-offset-4">
-                                                        <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(area,shape,'true');">Calculate</button>
-                                                        <img src="app/assets/img/loading.gif" ng-show="loading">
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </span>
-                                        <span ng-if="shape=='Triangular'">
-                                            <form name="calcForm" class="form-horizontal form-validation">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label" >Side 1 (in inches)</label>
-                                                    <div class="col-sm-5">
-                                                        <input ng-model="area.sidea" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1"class="form-control " required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">Side 2 (in inches)</label>
-                                                    <div class="col-sm-5">
-                                                        <input ng-model="area.sideb" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" class="form-control " required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">Side 3 (in inches)</label>
-                                                    <div class="col-sm-5">
-                                                        <input ng-model="area.sidec" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" class="form-control " required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label" ng-click="showform=true" style="color:#337ab7;cursor:pointer">Advanced</label>
-                                                </div>
-                                                <div class="form-group" ng-show="showform==true">
-                                                    <label class="col-sm-4 control-label">Pipe Inclination(in degrees)</label>
-                                                    <div class="col-sm-5">
-                                                        <input ng-model="area.inclination" type="number" ng-pattern="/^-?[0-9]\d*(\.\d+)?$/" class="form-control"  min="-60" max="60">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-sm-6 col-md-offset-4">
-                                                        <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(area,shape,'true');">Calculate</button>
-                                                         <img src="app/assets/img/loading.gif" ng-show="loading">
-                                                    </div>
-                                                   
-                                                </div>
-                                            </form>
-                                        </span>
-                                        <span ng-if="shape=='Square'">
-                                            <form name="calcForm" class="form-horizontal form-validation">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label" >Side Length (in inches)</label>
-                                                    <div class="col-sm-5">
-                                                        <input ng-model="area.sidelength" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" class="form-control " required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label" ng-click="showform=true" style="color:#337ab7;cursor:pointer">Advanced</label>
-                                                </div>
-                                                <div class="form-group" ng-show="showform==true">
-                                                    <label class="col-sm-4 control-label">Pipe Inclination(in degrees)</label>
-                                                    <div class="col-sm-5">
-                                                        <input ng-model="area.inclination" type="number" ng-pattern="/^-?[0-9]\d*(\.\d+)?$/" class="form-control"  min="-60" max="60">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-sm-6 col-md-offset-4">
-                                                        <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(area,shape,'true');">Calculate</button>
-                                                        <img src="app/assets/img/loading.gif" ng-show="loading">
-                                                    </div>
-                                                    
-                                                </div>
-                                            </form>
-                                        </span>
-                                        <span ng-if="shape=='Circular'">
-                                            <form name="calcForm" class="form-horizontal form-validation">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label" >Radius Length (in inches)</label>
-                                                    <div class="col-sm-5">
-                                                        <input ng-model="area.radius" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" class="form-control " required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label" ng-click="showform=true" style="color:#337ab7;cursor:pointer">Advanced</label>
-                                                </div>
-                                                <div class="form-group" ng-show="showform==true">
-                                                    <label class="col-sm-4 control-label">Pipe Inclination(in degrees)</label>
-                                                    <div class="col-sm-5">
-                                                        <input ng-model="area.inclination" type="number" ng-pattern="/^-?[0-9]\d*(\.\d+)?$/" class="form-control"  min="-60" max="60">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-sm-6 col-md-offset-4">
-                                                        <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(area,shape,'true');">Calculate</button>
-                                                         <img src="app/assets/img/loading.gif" ng-show="loading">
-                                                    </div>
-                                                   
-                                                </div>
-                                            </form>
-                                        </span>
-                                    </div>
-                                    <div ng-if="shape=='Rectangular'" class="col-md-2">
-                                        <div class="rectangle"></div>
-                                    </div>
-                                    <div ng-if="shape=='Triangular'" class="col-md-2">
-                                        <div class="triangle"></div>
-                                    </div>
-                                    <div ng-if="shape=='Square'" class="col-md-2">
-                                        <div class="square"></div>
-                                    </div>
-                                    <div ng-if="shape=='Circular'" class="col-md-2">
-                                        <div class="circle"></div>
+                                            </div>
+                                        </form>
                                     </div>
                                     <!-- 
                     <div ng-if="shape=='Sector'" class="col-md-2">
@@ -526,7 +400,7 @@
                                     <div class="col-md-4">
                                         <!-- <h3>{{spillVol}}<span ng-show="result"> m³/second</span></h3>
                              <h3>{{spillLitres}}<span ng-show="result"> Litre/hour</span></h3> -->
-                                        <h3><span ng-show="result">Oil will flow @ {{barrels}} Barrels/hour</span></h3>
+                                        <h3><span ng-show="result">Oil will flow @ {{barrels}} litres/second</span></h3>
                                     </div>
                                 </div>
                             </tab>

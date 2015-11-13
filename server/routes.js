@@ -43,6 +43,11 @@ exports.endpoints = [
         path: '/removePipeline/{id}',
         config: Pipeline.removePipeline
     },
+    {
+        method: 'GET',
+        path: '/getAGIData',
+        config: Pipeline.getAGIData
+    },
 
 
     {

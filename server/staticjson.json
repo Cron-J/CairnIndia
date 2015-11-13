@@ -1,84 +1,169 @@
-   {
-   "frelative" : [{
-       "range": {
-            "from":1,
-            "to":1
+{
+    "frelative": [{
+        "range": {
+            "from": 1,
+            "to": 1
         },
-       "value": 0.00
-   }, {
-       "range": {
-            "from":1.1,
-            "to":1.2
+        "value": 0
+    }, {
+        "range": {
+            "from": 1.1,
+            "to": 1.2
         },
-       "value": 0.08
-   }, {
-       "range": {
-            "from":1.2,
-            "to":1.5
+        "value": 0.08
+    }, {
+        "range": {
+            "from": 1.2,
+            "to": 1.5
         },
-       "value": 0.17
-   }, {
-    "range": {
-            "from":1.5,
-            "to":2
+        "value": 0.17
+    }, {
+        "range": {
+            "from": 1.5,
+            "to": 2
         },
-       "value": 0.30
-   }, {
-    "range": {
-            "from":2,
-            "to":3
+        "value": 0.3
+    }, {
+        "range": {
+            "from": 2,
+            "to": 3
         },
-       "value": 0.40
-   }, {
-    "range": {
-            "from":3,
-            "to":4
+        "value": 0.4
+    }, {
+        "range": {
+            "from": 3,
+            "to": 4
         },
-       "value": 0.47
-   }, {
-    "range": {
-            "from":4,
-            "to":5
+        "value": 0.47
+    }, {
+        "range": {
+            "from": 4,
+            "to": 5
         },
-       "value": 0.50
-   }, {
-    "range": {
-            "from":5,
-            "to":10
+        "value": 0.5
+    }, {
+        "range": {
+            "from": 5,
+            "to": 10
         },
-       "value": 0.55
-   }, {
-    "range": {
-            "from":10,
-            "to":20
+        "value": 0.55
+    }, {
+        "range": {
+            "from": 10,
+            "to": 20
         },
-       "value": 0.64
-   }, {
-    "range": {
-            "from":20,
-            "to":30
+        "value": 0.64
+    }, {
+        "range": {
+            "from": 20,
+            "to": 30
         },
-       "value": 0.71
-   },
-   {
-    "range": {
-            "from":30,
-            "to":50
+        "value": 0.71
+    }, {
+        "range": {
+            "from": 30,
+            "to": 50
         },
-       "value": 0.74
-   },
-   {
-    "range": {
-            "from":50,
-            "to":200
+        "value": 0.74
+    }, {
+        "range": {
+            "from": 50,
+            "to": 200
         },
-       "value": 0.76
-   },
-   {
-    "range": {
-            "from":200,
-            "to":100000
+        "value": 0.76
+    }, {
+        "range": {
+            "from": 200,
+            "to": 100000
         },
-       "value": 0.77
-   }]
+        "value": 0.77
+    }],
+    "agivalue": [
+    {
+        "agirange": "0-3",
+        "getvalue": {
+            "refpointelevation": 107,
+            "secondpointelevation": 169,
+            "length": 43.806
+        }
+    },{
+        "agirange": "3-6",
+        "getvalue": {
+            "refpointelevation": 47.5,
+            "secondpointelevation": 107,
+            "length": 55.609
+        }
+    }, {
+        "agirange": "6-9",
+        "getvalue": {
+            "refpointelevation": 47.5,
+            "secondpointelevation": 75.5,
+            "length": 57.184
+        }
+    }, {
+        "agirange": "9-12",
+        "getvalue": {
+            "refpointelevation": 59.5,
+            "secondpointelevation": 75.5,
+            "length": 54.626
+        }
+
+     }, 
+    {
+        "agirange": "12-15",
+        "getvalue": {
+            "refpointelevation": 36.9,
+            "secondpointelevation": 59.5,
+            "length": 53.636
+        }
+    }, {
+        "agirange": "15-17",
+        "getvalue": {
+            "refpointelevation": 32.5,
+            "secondpointelevation": 36.9,
+            "length": 35.248
+        }
+    }, {
+        "agirange": "17-21",
+        "getvalue": {
+            "refpointelevation": 32.5,
+            "secondpointelevation": 55.8,
+            "length": 78.781
+        }
+    }, {
+        "agirange": "21-24",
+        "getvalue": {
+            "refpointelevation": 55.8,
+            "secondpointelevation": 103,
+            "length": 55.837
+        }
+    }, {
+        "agirange": "24-26",
+        "getvalue": {
+            "refpointelevation": 103,
+            "secondpointelevation": 111,
+            "length": 35.456
+        }
+    }, {
+        "agirange": "26-27",
+        "getvalue": {
+            "refpointelevation": 101,
+            "secondpointelevation": 111,
+            "length": 15.560
+        }
+    }, {
+        "agirange": "27-30",
+        "getvalue": {
+            "refpointelevation": 36.1,
+            "secondpointelevation": 101,
+            "length": 51.546
+        }
+    }, {
+        "agirange": "30-33",
+        "getvalue": {
+            "refpointelevation": 18.5,
+            "secondpointelevation": 36.1,
+            "length": 53.154
+        }
+    }]
 }
