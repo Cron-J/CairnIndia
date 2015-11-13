@@ -147,11 +147,20 @@ exports.calculateBarrel = {
     }
 };
 
+/** 
+    function that return json  data for AGI graph   
+**/
+
 exports.getAGIData = {
     handler: function(request, reply) {
         reply(staticData.agivalue);
     }
 };
+
+
+/** 
+    function that return final volume and rupture volume and flow rate of incilation 
+**/
 
 var calcVolume = function(areaprops) {
     console.log('areaprops', areaprops);
@@ -194,11 +203,18 @@ var calcVolume = function(areaprops) {
     } else
     if (areaprops.shape == "inclination") {
         var pressuredrop = getPressureOfSecondPoint(areaprops.pressure, areaprops.area.agidata.refpointelevation, areaprops.area.agidata.secondpointelevation, areaprops.density);
-        output = inclinationFlowRate(areaprops.pressure,pressuredrop, areaprops.viscosity, areaprops.area.agidata.length, areaprops.diameter,areaprops.density);
+        output = inclinationFlowRate(areaprops.pressure, pressuredrop, areaprops.viscosity, areaprops.area.agidata.length, areaprops.diameter, areaprops.density);
     }
     return output;
 
 }
+
+/** 
+    function that return Oil Spill per hour for Rupture shape
+
+    Formula used : (area * root square of 2gh)
+
+**/
 
 var oldspillVolume = function(area, height) {
     var GRAVITY = 9.8,
@@ -206,10 +222,16 @@ var oldspillVolume = function(area, height) {
     var coefficientOfDishcharge = 0.62;
     velocity = Math.sqrt(2 * GRAVITY * height * 0.0254);
     var barrels = parseFloat(Math.round(0.62 * area * velocity * 6.28981 * 3600 * 100) / 100).toFixed(2);
-    return barrels;
-    // }           
+    return barrels;        
 }
 
+
+/** 
+    function that return Flow Rate of pipeline
+
+    Formula used : (pi/4*square of diameter * velocity)
+
+**/
 function flowRate(velocity) {
     var diameter = 24 * 0.0833;
     var pi = Math.PI;
@@ -217,12 +239,24 @@ function flowRate(velocity) {
     return flowrate;
 }
 
+/** 
+    function that return Pre Shut Volume of pipeline
+
+    Formula used : ((flow rate of pipeline * time)/1440)
+**/
 function getPreshutVolume(flowrate, time) {
     var preshutvolume = (flowrate * 543.44 * time) / (1440 * 60); //multiplied flow rate with 543.44 to convert it into bbl/day
     return preshutvolume;
     // var bbllitrevalue = preshutvolume * 159; //Convert bbl into litre
     // return bbllitrevalue;
 }
+
+/** 
+    function that return Velocity of pipe
+
+    Formula used : ((square of diameter/24) * pipeline length * pi)
+
+**/
 
 function velocityOfPipe(pipelength) {
     var diameter = 24 * 0.0833;
@@ -232,17 +266,33 @@ function velocityOfPipe(pipelength) {
 }
 
 
+/** 
+    function that return Maximum spill volume flow rate below ground
+    Formula used : ((0.1781 *pipevelocity*gasoilratio) + volume before pre shutdown)
 
+    Note:We will not consider release volume fraction in this case
+**/
 function groundlFlowRate(pipevelocity, preshutvolume, gasoilratio) {
     var totalflowrate = (0.1781 * pipevelocity * gasoilratio) + preshutvolume;
     return totalflowrate;
 
 }
 
+/** 
+    function that return Maximum spill volume flow rate below water
+    Formula used : ((0.1781 *pipevelocity*gasoilratio * releasevolumefraction) + volume before pre shutdown)
+**/
+
 function totalWaterFlowRate(pipevelocity, preshutvolume, gasoilratio, releasevolumefraction) {
     var belowwaterflowrate = ((0.1781 * pipevelocity * gasoilratio * releasevolumefraction) + preshutvolume);
     return belowwaterflowrate;
 }
+
+/** 
+    function that return second pressure Point:
+    Formula used : (referencepressure - ((GRAVITY)*(secondelevationpoint - referenceelevation)*density)/100000 
+    Divided by 100000 to convert into bar
+**/
 
 function getPressureOfSecondPoint(refpressure, refelevation, secondelevation, density) {
     var GRAVITY = 9.8;
@@ -251,16 +301,27 @@ function getPressureOfSecondPoint(refpressure, refelevation, secondelevation, de
     return secondPressurevalue;
 }
 
-function inclinationFlowRate(initialpressure,pressuresecond, viscosity, length, diameter,density) {
+
+/** 
+    function that return incilation flow rate 
+    Formula used : (Pressure Drop *pi*(diameter*diameter*diameter*diameter))/128*viscosity*length(in meter)
+**/
+function inclinationFlowRate(initialpressure, pressuresecond, viscosity, length, diameter, density) {
     var pressuredrop = initialpressure - pressuresecond;
     var diameterinmeter = diameter * 0.0254;
     var PI = Math.PI;
     var powdiameter = Math.pow(diameterinmeter, 4);
     var dynamicviscosity = viscosity * 0.00001 * density;
-    var inclinationflowrate = (pressuredrop *100000 * PI * powdiameter) / (128 * 0.248 * length*1000);
-    var finalinclination  = inclinationflowrate *1000;
+    var inclinationflowrate = (pressuredrop * 100000 * PI * powdiameter) / (128 * dynamicviscosity * length * 1000);
+    var finalinclination = inclinationflowrate * 1000;
     return finalinclination;
 }
+
+
+/** 
+    function that relative data for volume  
+    Formula used : (Initial Pressure/pressure of amb)
+**/
 
 function getReleaseVolumeFraction(pressure, waterdepth) {
     var pamb = 0.44 * waterdepth * 0.0689476;
@@ -269,6 +330,9 @@ function getReleaseVolumeFraction(pressure, waterdepth) {
     return relativedata;
 }
 
+/** 
+    function that release volume fraction data for volume  
+**/
 function mapStaticData(staticdata, volumefraction) {
     var frelative;
     for (var i = 0; i < staticdata.frelative.length; i++) {
