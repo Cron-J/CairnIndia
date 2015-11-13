@@ -194,7 +194,7 @@ var calcVolume = function(areaprops) {
     } else
     if (areaprops.shape == "inclination") {
         var pressuredrop = getPressureOfSecondPoint(areaprops.pressure, areaprops.area.agidata.refpointelevation, areaprops.area.agidata.secondpointelevation, areaprops.density);
-        output = inclinationFlowRate(areaprops.pressure,pressuredrop, areaprops.viscosity, areaprops.area.agidata.length, areaprops.diameter);
+        output = inclinationFlowRate(areaprops.pressure,pressuredrop, areaprops.viscosity, areaprops.area.agidata.length, areaprops.diameter,areaprops.density);
     }
     return output;
 
@@ -251,15 +251,12 @@ function getPressureOfSecondPoint(refpressure, refelevation, secondelevation, de
     return secondPressurevalue;
 }
 
-function inclinationFlowRate(initialpressure,pressuresecond, viscosity, length, diameter) {
+function inclinationFlowRate(initialpressure,pressuresecond, viscosity, length, diameter,density) {
     var pressuredrop = initialpressure - pressuresecond;
     var diameterinmeter = diameter * 0.0254;
     var PI = Math.PI;
     var powdiameter = Math.pow(diameterinmeter, 4);
-    console.log(pressuredrop);
-    console.log(viscosity);
-    console.log(length);
-    console.log(diameter);
+    var dynamicviscosity = viscosity * 0.00001 * density;
     var inclinationflowrate = (pressuredrop *100000 * PI * powdiameter) / (128 * 0.248 * length*1000);
     var finalinclination  = inclinationflowrate *1000;
     return finalinclination;
