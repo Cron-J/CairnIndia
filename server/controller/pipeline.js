@@ -273,7 +273,7 @@ function velocityOfPipe(pipelength) {
     Note:We will not consider release volume fraction in this case
 **/
 function groundlFlowRate(pipevelocity, preshutvolume, gasoilratio) {
-    var totalflowrate = (0.1781 * pipevelocity * gasoilratio) + preshutvolume;
+    var totalflowrate = ((0.1781 * pipevelocity * gasoilratio) + preshutvolume).toFixed(2);
     return totalflowrate;
 
 }
@@ -284,7 +284,7 @@ function groundlFlowRate(pipevelocity, preshutvolume, gasoilratio) {
 **/
 
 function totalWaterFlowRate(pipevelocity, preshutvolume, gasoilratio, releasevolumefraction) {
-    var belowwaterflowrate = ((0.1781 * pipevelocity * gasoilratio * releasevolumefraction) + preshutvolume);
+    var belowwaterflowrate = (((0.1781 * pipevelocity * gasoilratio * releasevolumefraction) + preshutvolume)).toFixed(2);
     return belowwaterflowrate;
 }
 
@@ -313,7 +313,7 @@ function inclinationFlowRate(initialpressure, pressuresecond, viscosity, length,
     var powdiameter = Math.pow(diameterinmeter, 4);
     var dynamicviscosity = viscosity * 0.00001 * density;
     var inclinationflowrate = (pressuredrop * 100000 * PI * powdiameter) / (128 * dynamicviscosity * length * 1000);
-    var finalinclination = inclinationflowrate * 1000;
+    var finalinclination = (inclinationflowrate * 1000).toFixed(2);
     return finalinclination;
 }
 

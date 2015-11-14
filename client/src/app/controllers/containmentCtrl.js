@@ -25,7 +25,10 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             else
                 $scope.pipe.pipeName = $scope.pipe.fromCity + ' to ' + $scope.pipe.toCity;
         }
-
+        $scope.gotoCalculation =function(data){
+            $location.path('/oilcalculation');
+            singlePipeData.set(data);
+        }
         $scope.changeSize = function(size) {
             if (size == 'inch') {
                 $scope.pipe.pipeHeight = $scope.pipe.pipeHeight / 2.54;
@@ -171,12 +174,13 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             chart: {
                 type: 'lineChart',
                 height: 450,
-                margin: {
-                    top: 20,
-                    right: 20,
-                    bottom: 60,
-                    left: 40
-                },
+                // width:300,
+                // margin: {
+                //     top: 20,
+                //     right: 20,
+                //     bottom: 60,
+                //     left: 40
+                // },
                 x: function(d) {
                     return d['flowrate'];
                 },
@@ -186,11 +190,13 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 useInteractiveGuideline: true,
                 xAxis: {
                     showMaxMin: false,
+                    axisLabel: 'Spill Flow Rate (In Barrels/Hour)',
                     tickFormat: function(d) {
                         return d3.format('.02f')(d);
                     }
                 },
                 yAxis: {
+                    axisLabel: 'Pressure (In Bar)',
                     tickFormat: function(d) {
                         return d3.format(',.2f')(d);
                     }

@@ -306,12 +306,14 @@ body {
     height: 100px;
 }
 
+
 /*input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 */
+
 .bg-image {
     background-image: url(../img/bg.jpg);
     background-repeat: no-repeat;
@@ -323,12 +325,41 @@ input[type=number]::-webkit-outer-spin-button {
     right: 0;
 }
 
-
 .navbar-brand-1 img {
     max-height: 100px!important;
     margin: 20px!important;
 }
 
-.help-block{
+.help-block {
     color: red;
+}
+
+.cmn-t-pulse {
+    padding: 42px 40px;
+    border-radius: 50%;
+    color: #fff;
+    background-color: #337ab7;
+    font-size: 20px;
+    animation: pulse 5s ease infinite;
+    /* transition: transform 0.2s; */
+}
+
+.cmn-t-pulse:hover {
+    color: #fff;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.marginsec {
+    margin: 4%;
 }
