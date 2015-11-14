@@ -3,7 +3,6 @@
 // Declare app level module which depends on filters, and services
 var app = angular.module('app', [
     'ngCookies',
-    'angularLocalStorage',
     'angular-growl',
     'ui.router',
     'ngRoute',
@@ -14,7 +13,8 @@ var app = angular.module('app', [
     'app.directives',
     'ngSanitize',
     'cons',
-    'nvd3'
+    'nvd3',
+    'ngStorage'
 ])
 
 .config(

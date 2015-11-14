@@ -1,5 +1,5 @@
-app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio',
-    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio) {
+app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio','$localStorage',
+    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio,$localStorage) {
         $scope.pipe = {};
         $scope.createPipeline = function(data) {
             $location.path('/create-pipeline');
@@ -27,8 +27,11 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         }
         $scope.gotoCalculation =function(data){
             $location.path('/oilcalculation');
-            singlePipeData.set(data);
+            // singlePipeData.set(data);
+           $localStorage.message = data;
         }
+        $scope.pipe =$localStorage.message;
+
         $scope.changeSize = function(size) {
             if (size == 'inch') {
                 $scope.pipe.pipeHeight = $scope.pipe.pipeHeight / 2.54;
