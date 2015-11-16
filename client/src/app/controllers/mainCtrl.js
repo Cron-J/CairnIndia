@@ -1,9 +1,9 @@
 'use strict';
 
 app.controller('mainCtrl', ['$scope', '$location', '$rootScope', '$http', '$modal',
-		'$log','userInfo', 'countryList', 'AuthServ', 'growl', 
+		'$log','userInfo', 'countryList', 'AuthServ', 'growl', '$localStorage',
     function ($scope, $location, $rootScope, $http, $modal, $log, userInfo, 
-    	countryList, AuthServ, growl) {
+    	countryList, AuthServ, growl,$localStorage) {
         var _scope = {};
         _scope.init = function () {
         	$scope.current_usr = {};
@@ -14,6 +14,11 @@ app.controller('mainCtrl', ['$scope', '$location', '$rootScope', '$http', '$moda
     	        });
     	    }
         }
+        $scope.gotoContainment = function () {
+            $location.path('/containment');
+            $localStorage.$reset();
+        }
+        
 
 	      $scope.clearCountrySelection = function () {
 	      	if($scope.countryList) {

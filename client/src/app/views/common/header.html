@@ -9,7 +9,7 @@
         <ul class="nav navbar-nav" style="margin-left: 20px;">
             <li class="dropdown" ng-show="user.scope == 'User'"><span class="ut-nohover"><i class="fa fa-building"></i> {{current_usr.tenantName | uppercase}}</span></li>
             <li>
-                <a ui-sref="oilSpillContainment">Containment</a>
+                <a ng-click="gotoContainment()" style="cursor:pointer">Containment</a>
             </li>
             <li ng-if="user.scope == 'Admin'"><a class="ut-pointer" ui-sref="users">Users</a></li>
         </ul>
