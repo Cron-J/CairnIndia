@@ -171,7 +171,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">Time (in Minutes)</label>
                                                 <div class="col-sm-5">
-                                                    <input ng-model="area.time" name="time" type="number" min="60" max="2880" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                                    <input ng-model="area.time" name="time" type="number" min="1" max="2880" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                                     <p ng-show="watercalcForm.time.$error.min" class="help-block">Time should be minimum 60.</p>
                                                     <p ng-show="watercalcForm.time.$error.max" class="help-block">Time should be maximum 2880.</p>
                                                 </div>
@@ -224,7 +224,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">Time (in Minutes)</label>
                                                 <div class="col-sm-5">
-                                                    <input ng-model="pipelinedata.time" name="time" type="number" step="0.1" min="60" max="2880" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                                    <input ng-model="pipelinedata.time" name="time" type="number" step="0.1" min="1" max="2880" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                                     <p ng-show="calcForm.time.$error.min" class="help-block">Time should be minimum 60.</p>
                                                     <p ng-show="calcForm.time.$error.max" class="help-block">Time should be maximum 2880.</p>
                                                 </div>
@@ -262,7 +262,7 @@
                                     </div>
                                 </div>
                             </tab>
-                            <tab heading="Rupture with Inclination" ng-click="clearforminclination()">
+                            <tab heading="Rupture at Elevation" ng-click="clearforminclination()">
                                 <div class="panel-body">
                                     <div class="col-md-6">
                                         <form name="inclinationForm" class="form-horizontal  form-validation">
@@ -282,13 +282,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <!-- 
-                    <div ng-if="shape=='Sector'" class="col-md-2">
-                        <div class="sector"></div>
-                    </div> -->
                                     <div class="col-md-4 marginsec">
-                                        <!-- <h3>{{spillVol}}<span ng-show="result"> m³/second</span></h3>
-                             <h3>{{spillLitres}}<span ng-show="result"> Litre/hour</span></h3> -->
                                         <span ng-show="result">
                                              <section>
                                             <a class="cmn-t-pulse">Oil will flow @ {{barrels}} litres/second</a>

@@ -1,5 +1,5 @@
-app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio','$localStorage',
-    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio,$localStorage) {
+app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio', '$localStorage',
+    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio, $localStorage) {
         $scope.pipe = {};
         $scope.createPipeline = function(data) {
             $location.path('/create-pipeline');
@@ -25,12 +25,17 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             else
                 $scope.pipe.pipeName = $scope.pipe.fromCity + ' to ' + $scope.pipe.toCity;
         }
-        $scope.gotoCalculation =function(data){
-            $location.path('/oilcalculation');
+        $scope.gotoCalculation = function(data) {
+            $location.path('/oilcalculation1');
             // singlePipeData.set(data);
-           $localStorage.message = data;
+            $localStorage.message = data;
         }
-        $scope.pipe =$localStorage.message;
+        $scope.pipe = $localStorage.message;
+
+        $scope.rupture = '';
+        $scope.isShown = function(rupture) {
+            return rupture === $scope.rupture;
+        };
 
         $scope.changeSize = function(size) {
             if (size == 'inch') {
@@ -135,7 +140,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         //Rupture shape and area 
 
         $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular'];
-        $scope.diameter = [10,24];
+        $scope.diameter = [10, 24];
         $scope.result = false;
         $scope.area = {};
         var getAGIdata = function() {
@@ -153,7 +158,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 density: $scope.pipe.density,
                 pressure: $scope.pipe.pressure,
                 viscosity: $scope.pipe.viscosity,
-                diameter:$scope.pipe.diameter,
+                diameter: $scope.pipe.diameter,
                 length: $scope.pipe.length,
                 area: area,
                 shape: shape
@@ -162,7 +167,10 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $http.post('/calculatePipelinedata', areaprops)
                 .success(function(data, status) {
                     $scope.barrels = data;
+                    $scope.options  = $scope.pressureoptions;
                     $scope.data = $scope.getData;
+                    $scope.options1  = $scope.timeoptions;
+                    $scope.data1 = $scope.getSpillData;
                     $scope.loading = false;
                     // $scope.area ={};
                 })
@@ -173,7 +181,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         }
 
-        $scope.options = {
+        $scope.pressureoptions = {
             chart: {
                 type: 'lineChart',
                 height: 450,
@@ -203,6 +211,76 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                     tickFormat: function(d) {
                         return d3.format(',.2f')(d);
                     }
+                }
+            },
+            subtitle: {
+                enable: true,
+                text: '',
+                css: {
+                    'text-align': 'center',
+                    'margin': '10px 13px 0px 7px'
+                }
+            },
+            caption: {
+                enable: true,
+                html: '<b>Figure 1.</b> Pressure Flow Rate',
+                css: {
+                    'text-align': 'center',
+                    'margin': '10px 13px 0px 7px',
+                    'font-weight':'bold'
+                }
+            }
+        };
+        $scope.timeoptions = {
+            chart: {
+                type: 'lineChart',
+                height: 450,
+                // width:300,
+                // margin: {
+                //     top: 20,
+                //     right: 20,
+                //     bottom: 60,
+                //     left: 40
+                // },
+                x: function(d) {
+                    return d['maxspill flow rate'];
+                },
+                y: function(d) {
+                    return d['minute'];
+                },
+                useInteractiveGuideline: true,
+                xAxis: {
+                    showMaxMin: false,
+                    axisLabel: 'Maximum Spill(In litre/sec)',
+                    tickFormat: function(d) {
+                        return d3.format('.02f')(d);
+                    }
+                },
+                yAxis: {
+                    axisLabel: 'Time (In Minutes)',
+                    tickFormat: function(d) {
+                        return d3.format(',.2f')(d);
+                    }
+                },
+                callback: function(chart) {
+                    console.log("!!! lineChart callback !!!");
+                }
+            },
+            subtitle: {
+                enable: true,
+                text: '',
+                css: {
+                    'text-align': 'center',
+                    'margin': '10px 13px 0px 7px'
+                }
+            },
+            caption: {
+                enable: true,
+                html: '<b>Figure 2.</b> Time Flow Rate',
+                css: {
+                    'text-align': 'center',
+                    'margin': '10px 13px 0px 7px',
+                    'font-weight':'bold'
                 }
             }
         };
@@ -246,5 +324,103 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             key: 'Pressure', //key  - the name of the series.
             color: '#ff7f0e'
         }]
+
+        $scope.getSpillData = [{
+            values: [{
+                "maxspill flow rate": 7.25,
+                "minute": 1
+            }, {
+
+                "maxspill flow rate": 23.60,
+                "minute": 10
+            }, {
+
+                "maxspill flow rate": 97.00,
+                "minute": 50
+            }, {
+
+                "maxspill flow rate": 188.70,
+                "minute": 100
+            }, {
+
+                "maxspill flow rate": 372.08,
+                "minute": 200
+            }, {
+
+                "maxspill flow rate": 463.77,
+                "minute": 250
+            }, {
+
+                "maxspill flow rate": 555.46,
+                "minute": 300
+            }, {
+
+                "maxspill flow rate": 738.84,
+                "minute": 400
+            }, {
+
+                "maxspill flow rate": 921.39,
+                "minute": 500
+            }, {
+
+                "maxspill flow rate": 1379.84,
+                "minute": 750
+            }, {
+
+                "maxspill flow rate": 1838.30,
+                "minute": 1000
+            }, {
+
+                "maxspill flow rate": 2296.76,
+                "minute": 1250
+            }, {
+
+                "maxspill flow rate": 2755.21,
+                "minute": 1500
+            }, {
+
+                "maxspill flow rate": 3213.67,
+                "minute": 1750
+            }, {
+
+                "maxspill flow rate": 3672.13,
+                "minute": 2000
+            }, {
+
+                "maxspill flow rate": 71,
+                "minute": 2200
+            }, {
+
+                "maxspill flow rate": 4038.89,
+                "minute": 2200
+            }, {
+
+                "maxspill flow rate": 4405.66,
+                "minute": 2400
+            }, {
+
+                "maxspill flow rate": 4589.04,
+                "minute": 2500
+            }, {
+
+                "maxspill flow rate": 4772.42,
+                "minute": 2600
+            }, {
+
+                "maxspill flow rate": 4955.81,
+                "minute": 2700
+            }, {
+                "maxspill flow rate": 5139.19,
+                "minute": 2800
+            }, {
+
+                "maxspill flow rate": 5286.73,
+                "minute": 2880
+            }],
+
+            key: 'maxspill', //key  - the name of the series.
+            color: 'green'
+        }]
+
     }
 ]);
