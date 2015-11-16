@@ -524,7 +524,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 "minute": 2880
             }],
 
-            key: 'maxspill', //key  - the name of the series.
+            key: 'time', //key  - the name of the series.
             color: 'green'
         }]
 
