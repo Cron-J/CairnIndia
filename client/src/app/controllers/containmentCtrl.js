@@ -497,10 +497,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 "minute": 2000
             }, {
 
-                "maxspill flow rate": 71,
-                "minute": 2200
-            }, {
-
                 "maxspill flow rate": 4038.89,
                 "minute": 2200
             }, {
