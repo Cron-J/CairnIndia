@@ -69,7 +69,8 @@ body {
     margin-bottom: 10px;
 }
 
-.ut-acc-row {
+.ut-acc-row
+ {
     margin-top: 30px;
 }
 
@@ -391,4 +392,8 @@ background: #094981;
 text-shadow: 0px;
 left: 2px;
 font-size: 32px;
+}
+
+.m-b{
+    margin-bottom: 45px
 }
