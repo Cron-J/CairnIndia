@@ -4,6 +4,36 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         $scope.createPipeline = function(data) {
             $location.path('/create-pipeline');
         }
+        $scope.rvpavalue = [{
+            key: '37.8',
+            value: 8
+        }, {
+            key: '50',
+            value:20.1 
+        }, {
+            key: '60',
+            text: 27.5
+        }, {
+            key: '65',
+            value: 31.9
+        }];
+        $scope.tracemetals = [{
+            name: 'Iron',
+            value: 8
+        }, {
+            name: 'Nickel',
+            value:20.1 
+        }, {
+            name: 'Vanadium',
+            text: 27.5
+        }, {
+            name: 'Copper',
+            value: 31.9
+        },
+        {
+            name: 'Zinc',
+            value: 31.9
+        }];
         $scope.selectedItem = {};
         var getalldata = function() {
             $http.get('/getPipeline')

@@ -1,15 +1,18 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading  font-bold">
+            <div class="panel panel-info">
+                <div class="panel-heading  font-bold text-center">
                     <h4>Oil Spill Volume Calculation</h4></div>
-                <form role="form">
-                    <label class="col-md-12 radio-inline">
-                        <input type="radio" name="optradio" ng-model="rupture" value="cross" ng-click="clearforminclination()">Cross-Sectional Rupture
-                        <label class="radio-inline">
-                            <input type="radio" name="optradio" ng-model="rupture" value="maxspill" ng-click="clearforminclination()">Maximum Spill
-                        </label>
+                <form role="form" class="marginsec">
+                        <div class="radio radio-info radio-inline rupture-f">
+                            <input type="radio" name="radioInline" ng-model="rupture" value="cross" ng-click="clearforminclination()" >
+                            <label for="inlineRadio1"> Cross-Sectional Rupture </label>
+                        </div>
+                        <div class="radio radio-info radio-inline rupture-f">
+                            <input type="radio" value="maxspill" ng-model="rupture" name="radioInline" ng-click="clearforminclination()">
+                            <label for="inlineRadio1"> Maximum Spill</label>
+                        </div>
                         <label ng-show="isShown('maxspill')">
                             <select ng-model="rupture" class="form-control">
                                 <option value="selected">Select</option>
@@ -17,9 +20,11 @@
                                 <option value="ground">Below Ground</option>
                             </select>
                         </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="optradio" ng-model="rupture" value="elevation" ng-click="clearforminclination()">Rupture at Elevation
-                        </label>
+                        <div class="radio radio-info radio-inline rupture-f">
+                            <input type="radio" id="" ng-model="rupture" value="elevation" name="radioInline" ng-click="clearforminclination()">
+                            <label for="inlineRadio1"> Rupture at Elevation Plane</label>
+                        </div>
+
                 </form>
                 <div class="panel-body" ng-show="isShown('cross')">
                     <tabset>
@@ -303,7 +308,7 @@
             </div>
         </div>
         <nvd3 options="options" data="data"></nvd3>
-       <!--  <nvd3 options="options1" data="data1"></nvd3>
+        <!--  <nvd3 options="options1" data="data1"></nvd3>
         <nvd3 options="options2" data="data2"></nvd3> -->
     </div>
 </div>

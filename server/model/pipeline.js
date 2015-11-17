@@ -65,10 +65,67 @@ var Pipeline = new Schema({
         required: true
     },
 
+    specificgravity: {
+        type: Number,
+        required: true
+    },
+    gravity: {
+        type: Number,
+        required: true
+    },
     viscosity: {
         type: Number,
         required: true
     },
+    viscosityat100: {
+        type: Number,
+        required: true
+    },
+    rvp: {
+        type: Number,
+        required: true
+    },
+    pourpoint: {
+        type: Number,
+        required: true
+    },
+    sulfurweightage: {
+        type: Number,
+        required: true
+    },
+    saltcontent: {
+        type: Number,
+        required: true
+    },
+    microcarbonresidue: {
+        type: Number,
+        required: true
+    },
+    watercontent: {
+        type: Number,
+        required: true
+    },
+    bsw: {
+        type: Number,
+        required: true
+    },
+    totalacidvalue: {
+        type: Number,
+        required: true
+    },
+    flashpoint: {
+        type: Number,
+        required: true
+    },
+    tracemetals: {
+        type: Number,
+        required: true
+    },
+    lpgpotentials: {
+        type: Number,
+        required: true
+    },
+
     /** 
       Scope. It can only contain string, is required field, and should have value from enum array.
     */

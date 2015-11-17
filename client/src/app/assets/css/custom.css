@@ -363,3 +363,32 @@ input[type=number]::-webkit-outer-spin-button {
 .marginsec {
     margin: 4%;
 }
+
+.rupture-f {
+    font-size: 16px;
+    font-family: cursive;
+}
+
+.customradio {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fafafa;
+    border: 1px solid #cacece; // circle border
+    padding: 6px;
+    border-radius: 50px;
+    display: inline-block;
+    position: relative;
+}
+
+.customradio:checked:after {
+content: '';
+width: 8px;
+height: 8px;
+border-radius: 50px;
+position: absolute;
+top: 2px;
+background: #094981;
+text-shadow: 0px;
+left: 2px;
+font-size: 32px;
+}
