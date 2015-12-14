@@ -16,7 +16,8 @@ var smtpTransport = nodemailer.createTransport("SMTP", {
 
 exports.sentMailForgotPassword = function(user) {
     var from = Config.email.accountName + " Team<" + Config.email.username + ">";
-    var mailbody = "<p>Hi " + user.firstName + " " + user.lastName + ", </p><br>" + "<p>You have requested for " + Config.email.accountName + " account password.</p>" + "<p>Here is your account  credentials</p>" + "<p><b>User Name :</b> " + user.username + " ,<b>Password :</b> " + crypto.decrypt(user.password) + "</p>" + "<p>You can login <a href=" + Config.url + "login>here</a></p>"
+    var mailbody = "<p>Hi " + user.firstName + " " + user.lastName + ", </p><br>" + "<p>You have requested for " + Config.email.accountName + " account password.</p>" + "<p>Here is your account  credentials</p>" + "<p><b>User Name :</b> " + user.username + " ,<b>Password :</b> " + crypto.decrypt(user.password) + "</p>" + "<p>You can login <a href='" + Config.url + "login'>here</a></p>"
+    console.log(mailbody);
     mail(from, user.email, "Forgot password", mailbody);
 };
 // exports.sentMailUserDeactivation = function(user, password) {
@@ -34,7 +35,7 @@ exports.sendUserActivationMail = function(user) {
 exports.sendAccountCreationMail = function(user) {
     var from = Config.email.accountName + " Team<" + Config.email.username + ">";
     var mailbody = "<p>Hi " + user.firstName + " " + user.lastName + ", </p><br>" + "<p>Your " + Config.email.accountName + " account has created.</p>" + "<p>As <b>" + user.scope + "</b> for the company <b>" + user.firstName + "</b> you are invited to join.</p>" + "<p>Here is your login details.</p>" + "<p><b>User Name : </b>" + user.username + " <b>Password : </b>" + crypto.decrypt(user.password) + "</p>" + "<p>Please login <a href=" + Config.url + "login>here</a></p>"
-    mail(from, user.email, "jCatalog Account is created", mailbody);
+    mail(from, user.email, "Cairn India Account is created", mailbody);
 };
 // exports.sendAccountCredentialsToUser = function(user) {
 //     var from = Config.email.accountName+" Team<" + Config.email.username + ">";

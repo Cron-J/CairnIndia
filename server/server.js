@@ -18,7 +18,7 @@ var ttl = app.config.key.tokenExpiry;
 var server = new Hapi.Server();
 server.connection({ port: app.config.server.port });
 
-// Validate function to be injected 
+// Validate function to be injected
 var validate = function(token, callback) {
     // Check token timestamp
     var diff = Moment().diff(Moment(token.iat * 1000));
