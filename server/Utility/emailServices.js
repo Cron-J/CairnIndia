@@ -17,7 +17,6 @@ var smtpTransport = nodemailer.createTransport("SMTP", {
 exports.sentMailForgotPassword = function(user) {
     var from = Config.email.accountName + " Team<" + Config.email.username + ">";
     var mailbody = "<p>Hi " + user.firstName + " " + user.lastName + ", </p><br>" + "<p>You have requested for " + Config.email.accountName + " account password.</p>" + "<p>Here is your account  credentials</p>" + "<p><b>User Name :</b> " + user.username + " ,<b>Password :</b> " + crypto.decrypt(user.password) + "</p>" + "<p>You can login <a href='" + Config.url + "login'>here</a></p>"
-    console.log(mailbody);
     mail(from, user.email, "Forgot password", mailbody);
 };
 // exports.sentMailUserDeactivation = function(user, password) {

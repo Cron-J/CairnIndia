@@ -1,5 +1,3 @@
-var ip = require('ip');
-console.log(ip.address()+":8001/#/");
 module.exports = {
     server: {
 
@@ -19,5 +17,5 @@ module.exports = {
         accountName: "Cairn India",
         verifyEmailUrl: "verifyMail"
     },
-    url: "http://"+ip.address()+":8001/#/"
+    url: "http://localhost:8001/#/"
 };
