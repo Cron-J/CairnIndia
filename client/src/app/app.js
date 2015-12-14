@@ -2,6 +2,7 @@
 
 // Declare app level module which depends on filters, and services
 var app = angular.module('app', [
+    'rzModule',
     'ngCookies',
     'angular-growl',
     'ui.router',
@@ -19,10 +20,10 @@ var app = angular.module('app', [
 
 .config(
   ['$stateProvider', '$urlRouterProvider', 'growlProvider', '$httpProvider', 'USER_ROLES',
-    function ($stateProvider,   $urlRouterProvider,   growlProvider, $httpProvider, USER_ROLES) {       
+    function ($stateProvider,   $urlRouterProvider,   growlProvider, $httpProvider, USER_ROLES) {
         growlProvider.globalTimeToLive(3000);
         growlProvider.globalEnableHtml(true);
-        $urlRouterProvider.otherwise("/error");   
+        $urlRouterProvider.otherwise("/error");
         $stateProvider
           .state('login', {
             url: "/login",
@@ -39,7 +40,7 @@ var app = angular.module('app', [
               data: {
                   authorizedRoles: [USER_ROLES.all]
               }
-          }) 
+          })
           .state('forgotPassword', {
             url: "/forgotPassword",
               templateUrl: "app/views/common/forgot_password.html",
@@ -47,7 +48,7 @@ var app = angular.module('app', [
               data: {
                   authorizedRoles: [USER_ROLES.all]
               }
-          }) 
+          })
           .state('error', {
             url: "/error",
               templateUrl: "app/views/common/error.html",
@@ -128,8 +129,8 @@ var app = angular.module('app', [
               }
           })
 
-          
-          
+
+
           // .state('usersOfTenant', {
           //   url: "/users/:selectedId",
           //     templateUrl: "app/views/user/userHome.html",
@@ -147,7 +148,7 @@ var app = angular.module('app', [
           //     }
 
           // })
-          
+
           // .state('tenantUser', {
           //   url: "/tenantUser/:tUserId",
           //     templateUrl: "app/views/user/User.html",
@@ -211,12 +212,12 @@ var app = angular.module('app', [
               $location.path('/error');
             }, 1000);
           }
-        }) 
+        })
       }
       else if(isAuthorized){
         AuthServ.isLoggedInAsync(function(loggedIn) {
-                      
-          if (!loggedIn) {      
+
+          if (!loggedIn) {
             if($location.path() == '/tenantSignup') {
                 $location.path('/tenantSignup');
             }
@@ -233,14 +234,14 @@ var app = angular.module('app', [
             }
             else if($location.path() == '/userActivation') {
               $location.path('/login');
-            } 
+            }
             else if($stateParams) {
-            } 
+            }
             else {
               $location.path('/login');
-            }  
+            }
           }
-          else if(loggedIn){                  
+          else if(loggedIn){
             if($location.path() == '/userActivation') {
               $location.path('/users');
             }
@@ -277,6 +278,3 @@ angular.module('cons', [])
       tenantadmin: 'Tenant-Admin',
       tenantuser:'User'
   })
-  
-
-  

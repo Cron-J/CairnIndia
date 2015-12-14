@@ -1,6 +1,25 @@
-app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio', '$localStorage',
-    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio, $localStorage) {
+app.controller('containmentCtrl', ['$scope', '$interval', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio', '$localStorage',
+    function($scope, $interval, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio, $localStorage) {
         $scope.pipe = {};
+        $scope.maphourslider = {
+          value: 8,
+          options: {
+              floor: 1,
+              ceil: 48,
+              step: 1,
+              onChange: function() {
+                adjustslider();
+              }
+          }
+        };
+        var oilspilltime;
+        $scope.stopmapTimer = function() {
+          if (angular.isDefined(oilspilltime)) {
+            $interval.cancel(oilspilltime);
+            oilspilltime = undefined;
+          }
+        };
+        $scope.stopmapTimer();
         $scope.createPipeline = function(data) {
             $location.path('/create-pipeline');
         }
@@ -9,7 +28,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             value: 8
         }, {
             key: '50',
-            value:20.1 
+            value:20.1
         }, {
             key: '60',
             text: 27.5
@@ -22,7 +41,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             value: 8
         }, {
             name: 'Nickel',
-            value:20.1 
+            value:20.1
         }, {
             name: 'Vanadium',
             text: 27.5
@@ -44,6 +63,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $scope.selectedItem.pipeName = $scope.pipe._id;
             if ($location.$$path == '/create-pipeline') {
                 $scope.pipe = {};
+                $scope.stopmapTimer();
             }
         }
         $scope.getGasOilRatio = getGasOilRatio;
@@ -138,7 +158,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         }
 
         $scope.deletePipeData = function(removePipeData, index) {
-            console.log('======', $scope.getpipedata.indexOf($scope.getpipedata));
             if (removePipeData !== null) {
                 $http.delete('/removePipeline/' + removePipeData._id)
                     .success(function(data, status) {
@@ -160,21 +179,27 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         $scope.clearform = function() {
             $scope.area = {};
             $scope.result = false;
+            $scope.showmap = false;
+            $scope.stopmapTimer();
         }
 
         $scope.clearforminclination = function() {
             $scope.area = {};
+            $scope.location = {};
             $scope.options = undefined;
             $scope.data = [];
             $scope.result = false;
+            $scope.showmap = false;
+            $scope.stopmapTimer();
         }
 
-        //Rupture shape and area 
+        //Rupture shape and area
 
         $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular'];
         $scope.diameter = [10, 24];
         $scope.result = false;
         $scope.area = {};
+        $scope.location = {};
         var getAGIdata = function() {
             $http.get('/getAGIData')
                 .success(function(data, status) {
@@ -199,7 +224,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $http.post('/calculatePipelinedata', areaprops)
                 .success(function(data, status) {
                     $scope.barrels = data;
-                    console.log('shape', shape);
                     if (shape === "Rectangular" || shape === "Triangular" || shape === "Square" || shape === "Circular") {
                         $scope.options = $scope.pressureoptions;
                         $scope.data = $scope.getData;
@@ -220,12 +244,19 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                     // $scope.data2 = $scope.agidata;
                     $scope.loading = false;
                     // $scope.area ={};
+
+                    //show map
+                    var validLocation = $scope.location.lat >= -90 && $scope.location.lat <= 90 && $scope.location.lng >= -180 && $scope.location.lng <= 180;
+                    if (validLocation) {
+                      $scope.showmap = true;
+                      $scope.getMap($scope.maphourslider.value, $scope.barrels);
+                    } else {
+                      $scope.showmap = false;
+                    }
                 })
                 .error(function(data, status) {
-                    console.log('data', data);
                     growl.addErrorMessage(data.message);
                 });
-
         }
 
         $scope.pressureoptions = {
@@ -270,7 +301,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             },
             caption: {
                 enable: true,
-                html: '<b>Figure 1.</b> Pressure Flow Rate',
+                html: 'Pressure Flow Rate',
                 css: {
                     'text-align': 'center',
                     'margin': '10px 13px 0px 7px',
@@ -360,7 +391,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                     }
                 },
                 callback: function(chart) {
-                    console.log("!!! lineChart callback !!!");
+                    // line chart callback
                 }
             },
             subtitle: {
@@ -557,6 +588,44 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             key: 'time', //key  - the name of the series.
             color: 'green'
         }]
+        var adjustslider = function () {
+          $scope.getMap($scope.maphourslider.value, $scope.barrels);
+        }
+        $scope.getMap = function(totalhours, barrelsize) {
+          $scope.stopmapTimer();
+          var maplatlong = $scope.location;
+          var mapOptions = {
+            zoom: 20,
+            center: maplatlong,
+            mapTypeId: google.maps.MapTypeId.SATELLITE
+          }
+          var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+          map.setTilt(45);
 
+          var marker = new google.maps.Marker({
+            position: maplatlong,
+            map: map
+          });
+          var hour = 1;
+          var circle = null;
+          oilspilltime = $interval(function() {
+            hour = hour < totalhours ? hour + 1: 1; // for next eight hours
+            // barrel to meter to show it in map
+           // m3 = (barrels/8.3864)
+           // m = Math.cbrt(m3)
+           var meter = Math.cbrt(((barrelsize * hour)/8.3864));
+           if (circle) {
+             circle.setMap(null);
+           }
+            circle = new google.maps.Circle({
+              map: map,
+              radius: meter,    // change as per the calculation it will cover in meters
+              fillColor: '#FF0000',
+              strokeOpacity: 0.8,
+              strokeWeight: 0.5
+            });
+            circle.bindTo('center', marker, 'position');
+          }, 1000);
+        }
     }
 ]);

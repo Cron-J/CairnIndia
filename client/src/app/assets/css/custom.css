@@ -397,3 +397,31 @@ font-size: 32px;
 .m-b{
     margin-bottom: 45px
 }
+
+#map {
+  height: 400px;
+  width: 98%;
+  border: 1px solid #383535;
+  margin-left: 1%;
+}
+
+.imagetitle {
+  font-size: 14px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.sliderlabel {
+  height: 64px;
+  line-height: 64px;
+  font-weight: bold;
+}
+
+.sliderbar {
+  width: 45%;
+  height: 64px;
+}
