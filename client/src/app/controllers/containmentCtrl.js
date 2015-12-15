@@ -1,8 +1,9 @@
 app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio', '$localStorage',
     function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio, $localStorage) {
+        var mapdefaultvalue = 1;
         $scope.pipe = {};
         $scope.maphourslider = {
-          value: 1,
+          value: mapdefaultvalue,
           options: {
               floor: 1,
               ceil: 48,
@@ -238,6 +239,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                     var validLocation = $scope.location.lat >= -90 && $scope.location.lat <= 90 && $scope.location.lng >= -180 && $scope.location.lng <= 180;
                     if (validLocation) {
                       $scope.showmap = true;
+                      $scope.maphourslider.value = mapdefaultvalue;
                       $scope.getMap($scope.maphourslider.value, $scope.barrels);
                     } else {
                       $scope.showmap = false;
@@ -577,8 +579,26 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             key: 'time', //key  - the name of the series.
             color: 'green'
         }]
+        var map = null;
+        var marker = null;
+        var circle = null;
+
+        var setCircle = function(totalhours, barrelsize) {
+          var meter = Math.cbrt(((barrelsize * totalhours)/8.3864));
+          if (circle) {
+            circle.setMap(null);
+          }
+          circle = new google.maps.Circle({
+             map: map,
+             radius: meter,    // change as per the calculation it will cover in meters
+             fillColor: '#FF0000',
+             strokeOpacity: 0.8,
+             strokeWeight: 0.5
+           });
+           circle.bindTo('center', marker, 'position');
+        }
         var adjustslider = function () {
-          $scope.getMap($scope.maphourslider.value, $scope.barrels);
+          setCircle($scope.maphourslider.value, $scope.barrels);
         }
         $scope.getMap = function(totalhours, barrelsize) {
           var maplatlong = $scope.location;
@@ -587,24 +607,24 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             center: maplatlong,
             mapTypeId: google.maps.MapTypeId.SATELLITE
           }
-          var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+          map = new google.maps.Map(document.getElementById('map'), mapOptions);
           map.setTilt(45);
 
-          var marker = new google.maps.Marker({
+          marker = new google.maps.Marker({
             position: maplatlong,
             map: map
           });
-
+          setCircle(totalhours, barrelsize);
           // barrel to meter
-          var meter = Math.cbrt(((barrelsize * totalhours)/8.3864));
-          var circle = new google.maps.Circle({
-             map: map,
-             radius: meter,    // change as per the calculation it will cover in meters
-             fillColor: '#FF0000',
-             strokeOpacity: 0.8,
-             strokeWeight: 0.5
-           });
-           circle.bindTo('center', marker, 'position');
+          // var meter = Math.cbrt(((barrelsize * totalhours)/8.3864));
+          // var circle = new google.maps.Circle({
+          //    map: map,
+          //    radius: meter,    // change as per the calculation it will cover in meters
+          //    fillColor: '#FF0000',
+          //    strokeOpacity: 0.8,
+          //    strokeWeight: 0.5
+          //  });
+          //  circle.bindTo('center', marker, 'position');
         }
     }
 ]);
