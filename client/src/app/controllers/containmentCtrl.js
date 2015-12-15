@@ -1,8 +1,8 @@
-app.controller('containmentCtrl', ['$scope', '$interval', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio', '$localStorage',
-    function($scope, $interval, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio, $localStorage) {
+app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio', '$localStorage',
+    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio, $localStorage) {
         $scope.pipe = {};
         $scope.maphourslider = {
-          value: 8,
+          value: 1,
           options: {
               floor: 1,
               ceil: 48,
@@ -12,14 +12,6 @@ app.controller('containmentCtrl', ['$scope', '$interval', '$location', '$http', 
               }
           }
         };
-        var oilspilltime;
-        $scope.stopmapTimer = function() {
-          if (angular.isDefined(oilspilltime)) {
-            $interval.cancel(oilspilltime);
-            oilspilltime = undefined;
-          }
-        };
-        $scope.stopmapTimer();
         $scope.createPipeline = function(data) {
             $location.path('/create-pipeline');
         }
@@ -63,7 +55,6 @@ app.controller('containmentCtrl', ['$scope', '$interval', '$location', '$http', 
             $scope.selectedItem.pipeName = $scope.pipe._id;
             if ($location.$$path == '/create-pipeline') {
                 $scope.pipe = {};
-                $scope.stopmapTimer();
             }
         }
         $scope.getGasOilRatio = getGasOilRatio;
@@ -180,7 +171,6 @@ app.controller('containmentCtrl', ['$scope', '$interval', '$location', '$http', 
             $scope.area = {};
             $scope.result = false;
             $scope.showmap = false;
-            $scope.stopmapTimer();
         }
 
         $scope.clearforminclination = function() {
@@ -190,7 +180,6 @@ app.controller('containmentCtrl', ['$scope', '$interval', '$location', '$http', 
             $scope.data = [];
             $scope.result = false;
             $scope.showmap = false;
-            $scope.stopmapTimer();
         }
 
         //Rupture shape and area
@@ -592,7 +581,6 @@ app.controller('containmentCtrl', ['$scope', '$interval', '$location', '$http', 
           $scope.getMap($scope.maphourslider.value, $scope.barrels);
         }
         $scope.getMap = function(totalhours, barrelsize) {
-          $scope.stopmapTimer();
           var maplatlong = $scope.location;
           var mapOptions = {
             zoom: 20,
@@ -606,26 +594,17 @@ app.controller('containmentCtrl', ['$scope', '$interval', '$location', '$http', 
             position: maplatlong,
             map: map
           });
-          var hour = 1;
-          var circle = null;
-          oilspilltime = $interval(function() {
-            hour = hour < totalhours ? hour + 1: 1; // for next eight hours
-            // barrel to meter to show it in map
-           // m3 = (barrels/8.3864)
-           // m = Math.cbrt(m3)
-           var meter = Math.cbrt(((barrelsize * hour)/8.3864));
-           if (circle) {
-             circle.setMap(null);
-           }
-            circle = new google.maps.Circle({
-              map: map,
-              radius: meter,    // change as per the calculation it will cover in meters
-              fillColor: '#FF0000',
-              strokeOpacity: 0.8,
-              strokeWeight: 0.5
-            });
-            circle.bindTo('center', marker, 'position');
-          }, 1000);
+
+          // barrel to meter
+          var meter = Math.cbrt(((barrelsize * totalhours)/8.3864));
+          var circle = new google.maps.Circle({
+             map: map,
+             radius: meter,    // change as per the calculation it will cover in meters
+             fillColor: '#FF0000',
+             strokeOpacity: 0.8,
+             strokeWeight: 0.5
+           });
+           circle.bindTo('center', marker, 'position');
         }
     }
 ]);
