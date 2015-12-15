@@ -426,6 +426,15 @@ font-size: 32px;
   height: 64px;
 }
 
+.slideresult .higlight {
+  color: #0C8C0C;
+}
+
+.slideresult {
+  text-align: center;
+  font-weight: bold;
+}
+
 .hidespinner::-webkit-inner-spin-button,
 .hidespinner::-webkit-outer-spin-button {
     -webkit-appearance: none;

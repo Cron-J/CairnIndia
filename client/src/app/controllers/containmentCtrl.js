@@ -2,6 +2,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
     function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio, $localStorage) {
         var mapdefaultvalue = 1;
         $scope.pipe = {};
+        $scope.meters = 0;
         $scope.maphourslider = {
           value: mapdefaultvalue,
           options: {
@@ -585,6 +586,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         var setCircle = function(totalhours, barrelsize) {
           var meter = Math.cbrt(((barrelsize * totalhours)/8.3864));
+          $scope.meters = meter;
           if (circle) {
             circle.setMap(null);
           }

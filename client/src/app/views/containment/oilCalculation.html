@@ -340,6 +340,9 @@
                 rz-slider-options="maphourslider.options"></rzslider>
             </div>
           </div>
+          <div>
+            <div class="control-label slideresult">Oil Flow after <font class="higlight">{{maphourslider.value}}</font> hour/hours will be <font class="higlight">{{(barrels * maphourslider.value).toFixed(2)}}</font> barrels and it covers <font class="higlight">{{meters.toFixed(2)}} meters</font></div>
+          </div>
           <div id="map">
           </div>
           <div class="imagetitle">

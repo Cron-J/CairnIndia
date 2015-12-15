@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "boom": "^2.6.1",
+    "fast-csv": "^0.6.0",
     "hapi": "^8.2.0",
     "hapi-auth-jwt": "^2.1.0",
     "ip": "^1.1.0",
