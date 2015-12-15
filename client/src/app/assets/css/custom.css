@@ -425,3 +425,9 @@ font-size: 32px;
   width: 45%;
   height: 64px;
 }
+
+.hidespinner::-webkit-inner-spin-button,
+.hidespinner::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
