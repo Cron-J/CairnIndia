@@ -74,12 +74,31 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $localStorage.message = data;
         }
         $scope.pipe = $localStorage.message;
+        $scope.showrupture1 =false;
+        $scope.showrupture2 = false;
+        $scope.showwaterdiv = false;
+        $scope.showgrounddiv = false;
+        $scope.changeView = function(showrupture1,showrupture2,showwaterdiv,showgrounddiv,showdiv,rupture){
+            showrupture1 === undefined ? showrupture1 :$scope.showrupture1 = showrupture1;
+            showrupture2 === undefined ? showrupture2 :$scope.showrupture2 = showrupture2;
+            showwaterdiv === undefined ? showwaterdiv: $scope.showwaterdiv = showwaterdiv;
+            showgrounddiv === undefined? showgrounddiv: $scope.showgrounddiv = showgrounddiv;
+            showdiv === undefined ? showdiv :$scope.showdiv = showdiv;
+            rupture === undefined ? rupture: $scope.rupture = rupture;
+        }
 
-        $scope.rupture = '';
-        $scope.isShown = function(rupture) {
-            return rupture === $scope.rupture;
-        };
-
+        $scope.changeDiv = function(rupture){
+            $scope.showrupture1 =false;
+            $scope.showrupture2 = false;
+            if(rupture === 'water'){
+                $scope.showwaterdiv = true;
+                $scope.showgrounddiv = false;
+            }
+            else if(rupture === 'ground'){
+                $scope.showgrounddiv = true;
+                $scope.showwaterdiv = false;
+            }
+        }
         $scope.changeSize = function(size) {
             if (size == 'inch') {
                 $scope.pipe.pipeHeight = $scope.pipe.pipeHeight / 2.54;
@@ -215,16 +234,10 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $http.post('/calculatePipelinedata', areaprops)
                 .success(function(data, status) {
                     $scope.barrels = data;
-                    if (shape === "Rectangular" || shape === "Triangular" || shape === "Square" || shape === "Circular") {
-                        $scope.options = $scope.pressureoptions;
-                        $scope.data = $scope.getData;
-                    } else if (shape === "water" || shape === "ground") {
+                    if (shape === "water" || shape === "ground") {
                         $scope.options = $scope.timeoptions;
                         $scope.data = $scope.getSpillData;
-                    } else if (shape === "inclination") {
-                        $scope.options = $scope.agioptions;
-                        $scope.data = $scope.agidata;
-                    }
+                    } 
 
 
                     // $scope.options = $scope.pressureoptions;
@@ -250,107 +263,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                     growl.addErrorMessage(data.message);
                 });
         }
-
-        $scope.pressureoptions = {
-            chart: {
-                type: 'lineChart',
-                height: 450,
-                // width:300,
-                // margin: {
-                //     top: 20,
-                //     right: 20,
-                //     bottom: 60,
-                //     left: 40
-                // },
-                x: function(d) {
-                    return d['flowrate'];
-                },
-                y: function(d) {
-                    return d['pressure'];
-                },
-                useInteractiveGuideline: true,
-                xAxis: {
-                    showMaxMin: false,
-                    axisLabel: 'Spill Flow Rate (In Barrels/Hour)',
-                    tickFormat: function(d) {
-                        return d3.format('.02f')(d);
-                    }
-                },
-                yAxis: {
-                    axisLabel: 'Pressure (In Bar)',
-                    tickFormat: function(d) {
-                        return d3.format(',.2f')(d);
-                    }
-                }
-            },
-            subtitle: {
-                enable: true,
-                text: '',
-                css: {
-                    'text-align': 'center',
-                    'margin': '10px 13px 0px 7px'
-                }
-            },
-            caption: {
-                enable: true,
-                html: 'Pressure Flow Rate',
-                css: {
-                    'text-align': 'center',
-                    'margin': '10px 13px 0px 7px',
-                    'font-weight': 'bold'
-                }
-            }
-        };
-        $scope.agioptions = {
-            chart: {
-                type: 'lineChart',
-                height: 450,
-                // width:300,
-                // margin: {
-                //     top: 20,
-                //     right: 20,
-                //     bottom: 60,
-                //     left: 40
-                // },
-                x: function(d) {
-                    return d['flowrate'];
-                },
-                y: function(d) {
-                    return d['agipoint'];
-                },
-                useInteractiveGuideline: true,
-                xAxis: {
-                    showMaxMin: false,
-                    axisLabel: 'Spill Flow Rate (In Barrels/Hour)',
-                    tickFormat: function(d) {
-                        return d3.format('.02f')(d);
-                    }
-                },
-                yAxis: {
-                    axisLabel: 'AGI',
-                    tickFormat: function(d) {
-                        return d3.format(',.2f')(d);
-                    }
-                }
-            },
-            subtitle: {
-                enable: true,
-                text: '',
-                css: {
-                    'text-align': 'center',
-                    'margin': '10px 13px 0px 7px'
-                }
-            },
-            caption: {
-                enable: true,
-                html: '<b>Figure 1.</b> AGI Flow Rate',
-                css: {
-                    'text-align': 'center',
-                    'margin': '10px 13px 0px 7px',
-                    'font-weight': 'bold'
-                }
-            }
-        };
         $scope.timeoptions = {
             chart: {
                 type: 'lineChart',
@@ -404,90 +316,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 }
             }
         };
-
-        $scope.getData = [{
-            values: [{
-                "flowrate": 179,
-                "pressure": 21
-            }, {
-                "flowrate": 255,
-                "pressure": 26
-            }, {
-                "flowrate": 284,
-                "pressure": 31
-            }, {
-                "flowrate": 378,
-                "pressure": 36
-            }, {
-                "flowrate": 454,
-                "pressure": 41
-            }, {
-                "flowrate": 587,
-                "pressure": 46
-            }, {
-                "flowrate": 686,
-                "pressure": 51
-            }, {
-                "flowrate": 784,
-                "pressure": 56
-            }, {
-                "flowrate": 888,
-                "pressure": 61
-            }, {
-                "flowrate": 976,
-                "pressure": 66
-            }, {
-                "flowrate": 1067,
-                "pressure": 71
-            }],
-
-            key: 'Pressure', //key  - the name of the series.
-            color: '#ff7f0e'
-        }]
-
-        $scope.agidata = [{
-            values: [{
-                "flowrate": 166.24,
-                "agipoint": 0
-            }, {
-                "flowrate": 125.67,
-                "agipoint": 3
-            }, {
-                "flowrate": 57.51,
-                "agipoint": 6
-            }, {
-                "flowrate": 34.40,
-                "agipoint": 9
-            }, {
-                "flowrate": 49.49,
-                "agipoint": 12
-            }, {
-                "flowrate": 14.66,
-                "agipoint": 15
-            }, {
-                "flowrate": 34.74,
-                "agipoint": 17
-            }, {
-                "flowrate": 99.29,
-                "agipoint": 21
-            }, {
-                "flowrate": 26.50,
-                "agipoint": 24
-            }, {
-                "flowrate": 75.48,
-                "agipoint": 26
-            }, {
-                "flowrate": 147.88,
-                "agipoint": 27
-            }, {
-                "flowrate": 38.89,
-                "agipoint": 30
-            }],
-
-            key: 'AGI', //key  - the name of the series.
-            color: 'red'
-        }]
-
         $scope.getSpillData = [{
             values: [{
                 "maxspill flow rate": 7.25,

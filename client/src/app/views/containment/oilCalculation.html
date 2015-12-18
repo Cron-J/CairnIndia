@@ -6,27 +6,26 @@
                     <h4>Oil Spill Volume Calculation</h4></div>
                 <form role="form" class="marginsec">
                         <div class="radio radio-info radio-inline rupture-f">
-                            <input type="radio" name="radioInline" ng-model="rupture" value="cross" ng-click="clearforminclination()" >
+                            <input type="radio" name="radioInline" ng-click="clearforminclination();changeView(true,false,false,false,false)" >
                             <label for="inlineRadio1"> Cross-Sectional Rupture </label>
                         </div>
                         <div class="radio radio-info radio-inline rupture-f">
-                            <input type="radio" value="maxspill" ng-model="rupture" name="radioInline" ng-click="clearforminclination()">
+                            <input type="radio" name="radioInline" ng-click="clearforminclination();changeView(false,false,false,false,true,'')">
                             <label for="inlineRadio1"> Maximum Spill</label>
-                            <div class="inline-block" ng-show="isShown('maxspill')">
-                                <select ng-model="rupture" class="form-control">
-                                    <option value="selected">Select</option>
-                                    <option value="water">Below Water</option>
-                                    <option value="ground">Below Ground</option>
+                            <div class="inline-block" ng-show="showdiv">
+                                <select ng-model="rupture" ng-dropdown ng-change="changeDiv(rupture)">
+                                    <option ng-option value="water">Below Water</option>
+                                    <option ng-option value="ground">Below Ground</option>
                                 </select>
                             </div>
                         </div>
                         <div class="radio radio-info radio-inline rupture-f">
-                            <input type="radio" id="" ng-model="rupture" value="elevation" name="radioInline" ng-click="clearforminclination()">
+                            <input type="radio" id="" name="radioInline" ng-click="clearforminclination();changeView(false,true,false,false,false)">
                             <label for="inlineRadio1"> Rupture at Elevated Plane</label>
                         </div>
 
                 </form>
-                <div class="panel-body" ng-show="isShown('cross') || isShown('water') || isShown('ground') || isShown('elevation')">
+                <div class="panel-body" ng-show="showrupture==1 || isShown('water') || isShown('ground') || showrupture==2">
                   <tabset>
                     <tab heading="Rupture Location (optional)">
                       <div class="col-md-6 ut-search-result">
@@ -50,7 +49,7 @@
                     </tab>
                   </tabset>
                 </div>
-                <div class="panel-body" ng-show="isShown('cross')">
+                <div class="panel-body" ng-if="showrupture1">
                     <tabset>
                         <tab heading="Cross-Sectional Rupture">
                             <div class="col-md-6 ut-search-result">
@@ -196,7 +195,7 @@
                         </tab>
                     </tabset>
                 </div>
-                <div class="panel-body" ng-show="isShown('water')">
+                <div class="panel-body" ng-show="showwaterdiv">
                     <tabset>
                         <tab heading="Maximum Spill (Below Water)">
                             <div class="col-md-6 ut-search-result">
@@ -251,7 +250,7 @@
                         </tab>
                     </tabset>
                 </div>
-                <div class="panel-body" ng-show="isShown('ground')">
+                <div class="panel-body" ng-show="showgrounddiv">
                     <tabset>
                         <tab heading="Maximum Spill (Below Ground)">
                             <div class="col-md-6 ut-search-result">
@@ -298,7 +297,7 @@
                         </tab>
                     </tabset>
                 </div>
-                <div class="panel-body" ng-show="isShown('elevation')">
+                <div class="panel-body" ng-if="showrupture2">
                     <tabset>
                         <tab heading="Rupture at Elevation">
                             <div class="col-md-6 ut-search-result">
