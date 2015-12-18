@@ -78,13 +78,15 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         $scope.showrupture2 = false;
         $scope.showwaterdiv = false;
         $scope.showgrounddiv = false;
-        $scope.changeView = function(showrupture1,showrupture2,showwaterdiv,showgrounddiv,showdiv,rupture){
+        $scope.showgeo =false;
+        $scope.changeView = function(showrupture1,showrupture2,showwaterdiv,showgrounddiv,showdiv,rupture,showgeo){
             showrupture1 === undefined ? showrupture1 :$scope.showrupture1 = showrupture1;
             showrupture2 === undefined ? showrupture2 :$scope.showrupture2 = showrupture2;
             showwaterdiv === undefined ? showwaterdiv: $scope.showwaterdiv = showwaterdiv;
             showgrounddiv === undefined? showgrounddiv: $scope.showgrounddiv = showgrounddiv;
             showdiv === undefined ? showdiv :$scope.showdiv = showdiv;
             rupture === undefined ? rupture: $scope.rupture = rupture;
+            showgeo === undefined ? showgeo: $scope.showgeo = showgeo;
         }
 
         $scope.changeDiv = function(rupture){
@@ -92,10 +94,12 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $scope.showrupture2 = false;
             if(rupture === 'water'){
                 $scope.showwaterdiv = true;
+                $scope.showgeo = true;
                 $scope.showgrounddiv = false;
             }
             else if(rupture === 'ground'){
                 $scope.showgrounddiv = true;
+                $scope.showgeo =true;
                 $scope.showwaterdiv = false;
             }
         }
