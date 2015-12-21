@@ -417,14 +417,19 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         var circle = null;
 
         var setCircle = function(totalhours, barrelsize) {
-          var meter = Math.cbrt(((barrelsize * totalhours)/8.3864));
-          $scope.meters = meter;
+          if ($scope.showwaterdiv == true) {
+            var millimeter = Math.cbrt(((barrelsize * totalhours)/8.3864)) * 1000;  
+            var radiusCover = Math.sqrt(millimeter/ (3.14 * 0.01));
+            $scope.meters = radiusCover / 1000;
+          } else {
+            $scope.meters = Math.cbrt(((barrelsize * totalhours)/8.3864));
+          }
           if (circle) {
             circle.setMap(null);
           }
           circle = new google.maps.Circle({
              map: map,
-             radius: meter,    // change as per the calculation it will cover in meters
+             radius: $scope.meters,    // change as per the calculation it will cover in meters
              fillColor: '#FF0000',
              strokeOpacity: 0.8,
              strokeWeight: 0.5
