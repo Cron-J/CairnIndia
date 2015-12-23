@@ -418,11 +418,27 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         var setCircle = function(totalhours, barrelsize) {
           if ($scope.showwaterdiv == true) {
-            var millimeter = Math.cbrt(((barrelsize * totalhours)/8.3864)) * 1000;  
-            var radiusCover = Math.sqrt(millimeter/ (3.14 * 0.01));
-            $scope.meters = radiusCover / 1000;
-          } else {
-            $scope.meters = Math.cbrt(((barrelsize * totalhours)/8.3864));
+            var cubicmeter = Math.cbrt((barrelsize)/8.3864);
+            var radiusCover = Math.sqrt((cubicmeter * Math.pow(10, 5))/3.14);
+            var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
+            $scope.meters = radiusCover;
+            $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the slick will cover a radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
+          } 
+          else if ($scope.showrupture1 == true) {
+            var cubicmeter = Math.cbrt(((barrelsize * totalhours)/8.3864));
+            var radiusCover = Math.sqrt((cubicmeter * Math.pow(10, 5))/3.14);
+            var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
+            $scope.meters = radiusCover;
+            $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the total oil spill will be <font class='highlight'>" + (barrelsize * totalhours).toFixed(2) + "</font> barrels and it will spread over radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
+          } 
+          else if($scope.showrupture2 == true) {
+            var litresperhours = barrelsize * 3600;
+            var barrelsperhour = litresperhours *  0.0086485;
+            var cubicmeter = Math.cbrt(((barrelsperhour * totalhours)/8.3864));
+            var radiusCover = Math.sqrt((cubicmeter * Math.pow(10, 5))/3.14);
+            var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
+            $scope.meters = radiusCover;
+            $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the total oil spill will be <font class='highlight'>" + (litresperhours * totalhours).toFixed(2) + "</font> litres and it will spread over radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
           }
           if (circle) {
             circle.setMap(null);
