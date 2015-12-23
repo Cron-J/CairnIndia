@@ -196,6 +196,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $scope.area = {};
             $scope.result = false;
             $scope.showmap = false;
+            $scope.showslider = false;
         }
 
         $scope.clearforminclination = function() {
@@ -205,6 +206,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $scope.data = [];
             $scope.result = false;
             $scope.showmap = false;
+            $scope.showslider = false;
         }
 
         //Rupture shape and area
@@ -237,22 +239,14 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $scope.result = true;
             $http.post('/calculatePipelinedata', areaprops)
                 .success(function(data, status) {
-                    $scope.barrels = data;
                     if (shape === "water" || shape === "ground") {
                         $scope.options = $scope.timeoptions;
                         $scope.data = $scope.getSpillData;
                     } 
-
-
-                    // $scope.options = $scope.pressureoptions;
-                    // $scope.data = $scope.getData;
-                    // $scope.options1 = $scope.timeoptions;
-                    // $scope.data1 = $scope.getSpillData;
-                    // $scope.options2 = $scope.agioptions;
-                    // $scope.data2 = $scope.agidata;
                     $scope.loading = false;
-                    // $scope.area ={};
 
+                    //set barrels
+                    $scope.barrels = data;
                     //show map
                     var validLocation = $scope.location.lat >= -90 && $scope.location.lat <= 90 && $scope.location.lng >= -180 && $scope.location.lng <= 180;
                     if (validLocation) {
@@ -271,13 +265,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             chart: {
                 type: 'lineChart',
                 height: 450,
-                // width:300,
-                // margin: {
-                //     top: 20,
-                //     right: 20,
-                //     bottom: 60,
-                //     left: 40
-                // },
                 x: function(d) {
                     return d['maxspill flow rate'];
                 },
@@ -421,24 +408,29 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             var cubicmeter = Math.cbrt((barrelsize)/8.3864);
             var radiusCover = Math.sqrt((cubicmeter * Math.pow(10, 5))/3.14);
             var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
+
             $scope.meters = radiusCover;
             $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the slick will cover a radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
           } 
           else if ($scope.showrupture1 == true) {
-            var cubicmeter = Math.cbrt(((barrelsize * totalhours)/8.3864));
+            $scope.showslider = true;
+            var cubicmeter = Math.cbrt(((converttoBarrels(barrelsize) * totalhours)/8.3864));
             var radiusCover = Math.sqrt((cubicmeter * Math.pow(10, 5))/3.14);
             var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
+
             $scope.meters = radiusCover;
-            $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the total oil spill will be <font class='highlight'>" + (barrelsize * totalhours).toFixed(2) + "</font> barrels and it will spread over radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
+            $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the total oil spill will be <font class='highlight'>" + ($scope.barrels * totalhours).toFixed(2) + "</font> litres and it will spread over radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
           } 
           else if($scope.showrupture2 == true) {
+            $scope.showslider = true;
             var litresperhours = barrelsize * 3600;
             var barrelsperhour = litresperhours *  0.0086485;
             var cubicmeter = Math.cbrt(((barrelsperhour * totalhours)/8.3864));
             var radiusCover = Math.sqrt((cubicmeter * Math.pow(10, 5))/3.14);
             var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
+
             $scope.meters = radiusCover;
-            $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the total oil spill will be <font class='highlight'>" + (litresperhours * totalhours).toFixed(2) + "</font> litres and it will spread over radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
+            $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the total oil spill will be <font class='highlight'>" + ($scope.barrels * totalhours).toFixed(2) + "</font> litres and it will spread over radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
           }
           if (circle) {
             circle.setMap(null);
@@ -451,6 +443,12 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
              strokeWeight: 0.5
            });
            circle.bindTo('center', marker, 'position');
+        }
+        var converttoLlitres = function(barrels) {
+            return barrels/0.0086485;
+        }
+        var converttoBarrels = function(litres) {
+            return litres*0.0086485;
         }
         var adjustslider = function () {
           setCircle($scope.maphourslider.value, $scope.barrels);
@@ -470,16 +468,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             map: map
           });
           setCircle(totalhours, barrelsize);
-          // barrel to meter
-          // var meter = Math.cbrt(((barrelsize * totalhours)/8.3864));
-          // var circle = new google.maps.Circle({
-          //    map: map,
-          //    radius: meter,    // change as per the calculation it will cover in meters
-          //    fillColor: '#FF0000',
-          //    strokeOpacity: 0.8,
-          //    strokeWeight: 0.5
-          //  });
-          //  circle.bindTo('center', marker, 'position');
         }
     }
 ]);

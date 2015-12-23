@@ -170,21 +170,21 @@ var calcVolume = function(areaprops) {
         output;
     if (areaprops.shape == "Rectangular") {
         res = parseFloat(areaprops.area.length) * parseFloat(areaprops.area.breadth);
-        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.rectheight);
+        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.rectheight, areaprops.area.velocity);
     } else
     if (areaprops.shape == "Triangular") {
         var s = (parseFloat(areaprops.area.sidea) + parseFloat(areaprops.area.sideb) + parseFloat(areaprops.area.sidec)) / 2;
         res = Math.sqrt(s * (s - parseFloat(areaprops.area.sidea)) * (s - parseFloat(areaprops.area.sideb)) * (s - parseFloat(areaprops.area.sidec)));
-        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.triheight);
+        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.triheight, areaprops.area.velocity);
     } else
     if (areaprops.shape == "Square") {
         res = parseFloat(areaprops.area.sidelength) * inchtometer * inchtometer * parseFloat(areaprops.area.sidelength);
-        output = oldspillVolume(res, areaprops.area.squareheight);
+        output = oldspillVolume(res, areaprops.area.squareheight, areaprops.area.velocity);
 
     } else
     if (areaprops.shape == "Circular") {
         res = Math.PI * parseFloat(areaprops.area.radius) * parseFloat(areaprops.area.radius);
-        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.circleheight);
+        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.circleheight, areaprops.area.velocity);
 
 
     } else
@@ -209,20 +209,16 @@ var calcVolume = function(areaprops) {
 
 }
 
-/** 
-    function that return Oil Spill per hour for Rupture shape
+/**
+ * function that return Oil Spill per hour for Rupture shape
+ * Formula used : (area * root square of 2gh)
+ * @return litres - number
+ */
 
-    Formula used : (area * root square of 2gh)
-
-**/
-
-var oldspillVolume = function(area, height) {
-    var GRAVITY = 9.8,
-        velocity;
+var oldspillVolume = function(area, height, velocity) {
     var coefficientOfDishcharge = 0.62;
-    velocity = Math.sqrt(2 * GRAVITY * height * 0.0254);
-    var barrels = parseFloat(Math.round(0.62 * area * velocity * 6.28981 * 3600 * 100) / 100).toFixed(2);
-    return barrels;        
+    var barrels = parseFloat(Math.round(coefficientOfDishcharge * area * velocity * 6.28981 * 3600 * 100) / 100);
+    return (barrels / 0.0086485).toFixed(2);        
 }
 
 
