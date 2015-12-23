@@ -123,6 +123,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-4 control-label">Velocity</label>
+                                    <div class="col-sm-5">
+                                        <input ng-model="area.velocity" name="velocity" type="number" step="0.01" min="0" max="100" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="col-sm-6 col-md-offset-4">
                                         <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(area,shape);">Calculate</button>
                                         <img src="app/assets/img/loading.gif" ng-show="loading">
@@ -146,6 +152,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-4 control-label">Velocity</label>
+                                    <div class="col-sm-5">
+                                        <input ng-model="area.velocity" name="velocity" type="number" step="0.01" min="0" max="100" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="col-sm-6 col-md-offset-4">
                                         <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(area,shape);">Calculate</button>
                                     </div>
@@ -165,6 +177,12 @@
                                     <label class="col-sm-4 control-label">Height(From top of the pipe to rupture)</label>
                                     <div class="col-sm-5">
                                         <input ng-model="area.circleheight" type="number" step="0.1" min="0.1" max="24"  class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Velocity</label>
+                                    <div class="col-sm-5">
+                                        <input ng-model="area.velocity" name="velocity" type="number" step="0.01" min="0" max="100" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                     </div>
                                 </div>
                                 <div class="form-group">

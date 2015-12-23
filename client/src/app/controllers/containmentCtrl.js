@@ -410,7 +410,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
 
             $scope.meters = radiusCover;
-            $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the slick will cover a radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
+            $scope.displayMessage = "The slick will cover a radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
           } 
           else if ($scope.showrupture1 == true) {
             $scope.showslider = true;
