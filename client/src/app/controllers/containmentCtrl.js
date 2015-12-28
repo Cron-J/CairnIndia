@@ -1,7 +1,16 @@
 app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio', '$localStorage',
     function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio, $localStorage) {
         var mapdefaultvalue = 1;
-        $scope.pipe = {};
+        var getDefaultdata = function () {
+            return {
+            };
+        }
+        var getpipeDefaultConditions = function () {
+            return {
+                density: 0.8774
+            };
+        }
+        $scope.pipe = getDefaultdata();
         $scope.meters = 0;
         $scope.maphourslider = {
           value: mapdefaultvalue,
@@ -16,6 +25,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         };
         $scope.createPipeline = function(data) {
             $location.path('/create-pipeline');
+            getDefaultdata();
         }
         $scope.rvpavalue = [{
             key: '37.8',
@@ -56,7 +66,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $scope.pipe = singlePipeData.get();
             $scope.selectedItem.pipeName = $scope.pipe._id;
             if ($location.$$path == '/create-pipeline') {
-                $scope.pipe = {};
+                $scope.pipe = getDefaultdata();
             }
         }
         $scope.getGasOilRatio = getGasOilRatio;
@@ -117,7 +127,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 .success(function(data, status) {
                     if ($rootScope.user.scope == "Admin") {
                         growl.addSuccessMessage('Pipe created Successfully');
-                        $scope.pipe = {};
+                        $scope.pipe = getDefaultdata();
                         $location.path('/containment');
                     }
                 })
@@ -136,10 +146,10 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                         // singlePipeData.set($scope.pipe);
                     })
                     .error(function(data, status) {
-                        $scope.pipe = {};
+                        $scope.pipe = getDefaultdata();
                     });
             } else {
-                $scope.pipe = {};
+                $scope.pipe = getDefaultdata();
             }
 
         }

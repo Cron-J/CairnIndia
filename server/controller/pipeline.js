@@ -31,7 +31,7 @@ exports.defaultPipelines = {
                 reply("Pipeline already exists");
             } else {
                 var data1 = {};
-                data1.fromCity = "Gujrat",
+                data1.fromCity = "Gujarat",
                     data1.toCity = "Barmer",
                     data1.pipeName = "Gujrat to Barmer",
                     data1.length = 700,
