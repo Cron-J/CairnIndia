@@ -239,10 +239,10 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $scope.result = true;
             $http.post('/calculatePipelinedata', areaprops)
                 .success(function(data, status) {
-                    if (shape === "water" || shape === "ground") {
-                        $scope.options = $scope.timeoptions;
-                        $scope.data = $scope.getSpillData;
-                    } 
+                    // if (shape === "water" || shape === "ground") {
+                    //     $scope.options = $scope.timeoptions;
+                    //     $scope.data = $scope.getSpillData;
+                    // } 
                     $scope.loading = false;
 
                     //set barrels
@@ -299,7 +299,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             },
             caption: {
                 enable: true,
-                html: '<b>Figure 2.</b> Time Flow Rate',
+                html: 'Time Flow Rate',
                 css: {
                     'text-align': 'center',
                     'margin': '10px 13px 0px 7px',
