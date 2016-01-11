@@ -79,11 +79,11 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">Height (in inches)(From top of the pipe to rupture)</label>
                                     <div class="col-sm-5">
-                                        <input ng-model="area.rectheight" type="number" step="0.1" min="0.1" max="24" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                        <input ng-model="area.rectheight" type="number" step="0.1" min="0" max="24" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label">Velocity</label>
+                                    <label class="col-sm-4 control-label">Velocity (Metre/Second)</label>
                                     <div class="col-sm-5">
                                         <input ng-model="area.velocity" name="velocity" type="number" step="0.01" min="0.98" max="1.23" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                     </div>
@@ -123,7 +123,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label">Velocity</label>
+                                    <label class="col-sm-4 control-label">Velocity  (Metre/Second)</label>
                                     <div class="col-sm-5">
                                         <input ng-model="area.velocity" name="velocity" type="number" step="0.01" min="0.98" max="1.23" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                     </div>
@@ -152,7 +152,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label">Velocity</label>
+                                    <label class="col-sm-4 control-label">Velocity  (Metre/Second)</label>
                                     <div class="col-sm-5">
                                         <input ng-model="area.velocity" name="velocity" type="number" step="0.01" min="0.98" max="1.23" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                     </div>
@@ -180,7 +180,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label">Velocity</label>
+                                    <label class="col-sm-4 control-label">Velocity  (Metre/Second)</label>
                                     <div class="col-sm-5">
                                         <input ng-model="area.velocity" name="velocity" type="number" step="0.01" min="0.98" max="1.23" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                     </div>
@@ -233,7 +233,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-4 control-label">Velocity</label>
+                                        <label class="col-sm-4 control-label">Velocity  (Metre/Second)</label>
                                         <div class="col-sm-5">
                                             <input ng-model="area.velocity" name="velocity" type="number" step="0.01" min="0.97" max="1.43" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                             <p ng-show="watercalcForm.velocity.$error.min" class="help-block">Velocity should be minimum 0.97.</p>
@@ -241,7 +241,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-4 control-label">Depth</label>
+                                        <label class="col-sm-4 control-label">Depth (Metre)</label>
                                         <div class="col-sm-5">
                                             <input ng-model="area.depth" name="depth" type="number" step="0.1" min="1" max="50" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                             <p ng-show="watercalcForm.depth.$error.min" class="help-block">Depth should be minimum 1.</p>
@@ -288,7 +288,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-4 control-label">Velocity</label>
+                                        <label class="col-sm-4 control-label">Velocity  (Metre/Second)</label>
                                         <div class="col-sm-5">
                                             <input ng-model="pipelinedata.velocity" name="velocity" type="number" step="0.01" min="0.97" max="1.43" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                             <p ng-show="calcForm.velocity.$error.min" class="help-block">Velocity should be minimum 0.97.</p>

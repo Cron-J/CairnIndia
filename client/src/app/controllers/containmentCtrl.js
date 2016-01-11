@@ -3,11 +3,20 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         var mapdefaultvalue = 1;
         var getDefaultdata = function () {
             return {
-            };
-        }
-        var getpipeDefaultConditions = function () {
-            return {
-                density: 0.8774
+                density: 0.8774,
+                specificgravity: 0.8774,
+                gravity: 29.68,
+                viscosityat100: 10.86,
+                rvp: 27.5,
+                pourpoint: 42,
+                sulfurweightage: 0.09,
+                saltcontent: 1.3,
+                microcarbonresidue: 4.47,
+                watercontent: 0.02,
+                bsw: 0,
+                totalacidvalue: 0.28,
+                flashpoint: 30.5,
+                lpgpotentials: 0.2
             };
         }
         $scope.pipe = getDefaultdata();
@@ -25,7 +34,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         };
         $scope.createPipeline = function(data) {
             $location.path('/create-pipeline');
-            getDefaultdata();
+            $scope.pipe = getDefaultdata();
         }
         $scope.rvpavalue = [{
             key: '37.8',
@@ -35,7 +44,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             value:20.1
         }, {
             key: '60',
-            text: 27.5
+            value: 27.5
         }, {
             key: '65',
             value: 31.9
@@ -63,7 +72,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 .success(function(data, status) {
                     $scope.getpipedata = data;
                 });
-            $scope.pipe = singlePipeData.get();
             $scope.selectedItem.pipeName = $scope.pipe._id;
             if ($location.$$path == '/create-pipeline') {
                 $scope.pipe = getDefaultdata();
@@ -80,10 +88,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         }
         $scope.gotoCalculation = function(data) {
             $location.path('/oilcalculation1');
-            // singlePipeData.set(data);
-            $localStorage.message = data;
         }
-        $scope.pipe = $localStorage.message;
         $scope.showrupture1 =false;
         $scope.showrupture2 = false;
         $scope.showwaterdiv = false;
