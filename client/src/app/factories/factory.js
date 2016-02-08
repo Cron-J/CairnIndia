@@ -167,4 +167,47 @@ angular.module('app.factory', [])
 
     return gasoilratio;
 
+})
+.factory('clockAngle', function() {
+    var clockAngle;
+    clockAngle = [{
+        key: "00:00",
+        value: "00:00"
+    }, {
+        key: "01:00",
+        value: "01:00"
+    }, {
+        key: "02:00",
+        value: "02:00"
+    }, {
+        key: "03:00",
+        value: "03:00"
+    }, {
+        key: "04:00",
+        value: "04:00"
+    }, {
+        key: "05:00",
+        value: "05:00"
+    }, {
+        key: "06:00",
+        value: "06:00"
+    }, {
+        key: "07:00",
+        value: "07:00"
+    }, {
+        key: "08:00",
+        value: "08:00"
+    }, {
+        key: "09:00",
+        value: "09:00"
+    },{
+        key: "10:00",
+        value: "10:00"
+    }, {
+        key: "11:00",
+        value: "11:00"
+    }]
+
+    return clockAngle;
+
 });

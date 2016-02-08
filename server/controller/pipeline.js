@@ -4,7 +4,10 @@ var Boom = require('boom'),
     Config = require('../config/config'),
     constants = require('../Utility/constants').constants,
     Jwt = require('jsonwebtoken'),
+    _ = require('lodash'),
     Pipeline = require('../model/pipeline').Pipeline,
+    kpData = require('../kp.json'),
+    agiData = require('../agi.json'),
     staticData = require('../staticjson.json');
 
 var privateKey = Config.key.privateKey;
@@ -157,6 +160,12 @@ exports.getAGIData = {
     }
 };
 
+exports.getKpPoint = {
+    handler: function(request, reply) {
+        reply(kpData.kpvalue);
+    }
+};
+
 
 /** 
     function that return final volume and rupture volume and flow rate of incilation 
@@ -167,24 +176,26 @@ var calcVolume = function(areaprops) {
     var inchtometer = 0.0254;
     var res,
         eqvDim,
-        output;
+        output,
+        velocity = 1.1,
+        gasoilratio = 1;
     if (areaprops.shape == "Rectangular") {
         res = parseFloat(areaprops.area.length) * parseFloat(areaprops.area.breadth);
-        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.rectheight, areaprops.area.velocity);
+        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.rectheight, velocity,areaprops.area.diameter);
     } else
     if (areaprops.shape == "Triangular") {
         var s = (parseFloat(areaprops.area.sidea) + parseFloat(areaprops.area.sideb) + parseFloat(areaprops.area.sidec)) / 2;
         res = Math.sqrt(s * (s - parseFloat(areaprops.area.sidea)) * (s - parseFloat(areaprops.area.sideb)) * (s - parseFloat(areaprops.area.sidec)));
-        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.triheight, areaprops.area.velocity);
+        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.triheight, velocity,areaprops.area.diameter);
     } else
     if (areaprops.shape == "Square") {
         res = parseFloat(areaprops.area.sidelength) * inchtometer * inchtometer * parseFloat(areaprops.area.sidelength);
-        output = oldspillVolume(res, areaprops.area.squareheight, areaprops.area.velocity);
+        output = oldspillVolume(res, areaprops.area.squareheight, velocity,areaprops.area.diameter);
 
     } else
     if (areaprops.shape == "Circular") {
         res = Math.PI * parseFloat(areaprops.area.radius) * parseFloat(areaprops.area.radius);
-        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.circleheight, areaprops.area.velocity);
+        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.circleheight, velocity,areaprops.area.diameter);
 
 
     } else
@@ -192,18 +203,18 @@ var calcVolume = function(areaprops) {
         var flowrate = flowRate(areaprops.area.velocity);
         var pipevelocity = velocityOfPipe(areaprops.length)
         var preshutvolume = getPreshutVolume(flowrate, areaprops.area.time);
-        output = groundlFlowRate(pipevelocity, preshutvolume, areaprops.area.gasoilratio, areaprops.shape);
+        output = groundlFlowRate(pipevelocity, preshutvolume, gasoilratio, areaprops.shape);
     } else
     if (areaprops.shape == "water") {
         var flowrate = flowRate(areaprops.area.velocity);
         var pipevelocity = velocityOfPipe(areaprops.length);
         var preshutvolume = getPreshutVolume(flowrate, areaprops.area.time);
         var releasevolumefraction = getReleaseVolumeFraction(areaprops.pressure, areaprops.area.depth)
-        output = totalWaterFlowRate(pipevelocity, preshutvolume, areaprops.area.gasoilratio, releasevolumefraction);
+        output = totalWaterFlowRate(pipevelocity, preshutvolume, gasoilratio, releasevolumefraction);
     } else
     if (areaprops.shape == "inclination") {
-        var pressuredrop = getPressureOfSecondPoint(areaprops.pressure, areaprops.area.agidata.refpointelevation, areaprops.area.agidata.secondpointelevation, areaprops.density);
-        output = inclinationFlowRate(areaprops.pressure, pressuredrop, areaprops.viscosity, areaprops.area.agidata.length, areaprops.diameter, areaprops.density);
+        var kpLength = getKpLength(areaprops.kp);
+        output = getFlowRateOnIncilaation(areaprops.density,areaprops.heightdiffrence, areaprops.viscosity,areaprops.area.diameter,kpLength);
     }
     return output;
 
@@ -231,7 +242,8 @@ var oldspillVolume = function(area, height, velocity) {
 function flowRate(velocity) {
     var diameter = 24 * 0.0833;
     var pi = Math.PI;
-    var flowrate = (pi / 4) * diameter * diameter * velocity * 3.28 * 28.3168; //multiplied 3.28 to convert into m/s to foot/sec and multiplied with 28.3168 to convert litres/sec
+    var flowrate = (pi / 4) * diameter * diameter * velocity * 3.28 * 28.3168; 
+    console.log('flowrate',flowrate);//multiplied 3.28 to convert into m/s to foot/sec and multiplied with 28.3168 to convert litres/sec
     return flowrate;
 }
 
@@ -241,7 +253,8 @@ function flowRate(velocity) {
     Formula used : ((flow rate of pipeline * time)/1440)
 **/
 function getPreshutVolume(flowrate, time) {
-    var preshutvolume = (flowrate * 543.44 * time) / (1440 * 60); //multiplied flow rate with 543.44 to convert it into bbl/day
+    var preshutvolume = (flowrate * 543.44 * time) / (1440 * 60); 
+    console.log('preshutvolume',preshutvolume);//multiplied flow rate with 543.44 to convert it into bbl/day
     return preshutvolume;
     // var bbllitrevalue = preshutvolume * 159; //Convert bbl into litre
     // return bbllitrevalue;
@@ -255,6 +268,7 @@ function getPreshutVolume(flowrate, time) {
 **/
 
 function velocityOfPipe(pipelength) {
+    console.log('pipelength',pipelength);
     var diameter = 24 * 0.0833;
     var pi = Math.PI;
     var pipevelocity = (diameter / 24) * (diameter / 24) * pipelength * pi * 3280.84 * 0.028; //multiplied 3280.84 for covert km into feet cube and multiplied with 0.028 to convert cubic feet into cubic meter
@@ -270,6 +284,7 @@ function velocityOfPipe(pipelength) {
 **/
 function groundlFlowRate(pipevelocity, preshutvolume, gasoilratio) {
     var totalflowrate = ((0.1781 * pipevelocity * gasoilratio) + preshutvolume).toFixed(2);
+    console.log('groundlFlowRate',pipevelocity,preshutvolume,gasoilratio);
     return totalflowrate;
 
 }
@@ -289,6 +304,35 @@ function totalWaterFlowRate(pipevelocity, preshutvolume, gasoilratio, releasevol
     Formula used : (referencepressure - ((GRAVITY)*(secondelevationpoint - referenceelevation)*density)/100000 
     Divided by 100000 to convert into bar
 **/
+
+function getKpLength(kp){
+    for(var i=0;i<agiData.length;i++){
+        if(kp.kp <= agiData[i].distance){
+            return {
+                Lls: Math.min(kp.kp - agiData[i-1].distance,1),
+                Rls: Math.min(agiData[i+1].distance - kp.kp,1)
+            }
+        }
+    }
+}
+
+/** 
+    function that return incilation flow rate 
+    Formula used : (Density *pi*(diameter*diameter*diameter*diameter))/128*viscosity*length(in meter)
+**/
+
+function getFlowRateOnIncilaation(density,heightdifference,viscosity,diameter,distancedifference){
+    var diameterinmeter = diameter * 0.0254,
+    PI = Math.PI,
+    powdiameter = Math.pow(diameterinmeter, 4),
+    dynamicviscosity = viscosity * 0.00001 * density;
+    console.log(distancedifference);
+    var getDeltaValue = (heightdifference.leftHeight/distancedifference.Lls) + (heightdifference.rightHeight/distancedifference.Rls)
+    var getIncilationFlowRate = ((density * 10000 * PI * powdiameter)/(128 * dynamicviscosity  * 1000));
+    var outputFlowRate = (getIncilationFlowRate * getDeltaValue).toFixed(2);
+    return outputFlowRate;
+
+}
 
 function getPressureOfSecondPoint(refpressure, refelevation, secondelevation, density) {
     var GRAVITY = 9.8;
@@ -312,6 +356,7 @@ function inclinationFlowRate(initialpressure, pressuresecond, viscosity, length,
     var finalinclination = (inclinationflowrate * 1000).toFixed(2);
     return finalinclination;
 }
+
 
 
 /** 

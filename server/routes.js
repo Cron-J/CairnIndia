@@ -48,6 +48,11 @@ exports.endpoints = [
         path: '/getAGIData',
         config: Pipeline.getAGIData
     },
+    {
+        method: 'GET',
+        path: '/getKpData',
+        config: Pipeline.getKpPoint
+    },
 
 
     {

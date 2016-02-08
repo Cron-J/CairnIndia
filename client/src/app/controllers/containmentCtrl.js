@@ -1,5 +1,5 @@
-app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio', '$localStorage',
-    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio, $localStorage) {
+app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio', '$localStorage','clockAngle',
+    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio, $localStorage,clockAngle) {
         var mapdefaultvalue = 1;
         var getDefaultdata = function () {
             return {
@@ -18,6 +18,13 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 flashpoint: 30.5,
                 lpgpotentials: 0.2
             };
+        }
+        $scope.pipelinedata = {}
+        $scope.pipelinedata.gasoilratio="0-225"
+        $scope.selectedkpdata = {}
+        $scope.init = function(){
+            getKPData();
+            $scope.getClockAngle = clockAngle;
         }
         $scope.pipe = getDefaultdata();
         $scope.meters = 0;
@@ -77,6 +84,18 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 $scope.pipe = getDefaultdata();
             }
         }
+        function getKPData(){
+            $http({
+              method: 'GET',
+              url: '/getKpData'
+            }).then(function successCallback(response) {
+                console.log('response',response);
+                $scope.kpdata = response.data;
+              }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+            });
+        }
         $scope.getGasOilRatio = getGasOilRatio;
         getalldata();
 
@@ -88,6 +107,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         }
         $scope.gotoCalculation = function(data) {
             $location.path('/oilcalculation1');
+             singlePipeData.set(data);
         }
         $scope.showrupture1 =false;
         $scope.showrupture2 = false;
@@ -240,8 +260,12 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         getAGIdata();
 
-        $scope.calcVolume = function(area, shape) {
+        $scope.calcVolume = function(area, shape,kp) {
+            var getKpData = JSON.parse(kp);
+            $scope.pipe = singlePipeData.get();
             $scope.loading = true;
+            var getheighteDifference = getDifferenceInAgiHeight(getKpData);
+            var kppoint = getKpData.kp;
             var areaprops = {
                 density: $scope.pipe.density,
                 pressure: $scope.pipe.pressure,
@@ -249,7 +273,9 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 diameter: $scope.pipe.diameter,
                 length: $scope.pipe.length,
                 area: area,
-                shape: shape
+                shape: shape,
+                heightdiffrence:getheighteDifference,
+                kp:getKpData
             };
             $scope.result = true;
             $http.post('/calculatePipelinedata', areaprops)
@@ -263,18 +289,25 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                     //set barrels
                     $scope.barrels = data;
                     //show map
-                    var validLocation = $scope.location.lat >= -90 && $scope.location.lat <= 90 && $scope.location.lng >= -180 && $scope.location.lng <= 180;
-                    if (validLocation) {
                       $scope.showmap = true;
                       $scope.maphourslider.value = mapdefaultvalue;
-                      $scope.getMap($scope.maphourslider.value, $scope.barrels);
-                    } else {
-                      $scope.showmap = false;
-                    }
+                      $scope.getMap($scope.maphourslider.value, $scope.barrels,getKpData);
                 })
                 .error(function(data, status) {
                     growl.addErrorMessage(data.message);
                 });
+        }
+
+        function getDifferenceInAgiHeight(kp){
+            var getKpObj = {};
+                for(var i=0;i<$scope.kpdata.length;i++){
+                    if(kp.heighting===$scope.kpdata[i].heighting){
+                        getKpObj.leftHeight = Math.max(($scope.kpdata[i-1].heighting - kp.heighting),0) ;
+                        getKpObj.rightHeight = Math.max((kp.heighting - $scope.kpdata[i+1].heighting),0) ;
+                        break;
+                    }
+                }
+            return getKpObj;
         }
         $scope.timeoptions = {
             chart: {
@@ -468,8 +501,12 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         var adjustslider = function () {
           setCircle($scope.maphourslider.value, $scope.barrels);
         }
-        $scope.getMap = function(totalhours, barrelsize) {
-          var maplatlong = $scope.location;
+        $scope.getMap = function(totalhours, barrelsize,kp) {
+          var maplatlong = {
+            lat:kp.latitude,
+            lng:kp.longitude
+          }
+          console.log(maplatlong);
           var mapOptions = {
             zoom: 20,
             center: maplatlong,
@@ -484,5 +521,8 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
           });
           setCircle(totalhours, barrelsize);
         }
+        $scope.init();
     }
+
+    
 ]);

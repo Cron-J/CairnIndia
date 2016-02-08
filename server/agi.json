@@ -1,0 +1,142 @@
+[
+  {
+    "agi":"MPT",
+    "distance":0
+  },
+  {
+    "agi":"AGI 1",
+    "distance":6
+  },
+  {
+    "agi":"AGI 2",
+    "distance":26
+  },
+  {
+    "agi":"AGI 3",
+    "distance":43
+  },
+  {
+    "agi":"AGI 4",
+    "distance":63
+  },
+  {
+    "agi":"AGI 5",
+    "distance":81
+  },
+  {
+    "agi":"AGI 6",
+    "distance":99
+  },
+  {
+    "agi":"AGI 7",
+    "distance":116
+  },
+  {
+    "agi":"AGI 8",
+    "distance":136
+  },
+  {
+    "agi":"AGI 9",
+    "distance":155
+  },
+  {
+    "agi":"AGI 10",
+    "distance":171
+  },
+  {
+    "agi":"AGI 11",
+    "distance":189
+  },
+  {
+    "agi":"AGI 12",
+    "distance":210
+  },
+  {
+    "agi":"AGI 13",
+    "distance":228
+  },
+  {
+    "agi":"AGI 14",
+    "distance":246
+  },
+  {
+    "agi":"AGI 15",
+    "distance":263
+  },
+  {
+    "agi":"AGI 16",
+    "distance":281
+  },
+  {
+    "agi":"AGI 17",
+    "distance":298
+  },
+  {
+    "agi":"AGI 18",
+    "distance":319
+  },
+  {
+    "agi":"VGT",
+    "distance":328
+  },
+  {
+    "agi":"AGI 19",
+    "distance":345
+  },
+  {
+    "agi":"AGI 20",
+    "distance":363
+  },
+  {
+    "agi":"AGI 21",
+    "distance":377
+  },
+  {
+    "agi":"AGI 22",
+    "distance":397
+  },
+  {
+    "agi":"AGI 23",
+    "distance":414
+  },
+  {
+    "agi":"AGI 24",
+    "distance":433
+  },
+  {
+    "agi":"AGI 25",
+    "distance":450
+  },
+  {
+    "agi":"AGI 26",
+    "distance":469
+  },
+  {
+    "agi":"AGI 27",
+    "distance":484
+  },
+  {
+    "agi":"AGI 28",
+    "distance":503
+  },
+  {
+    "agi":"AGI 29",
+    "distance":518
+  },
+  {
+    "agi":"AGI 30",
+    "distance":536
+  },
+  {
+    "agi":"AGI 31",
+    "distance":553
+  },
+  {
+    "agi":"AGI 32",
+    "distance":571
+  },
+  {
+    "agi":"AGI 33",
+    "distance":589
+  }
+]
