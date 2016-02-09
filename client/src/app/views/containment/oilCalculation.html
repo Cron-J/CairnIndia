@@ -64,7 +64,9 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label" for="repeatselect">Diameter (In inches) </label>
                                     <div class="col-sm-5">
-                                        <input ng-model="pipe.diameter" type="number" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" ng-readonly="pipe.diameter" required>
+                                        <select class="form-control form-height" ng-model="pipe.diameter" ng-options="diam for diam in diameter" required>
+                                            <option>--Select Diameter---</option>
+                                        </select>
                                     </div>
                                 </div>
                               </form>
