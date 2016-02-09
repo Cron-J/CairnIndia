@@ -210,4 +210,27 @@ angular.module('app.factory', [])
 
     return clockAngle;
 
+})
+.factory('appearanceData', function() {
+    var getAppearanceData;
+    getAppearanceData = [{
+        key: "Sheen",
+        coveragearea: 0.5,
+        thickness:0.3
+    },{
+        key: "Rainbow",
+        coveragearea: 0.3,
+        thickness:5.0
+    },{
+        key: "Metallic",
+        coveragearea: 0.15,
+        thickness:50
+    },{
+        key: "True color",
+        coveragearea: 0.05,
+        thickness:200
+    } ]
+
+    return getAppearanceData;
+
 });

@@ -41,7 +41,21 @@ exports.defaultPipelines = {
                     data1.diameter = 24,
                     data1.density = 877.4,
                     data1.pressure = 31,
-                    data1.viscosity = 28.28;
+                    data1.viscosity = 28.28,
+                    data1.viscosityat100 =10.86,
+                    data1.rvp = 8.0,
+                    data1.pourpoint=42,
+                    data1.specificgravity=0.8779,
+                    data1.gravity=29.68,
+                    data1.sulfurweightage=0.09,
+                    data1.lpgpotentials=0.2,
+                    data1.saltcontent=1.3,
+                    data1.microcarbonresidue=4.47,
+                    data1.watercontent=0.02,
+                    data1.bsw=0,
+                    data1.totalacidvalue=0.28,
+                    data1.flashpoint=30.5,
+                    data1.tracemetals=4.1
 
                 var data2 = {};
                 data2.fromCity = "Barmer",
@@ -51,7 +65,21 @@ exports.defaultPipelines = {
                     data2.diameter = 10,
                     data2.density = 870,
                     data2.pressure = 21,
-                    data2.viscosity = 28.28;
+                    data2.viscosity = 28.28,
+                    data2.viscosityat100 =10.86,
+                    data2.rvp = 8.0,
+                    data2.pourpoint=42,
+                    data2.specificgravity=0.8779,
+                    data2.gravity=29.68,
+                    data2.sulfurweightage=0.09,
+                    data2.lpgpotentials=0.2,
+                    data2.saltcontent=1.3,
+                    data2.microcarbonresidue=4.47,
+                    data2.watercontent=0.02,
+                    data2.bsw=0,
+                    data2.totalacidvalue=0.28,
+                    data2.flashpoint=30.5,
+                    data2.tracemetals=4.1
 
                 Pipeline.insertPipeline([data1, data2], function(err, user) {
                     if (!err) {
@@ -181,7 +209,7 @@ var calcVolume = function(areaprops) {
         gasoilratio = 1;
     if (areaprops.shape == "Rectangular") {
         res = parseFloat(areaprops.area.length) * parseFloat(areaprops.area.breadth);
-        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.rectheight, velocity,areaprops.area.diameter);
+        areaprops.appearance ===undefined ? output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.rectheight, velocity,areaprops.area.diameter):output = spmVolume(res ,areaprops.appearance)
     } else
     if (areaprops.shape == "Triangular") {
         var s = (parseFloat(areaprops.area.sidea) + parseFloat(areaprops.area.sideb) + parseFloat(areaprops.area.sidec)) / 2;
@@ -195,18 +223,16 @@ var calcVolume = function(areaprops) {
     } else
     if (areaprops.shape == "Circular") {
         res = Math.PI * parseFloat(areaprops.area.radius) * parseFloat(areaprops.area.radius);
-        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.circleheight, velocity,areaprops.area.diameter);
-
-
+        areaprops.appearance ===undefined? output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.circleheight, velocity,areaprops.area.diameter):output = spmVolume(res , areaprops.appearance)
     } else
     if (areaprops.shape == "ground") {
-        var flowrate = flowRate(areaprops.area.velocity);
+        var flowrate = flowRate(velocity);
         var pipevelocity = velocityOfPipe(areaprops.length)
         var preshutvolume = getPreshutVolume(flowrate, areaprops.area.time);
         output = groundlFlowRate(pipevelocity, preshutvolume, gasoilratio, areaprops.shape);
     } else
     if (areaprops.shape == "water") {
-        var flowrate = flowRate(areaprops.area.velocity);
+        var flowrate = flowRate(velocity);
         var pipevelocity = velocityOfPipe(areaprops.length);
         var preshutvolume = getPreshutVolume(flowrate, areaprops.area.time);
         var releasevolumefraction = getReleaseVolumeFraction(areaprops.pressure, areaprops.area.depth)
@@ -253,6 +279,7 @@ function flowRate(velocity) {
     Formula used : ((flow rate of pipeline * time)/1440)
 **/
 function getPreshutVolume(flowrate, time) {
+    console.log(flowrate,time);
     var preshutvolume = (flowrate * 543.44 * time) / (1440 * 60); 
     console.log('preshutvolume',preshutvolume);//multiplied flow rate with 543.44 to convert it into bbl/day
     return preshutvolume;
@@ -384,6 +411,20 @@ function mapStaticData(staticdata, volumefraction) {
     }
     return frelative;
 }
+
+/** 
+    function that return spm volume in meter cube 
+**/
+function spmVolume(area, appearancevalue) {
+    var parseAppearance = JSON.parse(appearancevalue);
+    var volume;
+    volume  = (area * parseAppearance.coveragearea * parseAppearance.thickness).toFixed(2);
+    console.log('volume',volume);
+    return volume;
+}
+
+
+
 
 var updateHelper = function(requestData, originalData) {
     for (var req in requestData) {

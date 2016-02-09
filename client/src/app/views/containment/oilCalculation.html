@@ -4,13 +4,13 @@
             <div class="panel panel-info">
                 <div class="panel-heading  font-bold text-center">
                     <h4>Oil Spill Volume Calculation</h4></div>
-                <form role="form" class="marginsec">
+                <form name="tabform" role="form" class="marginsec">
                         <div class="radio radio-info radio-inline rupture-f">
-                            <input type="radio" name="radioInline" ng-click="clearforminclination();changeView(true,false,false,false,false,'',true)" >
+                            <input type="radio" name="radioInline" ng-click="clearforminclination();changeView(true,false,false,false,false,'',true,false)" >
                             <label for="inlineRadio1"> Cross-Sectional Rupture </label>
                         </div>
                         <div class="radio radio-info radio-inline rupture-f">
-                            <input type="radio" name="radioInline" ng-click="clearforminclination();changeView(false,false,false,false,true,'',false)">
+                            <input type="radio" name="radioInline" ng-click="clearforminclination();changeView(false,false,false,false,true,'',false,false)">
                             <label for="inlineRadio1"> Maximum Spill</label>
                             <div class="inline-block" ng-show="showdiv">
                                 <select ng-model="rupture" ng-dropdown ng-change="changeDiv(rupture,true)">
@@ -20,32 +20,59 @@
                             </div>
                         </div>
                         <div class="radio radio-info radio-inline rupture-f">
-                            <input type="radio" id="" name="radioInline" ng-click="clearforminclination();changeView(false,true,false,false,false,'',true)">
+                            <input type="radio" id="" name="radioInline" ng-click="clearforminclination();changeView(false,true,false,false,false,'',true,false)">
                             <label for="inlineRadio1"> Rupture at Elevated Plane</label>
+                        </div>
+                        <div class="radio radio-info radio-inline rupture-f">
+                            <input type="radio" id="" name="radioInline" ng-click="clearforminclination();changeView(false,false,false,false,false,'',false,true)">
+                            <label for="inlineRadio1">At SPM</label>
                         </div>
 
                 </form>
                 <div class="panel-body" ng-show="showgeo">
                   <tabset>
                     <tab heading="Rupture Location (optional)">
-                      <div class="col-md-6 ut-search-result">
-                        <div class="form-horizontal">
-                          <form name="locationForm" class="form-horizontal novalidate form-validation">
-                            <div class="form-group">
-                              <label class="col-sm-4 control-label" for="repeatselect">KP</label>
-                                <div class="col-sm-5">
-                                    <select class="form-control form-height" name="repeatselect" id="repeatselect" ng-model="selectedkpdata.repeatselect">
-                                            <option ng-repeat="option in kpdata" value="{{option}}">{{option.kp}}</option>
-                                    </select>
+                        <div class="col-md-6 ut-search-result">
+                            <div class="form-horizontal">
+                              <form name="locationForm" class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label" for="repeatselect">KP</label>
+                                    <div class="col-sm-5">
+                                        <select class="form-control form-height" name="repeatselect" id="repeatselect" ng-model="selectedkpdata.repeatselect">
+                                                <option ng-repeat="option in kpdata" value="{{option}}">{{option.kp}}</option>
+                                        </select>
+                                    </div>
                                 </div>
+                              </form>
                             </div>
-                          </form>
                         </div>
-                      </div>
+                        <div class="col-md-6 ut-search-result">
+                            <div class="form-horizontal">
+                              <form name="locationForm" class="form-horizontal novalidate form-validation">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label" for="repeatselect">PipelineName</label>
+                                    <div class="col-sm-5">
+                                        <span>{{pipe.pipeName}}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label" for="repeatselect">Pressure (In Bar)</label>
+                                    <div class="col-sm-5">
+                                        <input ng-model="pipe.pressure" type="number"  class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" ng-readonly="pipe.pressure" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label" for="repeatselect">Diameter (In inches) </label>
+                                    <div class="col-sm-5">
+                                        <input ng-model="pipe.diameter" type="number" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" ng-readonly="pipe.diameter" required>
+                                    </div>
+                                </div>
+                              </form>
+                            </div>
+                        </div>
                     </tab>
                   </tabset>
                 </div>
-
                 <div class="panel-body" ng-if="showrupture1">
                     <tabset>
                         <tab heading="Cross-Sectional Rupture">
@@ -71,14 +98,6 @@
                                     <label class="col-sm-4 control-label">Breadth (in inches)</label>
                                     <div class="col-sm-5">
                                         <input ng-model="area.breadth" type="number" step="0.1" min="0.1" max="24" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">Diameter (in inches)</label>
-                                    <div class="col-sm-5">
-                                       <select class="form-control form-height" ng-model="area.diameter" ng-options="diam for diam in diameter" required>
-                                        <option>--Select Diameter---</option>
-                                    </select>       
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -117,14 +136,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label">Diameter (in inches)</label>
-                                    <div class="col-sm-5">
-                                       <select class="form-control form-height" ng-model="area.diameter" ng-options="diam for diam in diameter" required>
-                                        <option>--Select Diameter---</option>
-                                    </select>       
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="col-sm-4 control-label">Clock Angle(Theta)</label>
                                     <div class="col-sm-5">
                                         <select class="form-control form-height" ng-model="area.angle" ng-options="clock.value as clock.key for clock in getClockAngle" required>
@@ -149,14 +160,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label">Diameter (in inches)</label>
-                                    <div class="col-sm-5">
-                                       <select class="form-control form-height" ng-model="area.diameter" ng-options="diam for diam in diameter" required>
-                                        <option>--Select Diameter---</option>
-                                    </select>       
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="col-sm-4 control-label">Clock Angle(Theta)</label>
                                     <div class="col-sm-5">
                                        <select class="form-control form-height" ng-model="area.angle" ng-options="clock.value as clock.key for clock in getClockAngle" required>
@@ -178,14 +181,6 @@
                                     <label class="col-sm-4 control-label" >Radius Length (in inches)</label>
                                     <div class="col-sm-5">
                                         <input ng-model="area.radius" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" max="12" class="form-control " required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">Diameter (in inches)</label>
-                                    <div class="col-sm-5">
-                                       <select class="form-control form-height" ng-model="area.diameter" ng-options="diam for diam in diameter" required>
-                                        <option>--Select Diameter---</option>
-                                    </select>       
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -243,27 +238,11 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-4 control-label">Velocity  (metre/second)</label>
-                                        <div class="col-sm-5">
-                                            <input ng-model="area.velocity" name="velocity" type="number" step="0.01" min="0.97" max="1.43" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
-                                            <p ng-show="watercalcForm.velocity.$error.min" class="help-block">Velocity should be minimum 0.97.</p>
-                                            <p ng-show="watercalcForm.velocity.$error.max" class="help-block">Velocity should be maximum 1.43.</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
                                         <label class="col-sm-4 control-label">Depth (metre)</label>
                                         <div class="col-sm-5">
                                             <input ng-model="area.depth" name="depth" type="number" step="0.1" min="1" max="50" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                             <p ng-show="watercalcForm.depth.$error.min" class="help-block">Depth should be minimum 1.</p>
                                             <p ng-show="watercalcForm.depth.$error.max" class="help-block">Depth should be maximum 50.</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-4 control-label">Diameter (in inches)</label>
-                                        <div class="col-sm-5">
-                                               <select class="form-control form-height" ng-model="area.diameter" ng-options="diam for diam in diameter" required>
-                                                <option>--Select Diameter---</option>
-                                            </select>       
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -295,22 +274,6 @@
                                             <input ng-model="pipelinedata.time" name="time" type="number" step="0.1" min="1" max="2880" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                             <p ng-show="calcForm.time.$error.min" class="help-block">Time should be minimum 1.</p>
                                             <p ng-show="calcForm.time.$error.max" class="help-block">Time should be maximum 2880.</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-4 control-label">Velocity  (metre/second)</label>
-                                        <div class="col-sm-5">
-                                            <input ng-model="pipelinedata.velocity" name="velocity" type="number" step="0.01" min="0.97" max="1.43" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
-                                            <p ng-show="calcForm.velocity.$error.min" class="help-block">Velocity should be minimum 0.97.</p>
-                                            <p ng-show="calcForm.velocity.$error.max" class="help-block">Velocity should be maximum 1.43.</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-4 control-label">Diameter (in inches)</label>
-                                        <div class="col-sm-5">
-                                               <select class="form-control form-height" ng-model="area.diameter" ng-options="diam for diam in diameter" required>
-                                                <option>--Select Diameter---</option>
-                                            </select>       
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -362,9 +325,81 @@
                         </tab>
                     </tabset>
                 </div>
+                <div class="panel-body" ng-if="showspm">
+                     <tabset>
+                        <tab heading="Cross-Sectional Rupture">
+                            <div class="col-md-6 ut-search-result">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Shape of Oiled Area</label>
+                                        <div class="col-sm-5">
+                                            <select class="form-control form-height" ng-model="shape" ng-options="o as o for o in oiledshape" ng-change="clearform()">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Appearance</label>
+                                        <div class="col-sm-5">
+                                            <select class="form-control form-height" name="appearance" id="appearance" ng-model="selectedkpdata.appearance">
+                                                <option ng-repeat="option in appearanceData" value="{{option}}" required>{{option.key}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span ng-if="shape=='Rectangular'">
+                                    <form name="calcForm" class="form-horizontal novalidate form-validation">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" >Length (in Km) </label>
+                                            <div class="col-sm-5">
+                                                <input ng-model="area.length" type="number" step="0.1" min="0.1" max="24" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">Breadth (in Km)</label>
+                                            <div class="col-sm-5">
+                                                <input ng-model="area.breadth" type="number" step="0.1" min="0.1" max="24" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-5 col-md-offset-4">
+                                                <button class="btn btn-success" ng-disabled="!calcForm.$valid"  ng-click="calcVolume(area,shape,selectedkpdata.repeatselect);">Calculate</button>
+                                                <img src="app/assets/img/loading.gif" ng-show="loading">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </span>
+                                <span ng-if="shape=='Circular'">
+                                    <form name="calcForm" class="form-horizontal novalidate form-validation">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" >Radius Length (in Km)</label>
+                                            <div class="col-sm-5">
+                                                <input ng-model="area.radius" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" max="12" class="form-control " required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-6 col-md-offset-4">
+                                                <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(area,shape,selectedkpdata.repeatselect);">Calculate</button>
+                                                <img src="app/assets/img/loading.gif" ng-show="loading">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </span>
+                            </div>
+                            <div class="col-md-4 marginsec">
+                                <span ng-show="result">
+                                    <section>
+                                       <a class="cmn-t-pulse">Maximum oil spill  {{barrels}} cubic metre</a>
+                                    </section>
+                                </span>
+                            </div>
+                        </tab>
+                    </tabset>
+                </div>
             </div>
         </div>
-        <div ng-show="showmap">
+        <div ng-show="showmap" ng-if="!showspm">
           <div ng-show="showslider">
             <div class="col-sm-4 control-label sliderlabel">Oil Flow Representaion For Hours</div>
             <div class="inline-block sliderbar">

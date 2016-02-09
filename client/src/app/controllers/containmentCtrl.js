@@ -1,7 +1,7 @@
-app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio', '$localStorage','clockAngle',
-    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio, $localStorage,clockAngle) {
+app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', 'growl', '$rootScope', 'singlePipeData', '$timeout', '$stateParams', 'getGasOilRatio', '$localStorage', 'clockAngle', 'appearanceData',
+    function($scope, $location, $http, AuthServ, growl, $rootScope, singlePipeData, $timeout, $stateParams, getGasOilRatio, $localStorage, clockAngle, appearanceData) {
         var mapdefaultvalue = 1;
-        var getDefaultdata = function () {
+        var getDefaultdata = function() {
             return {
                 density: 0.8774,
                 specificgravity: 0.8774,
@@ -19,25 +19,27 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 lpgpotentials: 0.2
             };
         }
+        $scope.oiledshape = ['Rectangular', 'Circular'];
         $scope.pipelinedata = {}
-        $scope.pipelinedata.gasoilratio="0-225"
         $scope.selectedkpdata = {}
-        $scope.init = function(){
+        $scope.init = function() {
             getKPData();
             $scope.getClockAngle = clockAngle;
+            $scope.appearanceData = appearanceData;
+            $scope.pipe = singlePipeData.get();
         }
         $scope.pipe = getDefaultdata();
         $scope.meters = 0;
         $scope.maphourslider = {
-          value: mapdefaultvalue,
-          options: {
-              floor: 1,
-              ceil: 48,
-              step: 1,
-              onChange: function() {
-                adjustslider();
-              }
-          }
+            value: mapdefaultvalue,
+            options: {
+                floor: 1,
+                ceil: 48,
+                step: 1,
+                onChange: function() {
+                    adjustslider();
+                }
+            }
         };
         $scope.createPipeline = function(data) {
             $location.path('/create-pipeline');
@@ -48,7 +50,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             value: 8
         }, {
             key: '50',
-            value:20.1
+            value: 20.1
         }, {
             key: '60',
             value: 27.5
@@ -61,15 +63,14 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             value: 8
         }, {
             name: 'Nickel',
-            value:20.1
+            value: 20.1
         }, {
             name: 'Vanadium',
             text: 27.5
         }, {
             name: 'Copper',
             value: 31.9
-        },
-        {
+        }, {
             name: 'Zinc',
             value: 31.9
         }];
@@ -84,14 +85,15 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 $scope.pipe = getDefaultdata();
             }
         }
-        function getKPData(){
+
+        function getKPData() {
             $http({
-              method: 'GET',
-              url: '/getKpData'
+                method: 'GET',
+                url: '/getKpData'
             }).then(function successCallback(response) {
-                console.log('response',response);
+                console.log('response', response);
                 $scope.kpdata = response.data;
-              }, function errorCallback(response) {
+            }, function errorCallback(response) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
             });
@@ -107,34 +109,34 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         }
         $scope.gotoCalculation = function(data) {
             $location.path('/oilcalculation1');
-             singlePipeData.set(data);
+            singlePipeData.set(data);
         }
-        $scope.showrupture1 =false;
+        $scope.showrupture1 = false;
         $scope.showrupture2 = false;
         $scope.showwaterdiv = false;
         $scope.showgrounddiv = false;
-        $scope.showgeo =false;
-        $scope.changeView = function(showrupture1,showrupture2,showwaterdiv,showgrounddiv,showdiv,rupture,showgeo){
-            showrupture1 === undefined ? showrupture1 :$scope.showrupture1 = showrupture1;
-            showrupture2 === undefined ? showrupture2 :$scope.showrupture2 = showrupture2;
-            showwaterdiv === undefined ? showwaterdiv: $scope.showwaterdiv = showwaterdiv;
-            showgrounddiv === undefined? showgrounddiv: $scope.showgrounddiv = showgrounddiv;
-            showdiv === undefined ? showdiv :$scope.showdiv = showdiv;
-            rupture === undefined ? rupture: $scope.rupture = rupture;
-            showgeo === undefined ? showgeo: $scope.showgeo = showgeo;
+        $scope.showgeo = false;
+        $scope.changeView = function(showrupture1, showrupture2, showwaterdiv, showgrounddiv, showdiv, rupture, showgeo, showspm) {
+            showrupture1 === undefined ? showrupture1 : $scope.showrupture1 = showrupture1;
+            showrupture2 === undefined ? showrupture2 : $scope.showrupture2 = showrupture2;
+            showwaterdiv === undefined ? showwaterdiv : $scope.showwaterdiv = showwaterdiv;
+            showgrounddiv === undefined ? showgrounddiv : $scope.showgrounddiv = showgrounddiv;
+            showdiv === undefined ? showdiv : $scope.showdiv = showdiv;
+            rupture === undefined ? rupture : $scope.rupture = rupture;
+            showgeo === undefined ? showgeo : $scope.showgeo = showgeo;
+            showspm === undefined ? showspm : $scope.showspm = showspm;
         }
 
-        $scope.changeDiv = function(rupture){
-            $scope.showrupture1 =false;
+        $scope.changeDiv = function(rupture) {
+            $scope.showrupture1 = false;
             $scope.showrupture2 = false;
-            if(rupture === 'water'){
+            if (rupture === 'water') {
                 $scope.showwaterdiv = true;
                 $scope.showgeo = true;
                 $scope.showgrounddiv = false;
-            }
-            else if(rupture === 'ground'){
+            } else if (rupture === 'ground') {
                 $scope.showgrounddiv = true;
-                $scope.showgeo =true;
+                $scope.showgeo = true;
                 $scope.showwaterdiv = false;
             }
         }
@@ -237,6 +239,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         $scope.clearforminclination = function() {
             $scope.area = {};
             $scope.location = {};
+            $scope.selectedkpdata = {};
             $scope.options = undefined;
             $scope.data = [];
             $scope.result = false;
@@ -260,10 +263,11 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         getAGIdata();
 
-        $scope.calcVolume = function(area, shape,kp) {
-            var getKpData = JSON.parse(kp);
-            $scope.pipe = singlePipeData.get();
+        $scope.calcVolume = function(area, shape, kp) {
+            var getKpData;
+            kp !== undefined ? getKpData = JSON.parse(kp) : getKpData = ''
             $scope.loading = true;
+            console.log('$scope.selectedkpdata.appearance', $scope.selectedkpdata.appearance);
             var getheighteDifference = getDifferenceInAgiHeight(getKpData);
             var kppoint = getKpData.kp;
             var areaprops = {
@@ -274,8 +278,9 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 length: $scope.pipe.length,
                 area: area,
                 shape: shape,
-                heightdiffrence:getheighteDifference,
-                kp:getKpData
+                heightdiffrence: getheighteDifference,
+                kp: getKpData,
+                appearance: $scope.selectedkpdata.appearance
             };
             $scope.result = true;
             $http.post('/calculatePipelinedata', areaprops)
@@ -289,24 +294,24 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                     //set barrels
                     $scope.barrels = data;
                     //show map
-                      $scope.showmap = true;
-                      $scope.maphourslider.value = mapdefaultvalue;
-                      $scope.getMap($scope.maphourslider.value, $scope.barrels,getKpData);
+                    $scope.showmap = true;
+                    $scope.maphourslider.value = mapdefaultvalue;
+                    $scope.getMap($scope.maphourslider.value, $scope.barrels, getKpData);
                 })
                 .error(function(data, status) {
                     growl.addErrorMessage(data.message);
                 });
         }
 
-        function getDifferenceInAgiHeight(kp){
+        function getDifferenceInAgiHeight(kp) {
             var getKpObj = {};
-                for(var i=0;i<$scope.kpdata.length;i++){
-                    if(kp.heighting===$scope.kpdata[i].heighting){
-                        getKpObj.leftHeight = Math.max(($scope.kpdata[i-1].heighting - kp.heighting),0) ;
-                        getKpObj.rightHeight = Math.max((kp.heighting - $scope.kpdata[i+1].heighting),0) ;
-                        break;
-                    }
+            for (var i = 0; i < $scope.kpdata.length; i++) {
+                if (kp.heighting === $scope.kpdata[i].heighting) {
+                    getKpObj.leftHeight = Math.max(($scope.kpdata[i - 1].heighting - kp.heighting), 0);
+                    getKpObj.rightHeight = Math.max((kp.heighting - $scope.kpdata[i + 1].heighting), 0);
+                    break;
                 }
+            }
             return getKpObj;
         }
         $scope.timeoptions = {
@@ -452,77 +457,78 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         var circle = null;
 
         var setCircle = function(totalhours, barrelsize) {
-          if ($scope.showwaterdiv == true) {
-            var cubicmeter = Math.cbrt((barrelsize)/8.3864);
-            var radiusCover = Math.sqrt((cubicmeter * Math.pow(10, 5))/3.14);
-            var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
+            if ($scope.showwaterdiv == true) {
+                var cubicmeter = Math.cbrt((barrelsize) / 8.3864);
+                var radiusCover = Math.sqrt((cubicmeter * Math.pow(10, 5)) / 3.14);
+                var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
 
-            $scope.meters = radiusCover;
-            $scope.displayMessage = "The slick will cover a radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
-          } 
-          else if ($scope.showrupture1 == true) {
-            $scope.showslider = true;
-            var cubicmeter = Math.cbrt(((converttoBarrels(barrelsize) * totalhours)/8.3864));
-            var radiusCover = Math.sqrt((cubicmeter * Math.pow(10, 5))/3.14);
-            var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
+                $scope.meters = radiusCover;
+                $scope.displayMessage = "The slick will cover a radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
+            } else if ($scope.showrupture1 == true) {
+                $scope.showslider = true;
+                var cubicmeter = Math.cbrt(((converttoBarrels(barrelsize) * totalhours) / 8.3864));
+                var radiusCover = Math.sqrt((cubicmeter * Math.pow(10, 5)) / 3.14);
+                var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
 
-            $scope.meters = radiusCover;
-            $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the total oil spill will be <font class='highlight'>" + ($scope.barrels * totalhours).toFixed(2) + "</font> litres and it will spread over radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
-          } 
-          else if($scope.showrupture2 == true) {
-            $scope.showslider = true;
-            var litresperhours = barrelsize * 3600;
-            var barrelsperhour = litresperhours *  0.0086485;
-            var cubicmeter = Math.cbrt(((barrelsperhour * totalhours)/8.3864));
-            var radiusCover = Math.sqrt((cubicmeter * Math.pow(10, 5))/3.14);
-            var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
+                $scope.meters = radiusCover;
+                $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the total oil spill will be <font class='highlight'>" + ($scope.barrels * totalhours).toFixed(2) + "</font> litres and it will spread over radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
+            } else if ($scope.showrupture2 == true) {
+                $scope.showslider = true;
+                var litresperhours = barrelsize * 3600;
+                var barrelsperhour = litresperhours * 0.0086485;
+                var cubicmeter = Math.cbrt(((barrelsperhour * totalhours) / 8.3864));
+                var radiusCover = Math.sqrt((cubicmeter * Math.pow(10, 5)) / 3.14);
+                var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
 
-            $scope.meters = radiusCover;
-            $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the total oil spill will be <font class='highlight'>" + (litresperhours * totalhours).toFixed(2) + "</font> litres and it will spread over radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
-          }
-          if (circle) {
-            circle.setMap(null);
-          }
-          circle = new google.maps.Circle({
-             map: map,
-             radius: $scope.meters,    // change as per the calculation it will cover in meters
-             fillColor: '#FF0000',
-             strokeOpacity: 0.8,
-             strokeWeight: 0.5
-           });
-           circle.bindTo('center', marker, 'position');
+                $scope.meters = radiusCover;
+                $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the total oil spill will be <font class='highlight'>" + (litresperhours * totalhours).toFixed(2) + "</font> litres and it will spread over radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
+            }
+            if (circle) {
+                circle.setMap(null);
+            }
+            circle = new google.maps.Circle({
+                map: map,
+                radius: $scope.meters, // change as per the calculation it will cover in meters
+                fillColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 0.5
+            });
+            circle.bindTo('center', marker, 'position');
         }
         var converttoLlitres = function(barrels) {
-            return barrels/0.0086485;
+            return barrels / 0.0086485;
         }
         var converttoBarrels = function(litres) {
-            return litres*0.0086485;
+            return litres * 0.0086485;
         }
-        var adjustslider = function () {
-          setCircle($scope.maphourslider.value, $scope.barrels);
+        var adjustslider = function() {
+            setCircle($scope.maphourslider.value, $scope.barrels);
         }
-        $scope.getMap = function(totalhours, barrelsize,kp) {
-          var maplatlong = {
-            lat:kp.latitude,
-            lng:kp.longitude
-          }
-          console.log(maplatlong);
-          var mapOptions = {
-            zoom: 20,
-            center: maplatlong,
-            mapTypeId: google.maps.MapTypeId.SATELLITE
-          }
-          map = new google.maps.Map(document.getElementById('map'), mapOptions);
-          map.setTilt(45);
+        $scope.getMap = function(totalhours, barrelsize, kp) {
+            if (kp!==undefined && kp!=='') {
+                var maplatlong = {
+                    lat: kp.latitude,
+                    lng: kp.longitude
+                }
+                console.log(maplatlong);
+                var mapOptions = {
+                    zoom: 20,
+                    center: maplatlong,
+                    mapTypeId: google.maps.MapTypeId.SATELLITE
+                }
+                map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                map.setTilt(45);
 
-          marker = new google.maps.Marker({
-            position: maplatlong,
-            map: map
-          });
-          setCircle(totalhours, barrelsize);
+                marker = new google.maps.Marker({
+                    position: maplatlong,
+                    map: map
+                });
+                setCircle(totalhours, barrelsize);
+            }
+
         }
         $scope.init();
     }
 
-    
+
 ]);
