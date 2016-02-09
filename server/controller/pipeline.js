@@ -34,9 +34,9 @@ exports.defaultPipelines = {
                 reply("Pipeline already exists");
             } else {
                 var data1 = {};
-                data1.fromCity = "Gujarat",
-                    data1.toCity = "Barmer",
-                    data1.pipeName = "Gujrat to Barmer",
+                data1.fromCity = "Barmer",
+                    data1.toCity = "Bhogat",
+                    data1.pipeName = "Barmer to Bhogat",
                     data1.length = 700,
                     data1.diameter = 24,
                     data1.density = 877.4,
@@ -58,9 +58,9 @@ exports.defaultPipelines = {
                     data1.tracemetals=4.1
 
                 var data2 = {};
-                data2.fromCity = "Barmer",
-                    data2.toCity = "Salaya",
-                    data2.pipeName = "Barmer to Salaya",
+                data2.fromCity = "Spur",
+                    data2.toCity = "Lines",
+                    data2.pipeName = "Spur Lines",
                     data2.length = 400,
                     data2.diameter = 10,
                     data2.density = 870,
@@ -209,21 +209,21 @@ var calcVolume = function(areaprops) {
         gasoilratio = 1;
     if (areaprops.shape == "Rectangular") {
         res = parseFloat(areaprops.area.length) * parseFloat(areaprops.area.breadth);
-        areaprops.appearance ===undefined ? output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.rectheight, velocity,areaprops.area.diameter):output = spmVolume(res ,areaprops.appearance)
+        areaprops.appearance ===undefined ? output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.angle,areaprops.diameter):output = spmVolume(res ,areaprops.appearance)
     } else
     if (areaprops.shape == "Triangular") {
         var s = (parseFloat(areaprops.area.sidea) + parseFloat(areaprops.area.sideb) + parseFloat(areaprops.area.sidec)) / 2;
         res = Math.sqrt(s * (s - parseFloat(areaprops.area.sidea)) * (s - parseFloat(areaprops.area.sideb)) * (s - parseFloat(areaprops.area.sidec)));
-        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.triheight, velocity,areaprops.area.diameter);
+        output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.angle,areaprops.diameter);
     } else
     if (areaprops.shape == "Square") {
         res = parseFloat(areaprops.area.sidelength) * inchtometer * inchtometer * parseFloat(areaprops.area.sidelength);
-        output = oldspillVolume(res, areaprops.area.squareheight, velocity,areaprops.area.diameter);
+        output = oldspillVolume(res, areaprops.area.angle,areaprops.diameter);
 
     } else
     if (areaprops.shape == "Circular") {
         res = Math.PI * parseFloat(areaprops.area.radius) * parseFloat(areaprops.area.radius);
-        areaprops.appearance ===undefined? output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.circleheight, velocity,areaprops.area.diameter):output = spmVolume(res , areaprops.appearance)
+        areaprops.appearance ===undefined? output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.angle,areaprops.diameter):output = spmVolume(res , areaprops.appearance)
     } else
     if (areaprops.shape == "ground") {
         var flowrate = flowRate(velocity,areaprops.diameter);
@@ -252,8 +252,14 @@ var calcVolume = function(areaprops) {
  * @return litres - number
  */
 
-var oldspillVolume = function(area, height, velocity) {
-    var coefficientOfDishcharge = 0.62;
+var oldspillVolume = function(area, angle, diameter) {
+    var velocity,height,anglevalue, GRAVITY = 9.8,coefficientOfDishcharge = 0.62;
+    anglevalue = 1 - Math.cos(angle);
+    console.log('anglevalue',anglevalue);
+    height = (diameter * 0.0833 * anglevalue)/2;
+    console.log('height',height);
+    velocity = Math.sqrt(2 * GRAVITY * height * 0.0254); 
+    console.log('velocity',velocity);
     var barrels = parseFloat(Math.round(coefficientOfDishcharge * area * velocity * 6.28981 * 3600 * 100) / 100);
     return (barrels / 0.0086485).toFixed(2);        
 }

@@ -172,40 +172,76 @@ angular.module('app.factory', [])
     var clockAngle;
     clockAngle = [{
         key: "00:00",
-        value: "00:00"
+        value: 0
+    }, {
+        key: "00:30",
+        value: 15
     }, {
         key: "01:00",
-        value: "01:00"
+        value: 30
+    }, {
+        key: "01:30",
+        value: 45
     }, {
         key: "02:00",
-        value: "02:00"
+        value: 60
+    }, {
+        key: "02:30",
+        value: 75
     }, {
         key: "03:00",
-        value: "03:00"
+        value: 90
+    }, {
+        key: "03:30",
+        value: 105
     }, {
         key: "04:00",
-        value: "04:00"
+        value: 120
     }, {
+        key: "04:30",
+        value: 135
+    },{
         key: "05:00",
-        value: "05:00"
+        value: 150
     }, {
+        key: "05:30",
+        value: 165
+    },{
         key: "06:00",
-        value: "06:00"
+        value: 180
+    }, {
+        key: "06:30",
+        value: 195
     }, {
         key: "07:00",
-        value: "07:00"
+        value: 210
+    }, {
+        key: "07:30",
+        value: 225
     }, {
         key: "08:00",
-        value: "08:00"
+        value: 240
+    }, {
+        key: "08:30",
+        value: 255
     }, {
         key: "09:00",
-        value: "09:00"
-    },{
-        key: "10:00",
-        value: "10:00"
+        value: 270
     }, {
+        key: "09:30",
+        value: 285
+    }, {
+        key: "10:00",
+        value: 300
+    }, {
+        key: "10:30",
+        value: 315
+    },{
         key: "11:00",
-        value: "11:00"
+        value: 330
+    }, {
+        key: "11:30",
+        value: 345
     }]
 
     return clockAngle;
