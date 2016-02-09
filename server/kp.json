@@ -1,4 +1,10 @@
-{"kpvalue":[
+{"kpvalue":[{
+    "kp":0,
+    "distance":0,
+    "heighting":168.848,
+    "latitude":25.92775,
+    "longitude":71.4927
+  },
   {
     "kp":1,
     "distance":1001,

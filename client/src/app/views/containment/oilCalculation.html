@@ -39,7 +39,7 @@
                                     <label class="col-sm-4 control-label" for="repeatselect">KP</label>
                                     <div class="col-sm-5">
                                         <select class="form-control form-height" name="repeatselect" id="repeatselect" ng-model="selectedkpdata.repeatselect">
-                                                <option ng-repeat="option in kpdata" value="{{option}}">{{option.kp}}</option>
+                                                <option ng-repeat="option in kpdata.slice(1,kpdata.length)" value="{{option}}">{{option.kp}}</option>
                                         </select>
                                     </div>
                                 </div>
