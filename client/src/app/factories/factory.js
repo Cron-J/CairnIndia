@@ -248,8 +248,8 @@ angular.module('app.factory', [])
 
 })
 .factory('appearanceData', function() {
-    var getAppearanceData;
-    getAppearanceData = [{
+    var getAppearanceData = {};
+    getAppearanceData.getAppearanceData = [{
         key: "Sheen",
         coveragearea: 0.5,
         thickness:0.3
@@ -266,6 +266,23 @@ angular.module('app.factory', [])
         coveragearea: 0.05,
         thickness:200
     } ]
+    getAppearanceData.season = [{
+        key: "NorthEast Monsoon",
+        windspeed: 6,
+        currentpattern:"Mild & Away from the Shore"
+    },{
+        key: "Pre Monsoon",
+        windspeed: 4,
+        currentpattern:"Mild & Away from the Shore"
+    },{
+        key: "SouthWest Monsoon",
+        windspeed: 1,
+        currentpattern:"Moderate & Towards  the Shore"
+    },{
+        key: "Post Monsoon",
+        windspeed: 7,
+        currentpattern:"Moderate & Towards  the Shore"
+    }]
 
     return getAppearanceData;
 

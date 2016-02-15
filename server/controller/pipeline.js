@@ -240,7 +240,9 @@ var calcVolume = function(areaprops) {
     } else
     if (areaprops.shape == "inclination") {
         var kpLength = getKpLength(areaprops.kp);
-        output = getFlowRateOnIncilaation(areaprops.density,areaprops.heightdiffrence, areaprops.viscosity,areaprops.area.diameter,kpLength);
+        output = getFlowRateOnIncilaation(areaprops.density,areaprops.heightdiffrence, areaprops.viscosity,areaprops.diameter,kpLength);
+    }else if(areaprops.shape===true){
+        output = getSpmArea(areaprops.volume,areaprops.density,areaprops.kp,areaprops.area.time)
     }
     return output;
 
@@ -255,11 +257,8 @@ var calcVolume = function(areaprops) {
 var oldspillVolume = function(area, angle, diameter) {
     var velocity,height,anglevalue, GRAVITY = 9.8,coefficientOfDishcharge = 0.62;
     anglevalue = 1 - Math.cos(angle);
-    console.log('anglevalue',anglevalue);
     height = (diameter * 0.0833 * anglevalue)/2;
-    console.log('height',height);
     velocity = Math.sqrt(2 * GRAVITY * height * 0.0254); 
-    console.log('velocity',velocity);
     var barrels = parseFloat(Math.round(coefficientOfDishcharge * area * velocity * 6.28981 * 3600 * 100) / 100);
     return (barrels / 0.0086485).toFixed(2);        
 }
@@ -298,7 +297,6 @@ function getPreshutVolume(flowrate, time) {
 **/
 
 function velocityOfPipe(pipelength,diametervalue) {
-    console.log('diametervalue',diametervalue);
     var diameter = diametervalue * 0.0833;
     var pi = Math.PI;
     var pipevelocity = (diameter / 24) * (diameter / 24) * pipelength * pi * 3280.84 * 0.028; //multiplied 3280.84 for covert km into feet cube and multiplied with 0.028 to convert cubic feet into cubic meter
@@ -338,8 +336,8 @@ function getKpLength(kp){
     for(var i=0;i<agiData.length;i++){
         if(kp.kp <= agiData[i].distance){
             return {
-                Lls: Math.min(kp.kp - agiData[i-1].distance,1),
-                Rls: Math.min(agiData[i+1].distance - kp.kp,1)
+                Lls: Math.max(kp.kp - agiData[i-1].distance,1),
+                Rls: Math.max(agiData[i].distance - kp.kp,1)
             }
         }
     }
@@ -354,10 +352,15 @@ function getFlowRateOnIncilaation(density,heightdifference,viscosity,diameter,di
     var diameterinmeter = diameter * 0.0254,
     PI = Math.PI,
     powdiameter = Math.pow(diameterinmeter, 4),
+    GRAVITY = 9.81,
     dynamicviscosity = viscosity * 0.00001 * density;
-    var getDeltaValue = (heightdifference.leftHeight/distancedifference.Lls) + (heightdifference.rightHeight/distancedifference.Rls)
-    var getIncilationFlowRate = ((density * 10000 * PI * powdiameter)/(128 * dynamicviscosity  * 1000));
-    var outputFlowRate = (getIncilationFlowRate * getDeltaValue).toFixed(2);
+    var pressuredrop1 = ((density * heightdifference.leftHeight *GRAVITY));
+    var pressuredrop2 = ((density * heightdifference.rightHeight *GRAVITY));
+    console.log(heightdifference);
+    var leftOutputFlowrate = ((pressuredrop1 * PI * powdiameter)/(128 * dynamicviscosity *distancedifference.Lls));
+    var rightOutputFlowrate = ((pressuredrop2 * PI * powdiameter)/(128 * dynamicviscosity *distancedifference.Rls));
+    console.log(leftOutputFlowrate,rightOutputFlowrate);
+    var outputFlowRate = (leftOutputFlowrate +  rightOutputFlowrate).toFixed(2);
     return outputFlowRate;
 
 }
@@ -422,7 +425,9 @@ function spmVolume(area, appearancevalue) {
 }
 
 
+function getSpmArea(volume,density,pattern,time){
 
+}
 
 var updateHelper = function(requestData, originalData) {
     for (var req in requestData) {

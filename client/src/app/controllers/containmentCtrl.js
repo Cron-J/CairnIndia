@@ -111,6 +111,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $location.path('/oilcalculation1');
             singlePipeData.set(data);
         }
+        $scope.showpattern = false;
         $scope.showrupture1 = false;
         $scope.showrupture2 = false;
         $scope.showwaterdiv = false;
@@ -280,11 +281,13 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 shape: shape,
                 heightdiffrence: getheighteDifference,
                 kp: getKpData,
+                volume:$scope.barrels,
                 appearance: $scope.selectedkpdata.appearance
             };
             $scope.result = true;
             $http.post('/calculatePipelinedata', areaprops)
                 .success(function(data, status) {
+                    $scope.showpattern = true;
                     // if (shape === "water" || shape === "ground") {
                     //     $scope.options = $scope.timeoptions;
                     //     $scope.data = $scope.getSpillData;
@@ -303,12 +306,15 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 });
         }
 
+
+
+
         function getDifferenceInAgiHeight(kp) {
             var getKpObj = {};
             for (var i = 0; i < $scope.kpdata.length; i++) {
                 if (kp.heighting === $scope.kpdata[i].heighting) {
-                    getKpObj.leftHeight = Math.max(($scope.kpdata[i - 1].heighting - kp.heighting), 0);
-                    getKpObj.rightHeight = Math.max((kp.heighting - $scope.kpdata[i + 1].heighting), 0);
+                    getKpObj.leftHeight = Math.abs(($scope.kpdata[i - 1].heighting - kp.heighting));
+                    getKpObj.rightHeight = Math.abs(($scope.kpdata[i + 1].heighting - kp.heighting));
                     break;
                 }
             }
