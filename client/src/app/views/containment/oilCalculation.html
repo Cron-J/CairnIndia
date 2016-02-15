@@ -24,7 +24,7 @@
                             <label for="inlineRadio1"> Rupture at Elevated Plane</label>
                         </div>
                         <div class="radio radio-info radio-inline rupture-f">
-                            <input type="radio" id="" name="radioInline" ng-click="clearforminclination();changeView(false,false,false,false,false,'',false,true)">
+                            <input type="radio" id="" name="radioInline" ng-click="clearforminclination();changeView(false,false,false,false,false,'',true,true)">
                             <label for="inlineRadio1">At SPM</label>
                         </div>
 
@@ -32,7 +32,7 @@
                 <div class="panel-body" ng-show="showgeo">
                   <tabset>
                     <tab heading="Rupture Location (optional)">
-                        <div class="col-md-6 ut-search-result">
+                        <div class="col-md-6 ut-search-result" ng-hide="showspm">
                             <div class="form-horizontal">
                               <form name="locationForm" class="form-horizontal">
                                 <div class="form-group">
@@ -42,6 +42,24 @@
                                                 <option ng-repeat="option in kpdata.slice(1,kpdata.length)" value="{{option}}">{{option.kp}}</option>
                                         </select>
                                     </div>
+                                </div>
+                              </form>
+                            </div>
+                        </div>
+                        <div class="col-md-6 ut-search-result" ng-show="showspm">
+                            <div class="form-horizontal">
+                              <form name="locationForm" class="form-horizontal novalidate form-validation">
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">Latitude</label>
+                                  <div class="col-sm-5">
+                                    <input ng-model="location.latitude" type="number" step="0.1" min="0.1" class="form-control hidespinner" ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">Longitude</label>
+                                  <div class="col-sm-5">
+                                    <input ng-model="location.longitude" type="number" step="0.1" min="0.1" class="form-control hidespinner" ng-pattern="/[+]?\d+([.]\d+)?$/" required>
+                                  </div>
                                 </div>
                               </form>
                             </div>
@@ -372,6 +390,22 @@
                                         </div>
                                     </form>
                                 </span>
+                                <span ng-if="shape=='Circular'">
+                                    <form name="calcForm" class="form-horizontal novalidate form-validation">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" >Radius Length (in km)</label>
+                                            <div class="col-sm-5">
+                                                <input ng-model="area.radius" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" max="12" class="form-control " required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-6 col-md-offset-4">
+                                                <button class="btn btn-success" ng-click="calcVolume(area,shape,selectedkpdata.repeatselect);">Calculate</button>
+                                                <img src="app/assets/img/loading.gif" ng-show="loading">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </span>
                                 <span ng-if="showspm && showpattern" class="col-md-12 ut-search-result">
                                     <div class="form-horizontal">
                                         <div class="form-group">
@@ -401,27 +435,16 @@
                                         </div>
                                     </div>
                                 </span>
-                                <span ng-if="shape=='Circular'">
-                                    <form name="calcForm" class="form-horizontal novalidate form-validation">
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label" >Radius Length (in km)</label>
-                                            <div class="col-sm-5">
-                                                <input ng-model="area.radius" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" max="12" class="form-control " required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-6 col-md-offset-4">
-                                                <button class="btn btn-success" ng-disabled="!calcForm.$valid" ng-click="calcVolume(area,shape,selectedkpdata.repeatselect);">Calculate</button>
-                                                <img src="app/assets/img/loading.gif" ng-show="loading">
-                                            </div>
-                                        </div>
-                                    </form>
-                                </span>
                             </div>
                             <div class="col-md-4 marginsec">
-                                <span ng-show="result">
+                                <span ng-show="result  && !showbarreldiv">
                                     <section>
                                        <a class="cmn-t-pulse">Maximum oil spill  {{barrels}} cubic metre</a>
+                                    </section>
+                                </span>
+                                <span ng-show="result && showbarreldiv">
+                                    <section>
+                                       <a class="cmn-t-pulse">Maximum oil spill  {{getArea}} square meter</a>
                                     </section>
                                 </span>
                             </div>
@@ -430,20 +453,13 @@
                 </div>
             </div>
         </div>
-        <div ng-show="showmap" ng-if="!showspm">
+        <div ng-show="showmap">
           <div ng-show="showslider">
             <div class="col-sm-4 control-label sliderlabel">Oil Flow Representaion For Hours</div>
             <div class="inline-block sliderbar">
               <rzslider
                 rz-slider-model="maphourslider.value"
                 rz-slider-options="maphourslider.options"></rzslider>
-            </div>
-          </div>
-          <div>
-            <div class="control-label slideresult">
-                <div ng-bind-html="displayMessage">
-                    
-                </div>
             </div>
           </div>
           <div id="map">

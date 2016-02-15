@@ -200,45 +200,44 @@ exports.getKpPoint = {
 **/
 
 var calcVolume = function(areaprops) {
-    console.log('areaprops', areaprops);
     var inchtometer = 0.0254;
     var res,
         eqvDim,
         output,
         velocity = 1.1,
         gasoilratio = 1;
-    if (areaprops.shape == "Rectangular") {
+    if (areaprops.shape === "Rectangular") {
         res = parseFloat(areaprops.area.length) * parseFloat(areaprops.area.breadth);
         areaprops.appearance ===undefined ? output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.angle,areaprops.diameter):output = spmVolume(res ,areaprops.appearance)
     } else
-    if (areaprops.shape == "Triangular") {
+    if (areaprops.shape === "Triangular") {
         var s = (parseFloat(areaprops.area.sidea) + parseFloat(areaprops.area.sideb) + parseFloat(areaprops.area.sidec)) / 2;
         res = Math.sqrt(s * (s - parseFloat(areaprops.area.sidea)) * (s - parseFloat(areaprops.area.sideb)) * (s - parseFloat(areaprops.area.sidec)));
         output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.angle,areaprops.diameter);
     } else
-    if (areaprops.shape == "Square") {
+    if (areaprops.shape === "Square") {
         res = parseFloat(areaprops.area.sidelength) * inchtometer * inchtometer * parseFloat(areaprops.area.sidelength);
         output = oldspillVolume(res, areaprops.area.angle,areaprops.diameter);
 
     } else
-    if (areaprops.shape == "Circular") {
+    if (areaprops.shape === "Circular") {
         res = Math.PI * parseFloat(areaprops.area.radius) * parseFloat(areaprops.area.radius);
         areaprops.appearance ===undefined? output = oldspillVolume(res * inchtometer * inchtometer, areaprops.area.angle,areaprops.diameter):output = spmVolume(res , areaprops.appearance)
     } else
-    if (areaprops.shape == "ground") {
+    if (areaprops.shape === "ground") {
         var flowrate = flowRate(velocity,areaprops.diameter);
         var pipevelocity = velocityOfPipe(areaprops.length,areaprops.diameter)
         var preshutvolume = getPreshutVolume(flowrate, areaprops.area.time);
         output = groundlFlowRate(pipevelocity, preshutvolume, gasoilratio, areaprops.shape);
     } else
-    if (areaprops.shape == "water") {
+    if (areaprops.shape === "water") {
         var flowrate = flowRate(velocity,areaprops.diameter);
         var pipevelocity = velocityOfPipe(areaprops.length,areaprops.diameter);
         var preshutvolume = getPreshutVolume(flowrate, areaprops.area.time);
         var releasevolumefraction = getReleaseVolumeFraction(areaprops.pressure, areaprops.area.depth)
         output = totalWaterFlowRate(pipevelocity, preshutvolume, gasoilratio, releasevolumefraction);
     } else
-    if (areaprops.shape == "inclination") {
+    if (areaprops.shape === "inclination") {
         var kpLength = getKpLength(areaprops.kp);
         output = getFlowRateOnIncilaation(areaprops.density,areaprops.heightdiffrence, areaprops.viscosity,areaprops.diameter,kpLength);
     }else if(areaprops.shape===true){
@@ -356,10 +355,8 @@ function getFlowRateOnIncilaation(density,heightdifference,viscosity,diameter,di
     dynamicviscosity = viscosity * 0.00001 * density;
     var pressuredrop1 = ((density * heightdifference.leftHeight *GRAVITY));
     var pressuredrop2 = ((density * heightdifference.rightHeight *GRAVITY));
-    console.log(heightdifference);
     var leftOutputFlowrate = ((pressuredrop1 * PI * powdiameter)/(128 * dynamicviscosity *distancedifference.Lls));
     var rightOutputFlowrate = ((pressuredrop2 * PI * powdiameter)/(128 * dynamicviscosity *distancedifference.Rls));
-    console.log(leftOutputFlowrate,rightOutputFlowrate);
     var outputFlowRate = (leftOutputFlowrate +  rightOutputFlowrate).toFixed(2);
     return outputFlowRate;
 
@@ -425,7 +422,15 @@ function spmVolume(area, appearancevalue) {
 }
 
 
-function getSpmArea(volume,density,pattern,time){
+function getSpmArea(volume,oildensity,pattern,time){
+    console.log(volume,oildensity,pattern,time);
+    var waterdensity = 1030,area;
+    var getfractionDensity = Math.pow(((waterdensity-oildensity)/oildensity),2/3);
+    var fractionalVolume = Math.pow(volume,2/3);;
+    var getFractionalvolumetime = Math.pow(((waterdensity-oildensity)*volume*pattern.windspeed),1/3);
+    area = (2270*getfractionDensity * fractionalVolume) +(40*getFractionalvolumetime * time);
+    return area.toFixed(2);
+
 
 }
 

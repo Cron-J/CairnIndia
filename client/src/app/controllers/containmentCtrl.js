@@ -295,11 +295,19 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                     $scope.loading = false;
 
                     //set barrels
-                    $scope.barrels = data;
                     //show map
+                    if(shape===true){
+                        $scope.getArea = data;
+                        $scope.showbarreldiv = true;
+                        $scope.getMap($scope.maphourslider.value, $scope.barrels, $scope.location)
+                    }else{
+                        $scope.barrels = data;
+                        $scope.showbarreldiv = false;
+                        $scope.getMap($scope.maphourslider.value, $scope.barrels, getKpData);
+
+                    }
                     $scope.showmap = true;
                     $scope.maphourslider.value = mapdefaultvalue;
-                    $scope.getMap($scope.maphourslider.value, $scope.barrels, getKpData);
                 })
                 .error(function(data, status) {
                     growl.addErrorMessage(data.message);
@@ -511,6 +519,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             setCircle($scope.maphourslider.value, $scope.barrels);
         }
         $scope.getMap = function(totalhours, barrelsize, kp) {
+            console.log('kp',kp);
             if (kp!==undefined && kp!=='') {
                 var maplatlong = {
                     lat: kp.latitude,
