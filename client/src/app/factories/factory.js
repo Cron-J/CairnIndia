@@ -265,7 +265,7 @@ angular.module('app.factory', [])
         key: "True color",
         coveragearea: 0.05,
         thickness:200
-    } ]
+    } ],
     getAppearanceData.season = [{
         key: "NorthEast Monsoon",
         windspeed: 6,

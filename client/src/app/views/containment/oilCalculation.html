@@ -348,10 +348,10 @@
                 <div class="panel-body" ng-if="showspm">
                      <tabset>
                         <tab heading="Cross-Sectional Rupture">
-                            <div class="col-md-6 ut-search-result">
+                            <div class="col-md-7 ut-search-result">
                                 <div class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-sm-4 control-label">Shape of Oiled Area</label>
+                                        <label class="col-sm-2 control-label">Shape of Oiled Area</label>
                                         <div class="col-sm-5">
                                             <select class="form-control form-height" ng-model="shape" ng-options="o as o for o in oiledshape" ng-change="clearform()">
                                             </select>
@@ -360,7 +360,7 @@
                                 </div>
                                 <div class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-sm-4 control-label">Appearance</label>
+                                        <label class="col-sm-2 control-label">Appearance</label>
                                         <div class="col-sm-5">
                                             <select class="form-control form-height" name="appearance" id="appearance" ng-model="selectedkpdata.appearance">
                                                 <option ng-repeat="option in appearanceData.getAppearanceData" value="{{option}}" required>{{option.key}}</option>
@@ -371,19 +371,19 @@
                                 <span ng-if="shape=='Rectangular'">
                                     <form name="calcForm" class="form-horizontal novalidate form-validation">
                                         <div class="form-group">
-                                            <label class="col-sm-4 control-label" >Length (in km) </label>
+                                            <label class="col-sm-2 control-label" >Length (in km) </label>
                                             <div class="col-sm-5">
                                                 <input ng-model="area.length" type="number" step="0.1" min="0.1" max="24" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-4 control-label">Breadth (in km)</label>
+                                            <label class="col-sm-2 control-label">Breadth (in km)</label>
                                             <div class="col-sm-5">
                                                 <input ng-model="area.breadth" type="number" step="0.1" min="0.1" max="24" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-sm-5 col-md-offset-4">
+                                            <div class="col-sm-3 col-md-offset-3">
                                                 <button class="btn btn-success" ng-disabled="!calcForm.$valid"  ng-click="calcVolume(area,shape,selectedkpdata.repeatselect);">Calculate</button>
                                                 <img src="app/assets/img/loading.gif" ng-show="loading">
                                             </div>
@@ -393,45 +393,53 @@
                                 <span ng-if="shape=='Circular'">
                                     <form name="calcForm" class="form-horizontal novalidate form-validation">
                                         <div class="form-group">
-                                            <label class="col-sm-4 control-label" >Radius Length (in km)</label>
+                                            <label class="col-sm-2 control-label" >Radius Length (in km)</label>
                                             <div class="col-sm-5">
                                                 <input ng-model="area.radius" ng-pattern="/[+]?\d+([.]\d+)?$/" type="number" step="0.1" min="0.1" max="12" class="form-control " required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-sm-6 col-md-offset-4">
+                                            <div class="col-sm-3 col-md-offset-3">
                                                 <button class="btn btn-success" ng-click="calcVolume(area,shape,selectedkpdata.repeatselect);">Calculate</button>
                                                 <img src="app/assets/img/loading.gif" ng-show="loading">
                                             </div>
                                         </div>
                                     </form>
                                 </span>
-                                <span ng-if="showspm && showpattern" class="col-md-12 ut-search-result">
-                                    <div class="form-horizontal">
+                                    <div class="form-horizontal" ng-if="showspm && barrels" class="col-md-12 ut-search-result">
                                         <div class="form-group">
-                                            <label class="col-sm-4 control-label">Season</label>
+                                            <label class="col-sm-2 control-label">Season</label>
                                             <div class="col-sm-5">
-                                                <select class="form-control form-height" name="appearance" id="appearance" ng-model="selectedkpdata.spmdata">
-                                                    <option ng-repeat="option in appearanceData.season" value="{{option}}" required>{{option.key}}</option>
+                                                <select class="form-control" ng-model="selectedkpdata.spmdata" ng-options="option.key for option in appearanceData.season">
+                                                  <option value="">-- choose color --</option>
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-horizontal">
+                                        <div class="form-group" ng-show="selectedkpdata.spmdata">
+                                            <label class="col-sm-2 control-label">Wind Pattern (Knot)</label>
+                                            <div class="col-sm-5">
+                                                <input class="form-control" ng-model="selectedkpdata.spmdata.windspeed" type="number" min="1" max="2880" ng-readonly="selectedkpdata.spmdata.windspeed" class="form-control "  required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" ng-show="selectedkpdata.spmdata">
+                                            <label class="col-sm-2 control-label">Current Pattern</label>
+                                            <div class="col-sm-5">
+                                                <input class="form-control" ng-model="selectedkpdata.spmdata.currentpattern" class="form-control "  ng-readonly="selectedkpdata.spmdata.currentpattern" required>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
-                                            <label class="col-sm-4 control-label">Time (in minutes)</label>
+                                            <label class="col-sm-2 control-label">Time (in minutes)</label>
                                             <div class="col-sm-5">
                                                 <input class="form-control" ng-model="area.time" name="time" type="number" min="1" max="2880" class="form-control " ng-pattern="/[+]?\d+([.]\d+)?$/" required>
                                             </div>
                                         </div>
-                                    </div>
                                     <div class="form-group">
-                                        <div class="col-sm-6 col-md-offset-4">
+                                        <div class="col-sm-3 col-md-offset-3">
                                             <button class="btn btn-success" ng-click="calcVolume(area,showpattern,selectedkpdata.spmdata);">Calculate</button>
                                             <img src="app/assets/img/loading.gif" ng-show="loading">
                                         </div>
                                     </div>
-                                </span>
+                                    </div>
                             </div>
                             <div class="col-md-4 marginsec">
                                 <span ng-show="result  && !showbarreldiv">

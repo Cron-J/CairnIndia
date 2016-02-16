@@ -247,7 +247,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $scope.showmap = false;
             $scope.showslider = false;
         }
-
         //Rupture shape and area
 
         $scope.shapes = ['Rectangular', 'Triangular', 'Square', 'Circular'];
@@ -266,7 +265,11 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         $scope.calcVolume = function(area, shape, kp) {
             var getKpData;
-            kp !== undefined ? getKpData = JSON.parse(kp) : getKpData = ''
+            if(shape ===true){
+                getKpData =kp;
+            }else{
+                 kp !== undefined ? getKpData = JSON.parse(kp) : getKpData = ''
+            }
             $scope.loading = true;
             console.log('$scope.selectedkpdata.appearance', $scope.selectedkpdata.appearance);
             var getheighteDifference = getDifferenceInAgiHeight(getKpData);
