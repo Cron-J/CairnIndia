@@ -259,7 +259,7 @@ var oldspillVolume = function(area, angle, diameter) {
     height = (diameter * 0.0833 * anglevalue)/2;
     velocity = Math.sqrt(2 * GRAVITY * height * 0.0254); 
     var barrels = parseFloat(Math.round(coefficientOfDishcharge * area * velocity * 6.28981 * 3600 * 100) / 100);
-    return (barrels / 0.0086485).toFixed(2);        
+    return (barrels * 0.0062 / 0.0086485).toFixed(2);        
 }
 
 

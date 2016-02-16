@@ -27,6 +27,10 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $scope.getClockAngle = clockAngle;
             $scope.appearanceData = appearanceData;
             $scope.pipe = singlePipeData.get();
+            $scope.location = {
+                latitude:21.93347,
+                longitude:69.16447
+            }
         }
         $scope.pipe = getDefaultdata();
         $scope.meters = 0;
@@ -108,8 +112,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 $scope.pipe.pipeName = $scope.pipe.fromCity + ' to ' + $scope.pipe.toCity;
         }
         $scope.gotoCalculation = function(data) {
-            $location.path('/oilcalculation1');
-            singlePipeData.set(data);
+            $location.path('/oilcalculation1/'+ data._id);
         }
         $scope.showpattern = false;
         $scope.showrupture1 = false;
@@ -126,6 +129,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             rupture === undefined ? rupture : $scope.rupture = rupture;
             showgeo === undefined ? showgeo : $scope.showgeo = showgeo;
             showspm === undefined ? showspm : $scope.showspm = showspm;
+            $scope.barrels = undefined;
         }
 
         $scope.changeDiv = function(rupture) {
@@ -239,7 +243,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
 
         $scope.clearforminclination = function() {
             $scope.area = {};
-            $scope.location = {};
             $scope.selectedkpdata = {};
             $scope.options = undefined;
             $scope.data = [];
@@ -253,7 +256,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         $scope.diameter = [10, 24];
         $scope.result = false;
         $scope.area = {};
-        $scope.location = {};
         var getAGIdata = function() {
             $http.get('/getAGIData')
                 .success(function(data, status) {
@@ -274,6 +276,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             console.log('$scope.selectedkpdata.appearance', $scope.selectedkpdata.appearance);
             var getheighteDifference = getDifferenceInAgiHeight(getKpData);
             var kppoint = getKpData.kp;
+            var spmzoom;
             var areaprops = {
                 density: $scope.pipe.density,
                 pressure: $scope.pipe.pressure,
@@ -291,26 +294,26 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             $http.post('/calculatePipelinedata', areaprops)
                 .success(function(data, status) {
                     $scope.showpattern = true;
-                    // if (shape === "water" || shape === "ground") {
-                    //     $scope.options = $scope.timeoptions;
-                    //     $scope.data = $scope.getSpillData;
-                    // } 
                     $scope.loading = false;
-
-                    //set barrels
-                    //show map
+                    $scope.maphourslider.value = mapdefaultvalue;
                     if(shape===true){
                         $scope.getArea = data;
                         $scope.showbarreldiv = true;
-                        $scope.getMap($scope.maphourslider.value, $scope.barrels, $scope.location)
+                        $scope.getMap($scope.maphourslider.value, $scope.barrels, $scope.location,'icon',$scope.selectedkpdata.spmdata)
                     }else{
                         $scope.barrels = data;
                         $scope.showbarreldiv = false;
-                        $scope.getMap($scope.maphourslider.value, $scope.barrels, getKpData);
+                        if($scope.selectedkpdata.appearance!==undefined){
+                            getKpData =$scope.location
+                            spmzoom = 'spm';
+
+                        } else{
+                            getKpData = getKpData;
+                        }
+                        $scope.getMap($scope.maphourslider.value, $scope.barrels, getKpData,spmzoom);
 
                     }
                     $scope.showmap = true;
-                    $scope.maphourslider.value = mapdefaultvalue;
                 })
                 .error(function(data, status) {
                     growl.addErrorMessage(data.message);
@@ -331,144 +334,6 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             }
             return getKpObj;
         }
-        $scope.timeoptions = {
-            chart: {
-                type: 'lineChart',
-                height: 450,
-                x: function(d) {
-                    return d['maxspill flow rate'];
-                },
-                y: function(d) {
-                    return d['minute'];
-                },
-                useInteractiveGuideline: true,
-                xAxis: {
-                    showMaxMin: false,
-                    axisLabel: 'Maximum Spill(In litre/sec)',
-                    tickFormat: function(d) {
-                        return d3.format('.02f')(d);
-                    }
-                },
-                yAxis: {
-                    axisLabel: 'Time (In Minutes)',
-                    tickFormat: function(d) {
-                        return d3.format(',.2f')(d);
-                    }
-                },
-                callback: function(chart) {
-                    // line chart callback
-                }
-            },
-            subtitle: {
-                enable: true,
-                text: '',
-                css: {
-                    'text-align': 'center',
-                    'margin': '10px 13px 0px 7px'
-                }
-            },
-            caption: {
-                enable: true,
-                html: 'Time Flow Rate',
-                css: {
-                    'text-align': 'center',
-                    'margin': '10px 13px 0px 7px',
-                    'font-weight': 'bold'
-                }
-            }
-        };
-        $scope.getSpillData = [{
-            values: [{
-                "maxspill flow rate": 7.25,
-                "minute": 1
-            }, {
-
-                "maxspill flow rate": 23.60,
-                "minute": 10
-            }, {
-
-                "maxspill flow rate": 97.00,
-                "minute": 50
-            }, {
-
-                "maxspill flow rate": 188.70,
-                "minute": 100
-            }, {
-
-                "maxspill flow rate": 372.08,
-                "minute": 200
-            }, {
-
-                "maxspill flow rate": 463.77,
-                "minute": 250
-            }, {
-
-                "maxspill flow rate": 555.46,
-                "minute": 300
-            }, {
-
-                "maxspill flow rate": 738.84,
-                "minute": 400
-            }, {
-
-                "maxspill flow rate": 921.39,
-                "minute": 500
-            }, {
-
-                "maxspill flow rate": 1379.84,
-                "minute": 750
-            }, {
-
-                "maxspill flow rate": 1838.30,
-                "minute": 1000
-            }, {
-
-                "maxspill flow rate": 2296.76,
-                "minute": 1250
-            }, {
-
-                "maxspill flow rate": 2755.21,
-                "minute": 1500
-            }, {
-
-                "maxspill flow rate": 3213.67,
-                "minute": 1750
-            }, {
-
-                "maxspill flow rate": 3672.13,
-                "minute": 2000
-            }, {
-
-                "maxspill flow rate": 4038.89,
-                "minute": 2200
-            }, {
-
-                "maxspill flow rate": 4405.66,
-                "minute": 2400
-            }, {
-
-                "maxspill flow rate": 4589.04,
-                "minute": 2500
-            }, {
-
-                "maxspill flow rate": 4772.42,
-                "minute": 2600
-            }, {
-
-                "maxspill flow rate": 4955.81,
-                "minute": 2700
-            }, {
-                "maxspill flow rate": 5139.19,
-                "minute": 2800
-            }, {
-
-                "maxspill flow rate": 5286.73,
-                "minute": 2880
-            }],
-
-            key: 'time', //key  - the name of the series.
-            color: 'green'
-        }]
         var map = null;
         var marker = null;
         var circle = null;
@@ -500,6 +365,11 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 $scope.meters = radiusCover;
                 $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the total oil spill will be <font class='highlight'>" + (litresperhours * totalhours).toFixed(2) + "</font> litres and it will spread over radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
             }
+            else if ($scope.showspm == true) {
+                $scope.showslider = false;
+                $scope.displayMessage = "";
+                $scope.meters = 1000
+            }
             if (circle) {
                 circle.setMap(null);
             }
@@ -521,26 +391,46 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
         var adjustslider = function() {
             setCircle($scope.maphourslider.value, $scope.barrels);
         }
-        $scope.getMap = function(totalhours, barrelsize, kp) {
+        $scope.getMap = function(totalhours, barrelsize, kp,spmzoom,pattern) {
+            var mapOptions = {};
             console.log('kp',kp);
             if (kp!==undefined && kp!=='') {
                 var maplatlong = {
                     lat: kp.latitude,
                     lng: kp.longitude
                 }
+                if(spmzoom==='spm'){
+                    mapOptions.zoom = 13;
+                }else if(spmzoom==='icon'){
+                    mapOptions.zoom =13;
+                }else{
+                    mapOptions.zoom =20;
+                }
                 console.log(maplatlong);
-                var mapOptions = {
-                    zoom: 20,
+                mapOptions = {
+                    zoom: mapOptions.zoom,
                     center: maplatlong,
                     mapTypeId: google.maps.MapTypeId.SATELLITE
                 }
                 map = new google.maps.Map(document.getElementById('map'), mapOptions);
                 map.setTilt(45);
-
-                marker = new google.maps.Marker({
-                    position: maplatlong,
-                    map: map
-                });
+                var image;
+                if(spmzoom ==='icon'){
+                        image = ((pattern.currentpattern==='Moderate & Towards  the Shore') ? 'app/assets/img/arrow.gif':'app/assets/img/arrow-r.gif');
+                        marker = new google.maps.Marker({
+                            position: maplatlong,
+                            map: map,
+                            icon: image,
+                            draggable:false,
+                            optimized:false // <-- required for animated gi
+                        });
+                }else{
+                    marker = new google.maps.Marker({
+                        position: maplatlong,
+                        map: map
+                    });
+                }
+                
                 setCircle(totalhours, barrelsize);
             }
 

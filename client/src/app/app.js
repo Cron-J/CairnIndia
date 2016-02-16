@@ -97,7 +97,7 @@ var app = angular.module('app', [
             }
           })
           .state('oilCalculation', {
-            url: "/oilcalculation1",
+            url: "/oilcalculation1/:id",
             templateUrl: "app/views/containment/oilCalculation.html",
             controller: "containmentCtrl",
             data: {

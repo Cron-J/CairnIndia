@@ -336,13 +336,15 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .cmn-t-pulse {
-    padding: 42px 40px;
-    border-radius: 50%;
+    margin-top: 20px;
+    padding: 50px;
     color: #fff;
+    display: inline-block;
+    border-radius: 69%;
+    text-decoration: underline;
     background-color: #337ab7;
     font-size: 18px;
     animation: pulse 5s ease infinite;
-    /* transition: transform 0.2s; */
 }
 
 .cmn-t-pulse:hover {
