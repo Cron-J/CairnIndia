@@ -424,7 +424,7 @@
                                     <label class="col-sm-5 control-label">Season</label>
                                     <div class="col-sm-5">
                                         <select class="form-control" ng-model="selectedkpdata.spmdata" ng-options="option.key for option in appearanceData.season">
-                                          <option value="">-- choose color --</option>
+                                          <option value="">-- choose season --</option>
                                         </select>
                                     </div>
                                 </div>
@@ -455,7 +455,7 @@
                         </form>
                         </div>
                         <div class="col-md-4 " ng-show="result && getArea">
-                            <p class="cmn-t-pulse">Area of spill spread is  {{getArea}} square meter</p>
+                            <p class="cmn-t-pulse">The average spill area will be  {{getArea}} square meter and the slick will move towards/away from the shore as the time passes.</p>
                         </div>
                     </tab>
                   </tabset>

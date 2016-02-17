@@ -373,10 +373,12 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
             if (circle) {
                 circle.setMap(null);
             }
+            var circlecolor;
+            circlecolor = ($scope.showspm === true?'#C2DFFF' : '#FF0000');
             circle = new google.maps.Circle({
                 map: map,
                 radius: $scope.meters, // change as per the calculation it will cover in meters
-                fillColor: '#FF0000',
+                fillColor: circlecolor,
                 strokeOpacity: 0.8,
                 strokeWeight: 0.5
             });
