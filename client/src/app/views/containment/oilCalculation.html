@@ -409,7 +409,7 @@
                             </div>
                             <div class="col-md-4 ">
                                 <div ng-show="result">
-                                       <p class="cmn-t-pulse">Maximum oil spill  {{barrels}} cubic metre</p>
+                                       <p class="cmn-t-pulse">Maximum oil spill  {{(barrels * 6.28).toFixed(2)}} barrels</p>
                                 </div>
                             </div>
                         </tab>
@@ -455,7 +455,7 @@
                         </form>
                         </div>
                         <div class="col-md-4 " ng-show="result && getArea">
-                            <p class="cmn-t-pulse">The average spill area will be  {{getArea}} square metres and the slick will move towards/away from the shore as the time passes.</p>
+                            <p class="cmn-t-pulse">The average spill area will be  {{getArea}} square metres and the slick will move {{selectedkpdata.spmdata.currentpattern}} as the time passes.</p>
                         </div>
                     </tab>
                   </tabset>

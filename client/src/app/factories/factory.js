@@ -269,19 +269,19 @@ angular.module('app.factory', [])
     getAppearanceData.season = [{
         key: "NorthEast Monsoon",
         windspeed: 6,
-        currentpattern:"Mild & Away from the Shore"
+        currentpattern:"mild & away from the shore"
     },{
         key: "Pre Monsoon",
         windspeed: 4,
-        currentpattern:"Mild & Away from the Shore"
+        currentpattern:"mild & away from the shore"
     },{
         key: "SouthWest Monsoon",
         windspeed: 1,
-        currentpattern:"Moderate & Towards  the Shore"
+        currentpattern:"moderate & towards  the shore"
     },{
         key: "Post Monsoon",
         windspeed: 7,
-        currentpattern:"Moderate & Towards  the Shore"
+        currentpattern:"moderate & towards  the shore"
     }]
 
     return getAppearanceData;

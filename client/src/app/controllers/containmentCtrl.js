@@ -418,14 +418,23 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 map.setTilt(45);
                 var image;
                 if(spmzoom ==='icon'){
-                        image = ((pattern.currentpattern==='Moderate & Towards  the Shore') ? 'app/assets/img/arrow.gif':'app/assets/img/arrow-r.gif');
-                        marker = new google.maps.Marker({
+                    var maplatlng ={
+                        lat:21.93347,
+                        lng:69.16447
+                    }
+                    image = ((pattern.currentpattern==='moderate & towards  the shore') ? 'app/assets/img/arrow.gif':'app/assets/img/arrow-r.gif');
+                       marker[0] = new google.maps.Marker({
+                            position: maplatlng,
+                            map: map
+                        }); 
+                       marker[1] = new google.maps.Marker({
                             position: maplatlong,
                             map: map,
                             icon: image,
                             draggable:false,
                             optimized:false // <-- required for animated gi
-                        });
+                        }); 
+
                 }else{
                     marker = new google.maps.Marker({
                         position: maplatlong,
