@@ -363,7 +363,7 @@ app.controller('containmentCtrl', ['$scope', '$location', '$http', 'AuthServ', '
                 var hours = $scope.maphourslider.value > 1 ? 'hours' : 'hour';
 
                 $scope.meters = radiusCover;
-                $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the total oil spill will be <font class='highlight'>" + (litresperhours * totalhours).toFixed(2) + "</font> litres and it will spread over radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
+                $scope.displayMessage = "After <font class='highlight'>" + $scope.maphourslider.value + "</font> " + hours + " the total oil spill will be <font class='highlight'>" + (litresperhours * totalhours).toFixed(2) + "</font> barrels and it will spread over radius of <font class='highlight'>" + $scope.meters.toFixed(2) + "</font> metres";
             }
             else if ($scope.showspm == true) {
                 $scope.showslider = false;
