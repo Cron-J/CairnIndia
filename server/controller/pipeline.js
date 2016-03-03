@@ -357,7 +357,7 @@ function getFlowRateOnIncilaation(density,heightdifference,viscosity,diameter,di
     var pressuredrop2 = ((density * heightdifference.rightHeight *GRAVITY));
     var leftOutputFlowrate = ((pressuredrop1 * PI * powdiameter)/(128 * dynamicviscosity *distancedifference.Lls));
     var rightOutputFlowrate = ((pressuredrop2 * PI * powdiameter)/(128 * dynamicviscosity *distancedifference.Rls));
-    var outputFlowRate = (leftOutputFlowrate +  rightOutputFlowrate).toFixed(2);
+    var outputFlowRate = (leftOutputFlowrate +  rightOutputFlowrate).toFixed(2) * 543.44 ;
     return outputFlowRate;
 
 }
