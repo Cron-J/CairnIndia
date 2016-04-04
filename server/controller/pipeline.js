@@ -255,7 +255,7 @@ var calcVolume = function(areaprops) {
 
 var oldspillVolume = function(area, angle, diameter) {
     var velocity,height,anglevalue, GRAVITY = 9.8,coefficientOfDishcharge = 0.62;
-    anglevalue = 1 - Math.cos(angle);
+    anglevalue = angle === 0 ? 1 : 1 - Math.cos(angle);
     height = (diameter * 0.0833 * anglevalue)/2;
     velocity = Math.sqrt(2 * GRAVITY * height * 0.0254); 
     var barrels = parseFloat(Math.round(coefficientOfDishcharge * area * velocity * 6.28981 * 3600 * 100) / 100);
